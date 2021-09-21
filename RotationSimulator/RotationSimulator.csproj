@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="images\icons\down_right_arrow.png" />
+    <None Remove="images\icons\icon_missing.png" />
+    <None Remove="images\icons\smn_shield.png" />
+    <None Remove="images\icons\smn_summon_phoenix.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="images\icons\down_right_arrow.png" />
+    <Resource Include="images\icons\icon_missing.png" />
+    <Resource Include="images\icons\smn_shield.png" />
+    <Resource Include="images\icons\smn_summon_phoenix.png" />
+  </ItemGroup>
+
+</Project>

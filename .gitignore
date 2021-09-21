@@ -1,0 +1,4 @@
+.vs/*
+RotationSimulator/bin/*
+RotationSimulator/obj/*
+*.user
