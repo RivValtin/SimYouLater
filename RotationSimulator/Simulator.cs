@@ -15,22 +15,22 @@ namespace RotationSimulator
     public class Simulator
     {
         public int AnimationLock = 70;
-        ///// <summary>
-        ///// In tenths of a percent (so 20% is stored as 200).
-        ///// </summary>
-        //public int critRate = 50;
-        ///// <summary>
-        ///// In tenths of a percent (so 40% is stored as 400).
-        ///// </summary>
-        //public int critBonus = 400;
-        ///// <summary>
-        ///// In tenths of a percent
-        ///// </summary>
-        //public int directHitRate = 0;
-        ///// <summary>
-        ///// In tenths of a percent
-        ///// </summary>
-        //public int detMultiplier = 0;
+        /// <summary>
+        /// In tenths of a percent (so 20% is stored as 200).
+        /// </summary>
+        public int critRate = 205;
+        /// <summary>
+        /// In tenths of a percent (so 40% is stored as 400).
+        /// </summary>
+        public int critBonus = 555;
+        /// <summary>
+        /// In tenths of a percent
+        /// </summary>
+        public int directHitRate = 473;
+        /// <summary>
+        /// In tenths of a percent.
+        /// </summary>
+        public int detBonus = 86;
 
         private Dictionary<EActiveEffect, ActiveEffect> activeEffects;
         private List<ActiveEffect> extEffects;
@@ -49,7 +49,7 @@ namespace RotationSimulator
         /// <param name="timeOffset">Used when calculating openers, set a negative time value equal to the amount of time between your first ability usage and when the boss becomes active.</param>
         /// <param name="externalEffects">A list of effects that come from other sources, but may interact with your rotation. Used to apply the effects of party buffs and such.</param>
         /// <returns></returns>
-        public SimulationResults Simulate(List<RotationStep> rotation, int timeOffset = 0, List<ActiveEffect> externalEffects = null) {
+        public SimulationResults Simulate(IEnumerable<RotationStep> rotation, int timeOffset = 0, List<ActiveEffect> externalEffects = null) {
             ResetState();
             time = timeOffset; //total time spent
             extEffects = externalEffects ?? new List<ActiveEffect>();

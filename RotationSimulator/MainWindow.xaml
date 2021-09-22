@@ -6,26 +6,59 @@
         xmlns:local="clr-namespace:RotationSimulator"
         mc:Ignorable="d"
         Title="Sim You Later" Height="596" Width="1453">
-    <Grid Margin="5,5,5,5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition Width="Auto"></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-        </Grid.RowDefinitions>
-        <Button x:Name="button" Content="Simulate" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="button_Click"/>
-        <TextBlock x:Name="textBlock" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Text="0 potency per second" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="150"/>
-        <ScrollViewer VerticalScrollBarVisibility="Auto" MinWidth="100" Margin="5,5,5,5" Grid.Row="0" Grid.Column="1" Grid.RowSpan="2">
-            <StackPanel x:Name="rotationPanel" />
-        </ScrollViewer>
-        <TextBlock HorizontalAlignment="Left" Text="Action Set" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Row="0" Grid.Column="2" />
-        <ComboBox x:Name="actionSetDropdown" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Top" Width="120" IsEditable="True" Grid.Row="0" Grid.Column="3" />
-        <ScrollViewer VerticalScrollBarVisibility="Visible" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2">
-            <StackPanel x:Name="actionSetPanel" />
-        </ScrollViewer>
+    <Grid>
+        <TabControl>
+            <TabItem Header="Simulate">
+                <Grid Margin="5,5,5,5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Button x:Name="button" Content="Simulate" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="button_Click"/>
+                    <TextBlock x:Name="textBlock" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Text="0 potency per second" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="150"/>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" MinWidth="100" Margin="5,5,5,5" Grid.Row="0" Grid.Column="1" Grid.RowSpan="2">
+                        <StackPanel x:Name="rotationPanel" />
+                    </ScrollViewer>
+                    <TextBlock HorizontalAlignment="Left" Text="Action Set" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Row="0" Grid.Column="2" />
+                    <ComboBox x:Name="actionSetDropdown" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Top" Width="120" IsEditable="True" Grid.Row="0" Grid.Column="3" />
+                    <ScrollViewer VerticalScrollBarVisibility="Visible" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2">
+                        <StackPanel x:Name="actionSetPanel" />
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Rotation Editor">
+                <Grid Margin="5,5,5,5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="Gear Editor">
+                <Grid Margin="5,5,5,5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                </Grid>
+            </TabItem>
+            <TabItem Header="Options">
+                <Grid Margin="5,5,5,5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock  Grid.Row="0" Grid.Column="0" Margin="5,5,5,5">Simulate Trick Attack</TextBlock>
+                    <CheckBox x:Name="cb_opt_simulateTrickAttack" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" IsChecked="True"></CheckBox>
+                </Grid>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>

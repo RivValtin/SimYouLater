@@ -6,16 +6,6 @@ using System.Threading.Tasks;
 
 namespace RotationSimulator
 {
-    public enum States
-    {
-        SMN_PhoenixAvailable,
-        SMN_Ruination,
-        SMN_IfritGem,
-        SMN_TitanGem,
-        SMN_GarudaGem,
-        SMN_Aetherflow
-    }
-
     public static class ActionBank
     {
         public static int GCD_150 = 150;

@@ -141,13 +141,15 @@ namespace RotationSimulator
             Simulator simulator = new Simulator();
 
             List<ActiveEffect> externalEffects = new List<ActiveEffect>();
-            externalEffects.Add(new ActiveEffect()
-            {
-                ActiveStartTime = 1000,
-                ActiveEndTime = 2500,
-                type = EActiveEffect.NIN_TrickAttack,
-                DisplayName = "Trick Attack"
-            });
+            if ((bool)cb_opt_simulateTrickAttack.IsChecked) {
+                externalEffects.Add(new ActiveEffect()
+                {
+                    ActiveStartTime = 850,
+                    ActiveEndTime = 1500 + 850,
+                    type = EActiveEffect.NIN_TrickAttack,
+                    DisplayName = "Trick Attack"
+                });
+            }
 
             SimulationResults results = simulator.Simulate(activeRotation, activeRotationTimeOffset, externalEffects);
 
