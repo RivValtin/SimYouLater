@@ -83,6 +83,26 @@ namespace RotationSimulator
                     Trace.WriteLine("\tWARNING: " + step.DisplayName + " being executed before recast is over. Needs another " + (time - lastUsed - step.Recast)/-100.0f +"s");
                 }
 
+                //---- Verify that any required state for the action is present.
+                bool cancelExecution = false;
+                foreach (ActiveEffect effect in step.RequiredEffects) {
+                    if (!activeEffects.ContainsKey(effect.type)) {
+                        Trace.WriteLine("\tERROR: Required active effect " + effect.DisplayName + " missing when trying to execute " + step.DisplayName + ". Skipping action.");
+                        cancelExecution = true;
+                    }
+                }
+
+                //---- Verify that any state that *cannot* be present is not present.
+                foreach (ActiveEffect effect in step.RequiredAbsentEffects) {
+                    if (activeEffects.ContainsKey(effect.type)) {
+                        Trace.WriteLine("\tERROR: Active effect " + effect.DisplayName + " prevents execution of " + step.DisplayName + ". Skipping action.");
+                        cancelExecution = true;
+                    }
+                }
+                if (cancelExecution) {
+                    continue;
+                }
+
                 //---- Set last used time on this action
                 lastUsedTiming[step.UniqueID] = time;
 

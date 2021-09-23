@@ -44,6 +44,7 @@ namespace RotationSimulator
             {
                 type = EActiveEffect.SMN_BahamutSummoned,
                 Stacks = 0,
+                DisplayName = "Bahamut Summoned"
             };
             EffectApplication phoenixAvailableApplication = new EffectApplication()
             {
