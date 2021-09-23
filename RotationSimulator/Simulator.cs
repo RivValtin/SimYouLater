@@ -49,7 +49,7 @@ namespace RotationSimulator
         /// <param name="timeOffset">Used when calculating openers, set a negative time value equal to the amount of time between your first ability usage and when the boss becomes active.</param>
         /// <param name="externalEffects">A list of effects that come from other sources, but may interact with your rotation. Used to apply the effects of party buffs and such.</param>
         /// <returns></returns>
-        public SimulationResults Simulate(IEnumerable<RotationStep> rotation, int timeOffset = 0, List<ActiveEffect> externalEffects = null) {
+        public SimulationResults Simulate(IEnumerable<ActionDef> rotationActions, int timeOffset = 0, List<ActiveEffect> externalEffects = null) {
             ResetState();
             time = timeOffset; //total time spent
             extEffects = externalEffects ?? new List<ActiveEffect>();
@@ -58,8 +58,10 @@ namespace RotationSimulator
             float effectivePotency = 0; //total effect potency, after accounting for buffs, average crit/dh bonus, det bonus, etc
             int gcdTimeRemaining = 0; //time left on the GCD before it can be used
 
-            foreach (RotationStep step in rotation) {
-                int animLock = step.animationLockOverride != 0 ? step.animationLockOverride : AnimationLock;
+            Dictionary<string, int> lastUsedTiming = new Dictionary<string, int>();
+
+            foreach (ActionDef step in rotationActions) {
+                int animLock = step.AnimationLockOverride != 0 ? step.AnimationLockOverride : AnimationLock;
                 int startTime = time;
 
                 if (step.IsGCD) {
@@ -71,21 +73,23 @@ namespace RotationSimulator
                     }
 
                     //---- Set initial GCD time remaining.
-                    gcdTimeRemaining = step.recastGCD;
+                    gcdTimeRemaining = step.RecastGCD;
                 }
 
+                int lastUsed = lastUsedTiming.ContainsKey(step.UniqueID) ? lastUsedTiming[step.UniqueID] : int.MinValue;
+
                 //---- Verify action is not being used too early against recast.
-                if (step.recast > 0 && step.lastExecutedTime + step.recast > time) {
-                    Trace.WriteLine("\tWARNING: " + step.DisplayName + " being executed before recast is over. Needs another " + (time - step.lastExecutedTime - step.recast)/-100.0f +"s");
+                if (step.Recast > 0 && lastUsed + step.Recast > time) {
+                    Trace.WriteLine("\tWARNING: " + step.DisplayName + " being executed before recast is over. Needs another " + (time - lastUsed - step.Recast)/-100.0f +"s");
                 }
 
                 //---- Set last used time on this action
-                step.lastExecutedTime = time;
+                lastUsedTiming[step.UniqueID] = time;
 
                 //---- Apply cast time (if any)
-                if (step.castTime > 0) {
-                    AdvanceTime(step.castTime);
-                    gcdTimeRemaining -= Math.Max(animLock, step.castTime);
+                if (step.CastTime > 0) {
+                    AdvanceTime(step.CastTime);
+                    gcdTimeRemaining -= Math.Max(animLock, step.CastTime);
                 }
 
                 //---- Apply the effect
@@ -96,10 +100,10 @@ namespace RotationSimulator
                 if (activeEffects.Keys.Contains(EActiveEffect.NIN_TrickAttack)) {
                     ePotencyMulti *= 1.05f;
                 }
-                potency += step.potency; //TODO: Account for crit/dh/det?
-                effectivePotency += step.potency * ePotencyMulti;
+                potency += step.Potency; //TODO: Account for crit/dh/det?
+                effectivePotency += step.Potency * ePotencyMulti;
                 Trace.WriteLine("Executed Ability " + step.DisplayName + " at " + (float)time / 100 + "s");
-                foreach (EffectApplication effect in step.appliedEffects) {
+                foreach (EffectApplication effect in step.AppliedEffects) {
                     ActiveEffect newEffect = new ActiveEffect()
                     {
                         type = effect.type,
@@ -112,7 +116,7 @@ namespace RotationSimulator
                 }
 
                 //---- Remove any effects that activating this ability is meant to strip.
-                foreach (Tuple<EActiveEffect, int> removedEffect in step.removeEffectStacks) {
+                foreach (Tuple<EActiveEffect, int> removedEffect in step.RemoveEffectStacks) {
                     if (activeEffects.ContainsKey(removedEffect.Item1)) {
                         ActiveEffect e = activeEffects[removedEffect.Item1];
 
@@ -127,8 +131,8 @@ namespace RotationSimulator
                 }
 
                 //---- Roll the clock past animation lock
-                if (step.castTime < animLock) {
-                    int extTimePassed = animLock - step.castTime;
+                if (step.CastTime < animLock) {
+                    int extTimePassed = animLock - step.CastTime;
 
                     AdvanceTime(extTimePassed);
                     gcdTimeRemaining -= extTimePassed;

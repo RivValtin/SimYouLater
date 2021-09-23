@@ -39,6 +39,7 @@
             </TabItem>
             <TabItem Header="Gear Editor">
                 <Grid Margin="5,5,5,5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <TextBlock>Coming soon, to a simulator near you!</TextBlock>
                 </Grid>
             </TabItem>
             <TabItem Header="Options">

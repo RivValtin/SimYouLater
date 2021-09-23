@@ -9,72 +9,41 @@ namespace RotationSimulator
     public static class ActionBank
     {
         public static int GCD_150 = 150;
-        public static int BASE_GCD = 248;
-
-        public static readonly RotationStep SMN_SummonBahamut;
-        public static readonly RotationStep SMN_BahamutFiller;
-        public static readonly RotationStep SMN_BahamutEnkindle;
-        public static readonly RotationStep SMN_Ruin3;
-        public static readonly RotationStep SMN_Ruin4;
-        public static readonly RotationStep SMN_EnergyDrain;
-        public static readonly RotationStep SMN_Fester;
-        public static readonly RotationStep SMN_Painflare;
-        public static readonly RotationStep SMN_Deathflare;
-        public static readonly RotationStep SMN_SummonIfrit;
-        public static readonly RotationStep SMN_IfritEA1;
-        public static readonly RotationStep SMN_IfritEA2;
-        public static readonly RotationStep SMN_SummonGaruda;
-        public static readonly RotationStep SMN_GarudaEA1;
-        public static readonly RotationStep SMN_GarudaEA2;
-        public static readonly RotationStep SMN_SummonTitan;
-        public static readonly RotationStep SMN_TitanEA1;
-        public static readonly RotationStep SMN_TitanEA2;
-        public static readonly RotationStep SMN_Devotion;
-
-        public static readonly Dictionary<string, List<RotationStep>> actionSets;
+        public static int BASE_GCD = 250;
 
         /// <summary>
-        /// Wait for the listed number of centiseconds, doing nothing. Only needed if deliberately inserting downtime (e.g. when setting up an opener).
-        /// 
-        /// Keep in mind that this wait time does not start until all active cast times and animation locks have ended.
+        /// Key: Class abbreviation string.
+        /// Value: List of all actions defined for that class.
         /// </summary>
-        /// <param name="wait"></param>
-        /// <returns></returns>
-        public static RotationStep CreateWaitAction(int wait) {
-            return new RotationStep()
-            {
-                castTime = wait,
-                recastGCD = 0,
-                recast = 0,
-                DisplayName = "(player has chosen to wait)",
+        public static readonly Dictionary<string, List<ActionDef>> actionSets;
 
-            };
-        }
+        /// <summary>
+        /// Key: UniqueID for an action.
+        /// Value: The full ActionDef.
+        /// </summary>
+        public static readonly Dictionary<string, ActionDef> actions;
 
         static ActionBank()
         {
-            actionSets = new Dictionary<string, List<RotationStep>>();
+            actionSets = new Dictionary<string, List<ActionDef>>();
+            actions = new Dictionary<string, ActionDef>();
 
             #region Summoner
-            List<RotationStep> summonerActionSet = new List<RotationStep>();
+            List<ActionDef> summonerActionSet = new List<ActionDef>();
             actionSets.Add("SMN", summonerActionSet);
 
-            SMN_SummonBahamut = new RotationStep()
-            {
-                IsGCD = true,
-                IsSpell = true,
-                castTime = 0,
-                recastGCD = BASE_GCD,
-                potency = 700,
-                DisplayName = "Summon Bahamut",
-                IconName = "smn_summon_phoenix.png"
-            };
+            #region SMN Effects
             EffectApplication summonBahamutEffectApplication = new EffectApplication
             {
                 type = EActiveEffect.SMN_BahamutSummoned,
                 Duration = 1500,
                 Stacks = 1,
                 DisplayName = "Bahamut Summoned"
+            };
+            ActiveEffect bahamutSummonedActiveEffect = new ActiveEffect()
+            {
+                type = EActiveEffect.SMN_BahamutSummoned,
+                Stacks = 0,
             };
             EffectApplication phoenixAvailableApplication = new EffectApplication()
             {
@@ -83,220 +52,291 @@ namespace RotationSimulator
                 Stacks = 1,
                 DisplayName = "(Phoenix Available)"
             };
-            SMN_SummonBahamut.appliedEffects.Add(summonBahamutEffectApplication);
-            summonerActionSet.Add(SMN_SummonBahamut);
-
-            SMN_BahamutFiller = new RotationStep()
-            {
-                IsGCD = true,
-                IsSpell = true,
-                castTime = 0,
-                recastGCD = BASE_GCD,
-                potency = 400,
-                DisplayName = "(Bahamut Filler)"
-            };
-            ActiveEffect bahamutSummonedActiveEffect = new ActiveEffect()
-            {
-                type = EActiveEffect.SMN_BahamutSummoned,
-                Stacks = 0,
-            };
-            SMN_BahamutFiller.requiredEffects.Add(bahamutSummonedActiveEffect);
-            summonerActionSet.Add(SMN_BahamutFiller);
-
-            SMN_Ruin3 = new RotationStep()
-            {
-                IsGCD = true,
-                IsSpell = true,
-                castTime = GCD_150,
-                recastGCD = BASE_GCD,
-                potency = 300,
-                DisplayName = "Ruin 3"
-            };
-            summonerActionSet.Add(SMN_Ruin3);
-
-            SMN_Ruin4 = new RotationStep()
-            {
-                IsGCD = true,
-                IsSpell = true,
-                castTime = 0,
-                recastGCD = BASE_GCD,
-                potency = 430,
-                DisplayName = "Ruin 4"
-            };
-            ActiveEffect ruinationActiveEffect = new ActiveEffect()
-            {
-                type = EActiveEffect.SMN_Ruination
-            };
-            SMN_Ruin4.requiredEffects.Add(ruinationActiveEffect);
-            SMN_Ruin4.removeEffectStacks.Add(new Tuple<EActiveEffect, int>(EActiveEffect.SMN_Ruination, 1));
-            summonerActionSet.Add(SMN_Ruin4);
-
-            SMN_BahamutEnkindle = new RotationStep()
-            {
-                IsGCD = false,
-                potency = 600,
-                DisplayName = "Enkindle (Akh Morn)",
-                recast = 800
-            };
-            SMN_BahamutEnkindle.requiredEffects.Add(bahamutSummonedActiveEffect);
-            summonerActionSet.Add(SMN_BahamutEnkindle);
-
-            SMN_EnergyDrain = new RotationStep()
-            {
-                IsGCD = false,
-                potency = 100,
-                DisplayName = "Energy Drain",
-                recast = 6000
-            };
-            EffectApplication ruinationApplication = new EffectApplication()
-            {
-                DisplayName = "Ruination",
-                Duration = 6000,
-                Stacks = 1,
-                type = EActiveEffect.SMN_Ruination
-            };
-            SMN_EnergyDrain.appliedEffects.Add(ruinationApplication);
-            summonerActionSet.Add(SMN_EnergyDrain);
-
-            SMN_Fester = new RotationStep()
-            {
-                IsGCD = false,
-                potency = 300,
-                DisplayName = "Fester",
-                recast = 300,
-            };
-            summonerActionSet.Add(SMN_Fester);
-
-            SMN_Painflare = new RotationStep()
-            {
-                IsGCD = false,
-                potency = 130,
-                DisplayName = "Painflare",
-                recast = 300,
-            };
-            SMN_Painflare.appliedEffects.Add(ruinationApplication);
-            summonerActionSet.Add(SMN_Painflare);
-
-            SMN_Deathflare = new RotationStep()
-            {
-                IsGCD = false,
-                potency = 500,
-                DisplayName = "Deathflare",
-                recast = 2000
-            };
-            SMN_Deathflare.requiredEffects.Add(bahamutSummonedActiveEffect);
-            summonerActionSet.Add(SMN_Deathflare);
-
-            SMN_SummonIfrit = new RotationStep()
-            {
-                IsGCD = true,
-                IsSpell = true,
-                castTime = 0,
-                recastGCD = BASE_GCD,
-                potency = 700,
-                DisplayName = "Summon Ifrit"
-            };
-            summonerActionSet.Add(SMN_SummonIfrit);
-
-            SMN_IfritEA1 = new RotationStep()
-            {
-                IsGCD = true,
-                IsSpell = true,
-                castTime = BASE_GCD,
-                recastGCD = BASE_GCD,
-                potency = 400,
-                DisplayName = "(Ifrit EA1)"
-            };
-            summonerActionSet.Add(SMN_IfritEA1);
-
-            SMN_IfritEA2 = new RotationStep()
-            {
-                IsGCD = true,
-                IsSpell = true,
-                castTime = 0,
-                recastGCD = BASE_GCD,
-                potency = 400,
-                DisplayName = "(Ifrit EA2)"
-            };
-            summonerActionSet.Add(SMN_IfritEA2);
-
-            SMN_SummonGaruda = new RotationStep()
-            {
-                IsGCD = true,
-                IsSpell = true,
-                castTime = 0,
-                recastGCD = BASE_GCD,
-                potency = 700,
-                DisplayName = "Summon Garuda"
-            };
-            summonerActionSet.Add(SMN_SummonGaruda);
-
-            SMN_GarudaEA1 = new RotationStep()
-            {
-                IsGCD = true,
-                IsSpell = true,
-                castTime = 0,
-                recastGCD = GCD_150,
-                potency = 300,
-                DisplayName = "(Garuda EA1)"
-            };
-            summonerActionSet.Add(SMN_GarudaEA1);
-
-            SMN_GarudaEA2 = new RotationStep()
-            {
-                IsGCD = true,
-                IsSpell = true,
-                castTime = BASE_GCD,
-                recastGCD = BASE_GCD,
-                potency = 400,
-                DisplayName = "(Garuda EA2)"
-            };
-            summonerActionSet.Add(SMN_GarudaEA2);
-
-            SMN_SummonTitan = new RotationStep()
-            {
-                IsGCD = true,
-                IsSpell = true,
-                castTime = 0,
-                recastGCD = BASE_GCD,
-                potency = 700,
-                DisplayName = "Summon Titan"
-            };
-            summonerActionSet.Add(SMN_SummonTitan);
-
-            SMN_TitanEA1 = new RotationStep()
-            {
-                IsGCD = true,
-                IsSpell = true,
-                castTime = 0,
-                recastGCD = BASE_GCD,
-                potency = 330,
-                DisplayName = "(Titan EA1)"
-            };
-            summonerActionSet.Add(SMN_TitanEA1);
-
-            SMN_TitanEA2 = new RotationStep()
-            {
-                IsGCD = false,
-                potency = 150,
-                DisplayName = "(Titan EA2)"
-            };
-            summonerActionSet.Add(SMN_TitanEA2);
-
-            SMN_Devotion = new RotationStep()
-            {
-                IsGCD = false,
-                DisplayName = "(Devotion)",
-                recast = 12000
-            };
             EffectApplication devotionEffectApplication = new EffectApplication()
             {
                 type = EActiveEffect.SMN_Devotion,
                 Duration = 3000,
                 DisplayName = "(Devotion)"
             };
-            SMN_Devotion.appliedEffects.Add(devotionEffectApplication);
+            EffectApplication ruinationApplication = new EffectApplication()
+            {
+                DisplayName = "Ruination",
+                Duration = 6000,
+                Stacks = 1,
+                type = EActiveEffect.SMN_Ruination,
+            };
+            ActiveEffect ruinationActiveEffect = new ActiveEffect()
+            {
+                type = EActiveEffect.SMN_Ruination
+            };
+            #endregion
+
+            ActionDef SMN_SummonBahamut = new ActionDef()
+            {
+                UniqueID = "SMN_SummonBahamut",
+                IsGCD = true,
+                IsSpell = true,
+                CastTime = 0,
+                RecastGCD = BASE_GCD,
+                Potency = 700,
+                DisplayName = "Summon Bahamut",
+                IconName = "smn_summon_phoenix.png",
+                AppliedEffects = new List<EffectApplication>
+                {
+                    summonBahamutEffectApplication
+                }
+            };
+            summonerActionSet.Add(SMN_SummonBahamut);
+            actions.Add(SMN_SummonBahamut.UniqueID, SMN_SummonBahamut);
+
+            ActionDef SMN_BahamutFiller = new ActionDef()
+            {
+                UniqueID = "SMN_BahamutFiller",
+                IsGCD = true,
+                IsSpell = true,
+                CastTime = 0,
+                RecastGCD = BASE_GCD,
+                Potency = 400,
+                DisplayName = "(Bahamut Filler)",
+                RequiredEffects = new List<ActiveEffect>() {
+                    bahamutSummonedActiveEffect
+                }
+            };
+            summonerActionSet.Add(SMN_BahamutFiller);
+            actions.Add(SMN_BahamutFiller.UniqueID, SMN_BahamutFiller);
+
+            ActionDef SMN_Ruin3 = new ActionDef()
+            {
+                UniqueID = "SMN_Ruin3",
+                IsGCD = true,
+                IsSpell = true,
+                CastTime = GCD_150,
+                RecastGCD = BASE_GCD,
+                Potency = 300,
+                DisplayName = "Ruin 3"
+            };
+            summonerActionSet.Add(SMN_Ruin3);
+            actions.Add(SMN_Ruin3.UniqueID, SMN_Ruin3);
+
+            ActionDef SMN_Ruin4 = new ActionDef()
+            {
+                UniqueID = "SMN_Ruin4",
+                IsGCD = true,
+                IsSpell = true,
+                CastTime = 0,
+                RecastGCD = BASE_GCD,
+                Potency = 430,
+                DisplayName = "Ruin 4",
+                RequiredEffects = new List<ActiveEffect>
+                {
+                    ruinationActiveEffect
+                },
+                RemoveEffectStacks = new List<Tuple<EActiveEffect, int>>()
+                {
+                    new Tuple<EActiveEffect, int>(EActiveEffect.SMN_Ruination, 1)
+                }
+            };
+            summonerActionSet.Add(SMN_Ruin4);
+            actions.Add(SMN_Ruin4.UniqueID, SMN_Ruin4);
+
+            ActionDef SMN_BahamutEnkindle = new ActionDef()
+            {
+                UniqueID = "SMN_BahamutEnkindle",
+                IsGCD = false,
+                Potency = 600,
+                DisplayName = "Enkindle (Akh Morn)",
+                Recast = 800,
+                RequiredEffects = new List<ActiveEffect>()
+                {
+                    bahamutSummonedActiveEffect
+                }
+            };
+            summonerActionSet.Add(SMN_BahamutEnkindle);
+            actions.Add(SMN_BahamutEnkindle.UniqueID, SMN_BahamutEnkindle);
+
+            ActionDef SMN_EnergyDrain = new ActionDef()
+            {
+                UniqueID = "SMN_EnergyDrain",
+                IsGCD = false,
+                Potency = 100,
+                DisplayName = "Energy Drain",
+                Recast = 6000,
+                AppliedEffects = new List<EffectApplication>()
+                {
+                    ruinationApplication
+                }
+            };
+            summonerActionSet.Add(SMN_EnergyDrain);
+            actions.Add(SMN_EnergyDrain.UniqueID, SMN_EnergyDrain);
+
+            ActionDef SMN_Fester = new ActionDef()
+            {
+                UniqueID = "SMN_Fester",
+                IsGCD = false,
+                Potency = 300,
+                DisplayName = "Fester",
+                Recast = 300,
+            };
+            summonerActionSet.Add(SMN_Fester);
+            actions.Add(SMN_Fester.UniqueID, SMN_Fester);
+
+            ActionDef SMN_Painflare = new ActionDef()
+            {
+                UniqueID = "SMN_Painflare",
+                IsGCD = false,
+                Potency = 130,
+                DisplayName = "Painflare",
+                Recast = 300,
+                AppliedEffects = new List<EffectApplication>()
+                {
+                    ruinationApplication
+                }
+            };
+            summonerActionSet.Add(SMN_Painflare);
+            actions.Add(SMN_Painflare.UniqueID, SMN_Painflare);
+
+            ActionDef SMN_Deathflare = new ActionDef()
+            {
+                UniqueID = "SMN_Deathflare",
+                IsGCD = false,
+                Potency = 500,
+                DisplayName = "Deathflare",
+                Recast = 2000,
+                RequiredEffects = new List<ActiveEffect>()
+                {
+                    bahamutSummonedActiveEffect
+                }
+            };
+            summonerActionSet.Add(SMN_Deathflare);
+            actions.Add(SMN_Deathflare.UniqueID, SMN_Deathflare);
+
+            ActionDef SMN_SummonIfrit = new ActionDef()
+            {
+                UniqueID = "SMN_SummonIfrit",
+                IsGCD = true,
+                IsSpell = true,
+                CastTime = 0,
+                RecastGCD = BASE_GCD,
+                Potency = 700,
+                DisplayName = "Summon Ifrit"
+            };
+            summonerActionSet.Add(SMN_SummonIfrit);
+            actions.Add(SMN_SummonIfrit.UniqueID, SMN_SummonIfrit);
+
+            ActionDef SMN_IfritEA1 = new ActionDef()
+            {
+                UniqueID = "SMN_IfritEA1",
+                IsGCD = true,
+                IsSpell = true,
+                CastTime = BASE_GCD,
+                RecastGCD = BASE_GCD,
+                Potency = 400,
+                DisplayName = "(Ifrit EA1)"
+            };
+            summonerActionSet.Add(SMN_IfritEA1);
+            actions.Add(SMN_IfritEA1.UniqueID, SMN_IfritEA1);
+
+            ActionDef SMN_IfritEA2 = new ActionDef()
+            {
+                UniqueID = "SMN_IfritEA2",
+                IsGCD = true,
+                IsSpell = true,
+                CastTime = 0,
+                RecastGCD = BASE_GCD,
+                Potency = 400,
+                DisplayName = "(Ifrit EA2)"
+            };
+            summonerActionSet.Add(SMN_IfritEA2);
+            actions.Add(SMN_IfritEA2.UniqueID, SMN_IfritEA2);
+
+            ActionDef SMN_SummonGaruda = new ActionDef()
+            {
+                UniqueID = "SMN_SummonGaruda",
+                IsGCD = true,
+                IsSpell = true,
+                CastTime = 0,
+                RecastGCD = BASE_GCD,
+                Potency = 700,
+                DisplayName = "Summon Garuda"
+            };
+            summonerActionSet.Add(SMN_SummonGaruda);
+            actions.Add(SMN_SummonGaruda.UniqueID, SMN_SummonGaruda);
+
+            ActionDef SMN_GarudaEA1 = new ActionDef()
+            {
+                UniqueID = "SMN_GarudaEA1",
+                IsGCD = true,
+                IsSpell = true,
+                CastTime = 0,
+                RecastGCD = GCD_150,
+                Potency = 300,
+                DisplayName = "(Garuda EA1)"
+            };
+            summonerActionSet.Add(SMN_GarudaEA1);
+            actions.Add(SMN_GarudaEA1.UniqueID, SMN_GarudaEA1);
+
+            ActionDef SMN_GarudaEA2 = new ActionDef()
+            {
+                UniqueID = "SMN_GarudaEA2",
+                IsGCD = true,
+                IsSpell = true,
+                CastTime = BASE_GCD,
+                RecastGCD = BASE_GCD,
+                Potency = 400,
+                DisplayName = "(Garuda EA2)"
+            };
+            summonerActionSet.Add(SMN_GarudaEA2);
+            actions.Add(SMN_GarudaEA2.UniqueID, SMN_GarudaEA2);
+
+            ActionDef SMN_SummonTitan = new ActionDef()
+            {
+                UniqueID = "SMN_SummonTitan",
+                IsGCD = true,
+                IsSpell = true,
+                CastTime = 0,
+                RecastGCD = BASE_GCD,
+                Potency = 700,
+                DisplayName = "Summon Titan"
+            };
+            summonerActionSet.Add(SMN_SummonTitan);
+            actions.Add(SMN_SummonTitan.UniqueID, SMN_SummonTitan);
+
+            ActionDef SMN_TitanEA1 = new ActionDef()
+            {
+                UniqueID = "SMN_TitanEA1",
+                IsGCD = true,
+                IsSpell = true,
+                CastTime = 0,
+                RecastGCD = BASE_GCD,
+                Potency = 330,
+                DisplayName = "(Titan EA1)"
+            };
+            summonerActionSet.Add(SMN_TitanEA1);
+            actions.Add(SMN_TitanEA1.UniqueID, SMN_TitanEA1);
+
+            ActionDef SMN_TitanEA2 = new ActionDef()
+            {
+                UniqueID = "SMN_TitanEA2",
+                IsGCD = false,
+                Potency = 150,
+                DisplayName = "(Titan EA2)"
+            };
+            summonerActionSet.Add(SMN_TitanEA2);
+            actions.Add(SMN_TitanEA2.UniqueID, SMN_TitanEA2);
+
+            ActionDef SMN_Devotion = new ActionDef()
+            {
+                UniqueID = "SMN_Devotion",
+                IsGCD = false,
+                DisplayName = "(Devotion)",
+                Recast = 12000,
+                AppliedEffects = new List<EffectApplication>() 
+                {
+                    devotionEffectApplication
+                }
+            };
             summonerActionSet.Add(SMN_Devotion);
+            actions.Add(SMN_Devotion.UniqueID, SMN_Devotion);
 
             #endregion
         }
