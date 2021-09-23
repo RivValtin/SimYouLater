@@ -43,10 +43,9 @@ namespace RotationSimulator
             activeRotation.Add(ActionBank.actions["SMN_Deathflare"]);
             activeRotation.Add(ActionBank.actions["SMN_BahamutFiller"]);
             activeRotation.Add(ActionBank.actions["SMN_BahamutEnkindle"]);
-            activeRotation.Add(ActionBank.actions["SMN_BahamutFiller"]);
-            activeRotation.Add(ActionBank.actions["SMN_Fester"]);
 
             activeRotation.Add(ActionBank.actions["SMN_SummonIfrit"]);
+            activeRotation.Add(ActionBank.actions["SMN_Fester"]);
             activeRotation.Add(ActionBank.actions["SMN_IfritEA1"]);
             activeRotation.Add(ActionBank.actions["SMN_Ruin4"]);
             activeRotation.Add(ActionBank.actions["SMN_IfritEA1"]);
@@ -72,9 +71,7 @@ namespace RotationSimulator
 
             activeRotation.Add(ActionBank.actions["SMN_Ruin3"]);
             activeRotation.Add(ActionBank.actions["SMN_Ruin3"]);
-
-            actionSetDropdown.Items.Add("SMN");
-            actionSetDropdown.SelectedItem = "SMN";
+            activeRotation.Add(ActionBank.actions["SMN_Ruin3"]);
 
             UpdateRotationDisplay();
             UpdateActionSet();
@@ -115,9 +112,8 @@ namespace RotationSimulator
 
         private void UpdateActionSet() {
             actionSetPanel.Children.Clear();
-            List<ActionDef> newActionSet = ActionBank.actionSets[actionSetDropdown.SelectedItem.ToString()];
 
-            foreach (ActionDef action in newActionSet) {
+            foreach (ActionDef action in activeRotation) {
                 StackPanel newPanel = new StackPanel();
                 newPanel.Orientation = Orientation.Horizontal;
 

@@ -22,19 +22,40 @@
                     </Grid.RowDefinitions>
                     <Button x:Name="button" Content="Simulate" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="button_Click"/>
                     <TextBlock x:Name="textBlock" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Text="0 potency per second" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="150"/>
-                    <ScrollViewer VerticalScrollBarVisibility="Auto" MinWidth="100" Margin="5,5,5,5" Grid.Row="0" Grid.Column="1" Grid.RowSpan="2">
-                        <StackPanel x:Name="rotationPanel" />
-                    </ScrollViewer>
-                    <TextBlock HorizontalAlignment="Left" Text="Action Set" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Row="0" Grid.Column="2" />
-                    <ComboBox x:Name="actionSetDropdown" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Top" Width="120" IsEditable="True" Grid.Row="0" Grid.Column="3" />
-                    <ScrollViewer VerticalScrollBarVisibility="Visible" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2">
-                        <StackPanel x:Name="actionSetPanel" />
-                    </ScrollViewer>
                 </Grid>
             </TabItem>
             <TabItem Header="Rotation Editor">
                 <Grid Margin="5,5,5,5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
 
+                    <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" FontSize="24">Rotations List</TextBlock>
+                    <Button Grid.Row="2" Grid.Column="0" Margin="5,5,5,5">Add...</Button>
+                    <Button Grid.Row="2" Grid.Column="1" Margin="5,5,5,5">Delete</Button>
+                    <Button Grid.Row="3" Grid.Column="0" Margin="5,5,5,5">Import...</Button>
+                    <Button Grid.Row="3" Grid.Column="1" Margin="5,5,5,5">Export...</Button>
+
+                    <StackPanel Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" Orientation="Horizontal">
+                        <Image Source="images/icons/icon_missing.png" ToolTip="JOB NAME HERE"></Image>
+                        <TextBlock FontSize="24">Rotation</TextBlock>
+                    </StackPanel>
+                    <TextBlock Grid.Row="0" Grid.Column="3" HorizontalAlignment="Center" FontSize="24">Action Bank</TextBlock>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" MinWidth="100" Margin="5,5,5,5" Grid.Row="1" Grid.Column="2" Grid.RowSpan="3">
+                        <StackPanel x:Name="rotationPanel" />
+                    </ScrollViewer>
+                    <ScrollViewer VerticalScrollBarVisibility="Visible" Grid.Row="1" Grid.Column="3" Grid.RowSpan="3">
+                        <StackPanel x:Name="actionSetPanel" />
+                    </ScrollViewer>
                 </Grid>
             </TabItem>
             <TabItem Header="Gear Editor">
