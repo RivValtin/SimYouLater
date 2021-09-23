@@ -78,13 +78,14 @@ namespace RotationSimulator
 
                 int lastUsed = lastUsedTiming.ContainsKey(step.UniqueID) ? lastUsedTiming[step.UniqueID] : int.MinValue;
 
+                bool cancelExecution = false;
                 //---- Verify action is not being used too early against recast.
                 if (step.Recast > 0 && lastUsed + step.Recast > time) {
-                    Trace.WriteLine("\tWARNING: " + step.DisplayName + " being executed before recast is over. Needs another " + (time - lastUsed - step.Recast)/-100.0f +"s");
+                    Trace.WriteLine("\tERROR: " + step.DisplayName + " being executed before recast is over. Needs another " + (time - lastUsed - step.Recast)/-100.0f +"s. Skipping action.");
+                    cancelExecution = true;
                 }
 
                 //---- Verify that any required state for the action is present.
-                bool cancelExecution = false;
                 foreach (ActiveEffect effect in step.RequiredEffects) {
                     if (!activeEffects.ContainsKey(effect.type)) {
                         Trace.WriteLine("\tERROR: Required active effect " + effect.DisplayName + " missing when trying to execute " + step.DisplayName + ". Skipping action.");

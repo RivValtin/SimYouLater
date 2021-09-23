@@ -20,15 +20,15 @@ namespace RotationSimulator
         public bool IsGCD { get; init; } = true;
 
         /// <summary>
-        /// If true, should be scaled by Skill Speed.
+        /// If true, should be scaled by Skill Speed. NYI
         /// </summary>
         public bool IsWeaponskill { get; init; } = false;
         /// <summary>
-        /// If true, should be scaled by Spell Speed.
+        /// If true, should be scaled by Spell Speed. NYI
         /// </summary>
         public bool IsSpell { get; init; } = false;
         /// <summary>
-        /// If true, should be scaled with haste.
+        /// If true, should be scaled with haste. NYI
         /// </summary>
         public bool IsHastedScaled { get; init; } = true;
         /// <summary>
@@ -64,18 +64,18 @@ namespace RotationSimulator
         /// <summary>
         /// Apply the listed effects when executing this ability.
         /// </summary>
-        public List<EffectApplication> AppliedEffects { get; init; } = new List<EffectApplication>();
+        public IEnumerable<EffectApplication> AppliedEffects { get; init; } = new List<EffectApplication>();
         /// <summary>
         /// Remove (int) stacks from the active effect of the given type when executed. If stacks hit 0, effect is removed prematurely. <=0 stacks indicates to remove the entire effect regardless of stack count.
         /// </summary>
-        public List<Tuple<EActiveEffect, int>> RemoveEffectStacks { get; init; } = new List<Tuple<EActiveEffect, int>>();
+        public IEnumerable<Tuple<EActiveEffect, int>> RemoveEffectStacks { get; init; } = new List<Tuple<EActiveEffect, int>>();
         /// <summary>
         /// NYI. Show an error if attempting to use the ability without any of these listed effects active. Stacks variable will be used to evaluate if enough stacks are available (e.g. set it to 3 to require 3 stacks available).
         /// </summary>
-        public List<ActiveEffect> RequiredEffects { get; init; } = new List<ActiveEffect>();
+        public IEnumerable<ActiveEffect> RequiredEffects { get; init; } = new List<ActiveEffect>();
         /// <summary>
         /// NYI. Show an error if attempting to use an ability with any of the listed effects active. 
         /// </summary>
-        public List<ActiveEffect> RequiredAbsentEffects { get; init; } = new List<ActiveEffect>();
+        public IEnumerable<ActiveEffect> RequiredAbsentEffects { get; init; } = new List<ActiveEffect>();
     }
 }
