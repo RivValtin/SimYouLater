@@ -58,7 +58,9 @@ namespace RotationSimulator
             float effectivePotency = 0; //total effect potency, after accounting for buffs, average crit/dh bonus, det bonus, etc
             int gcdTimeRemaining = 0; //time left on the GCD before it can be used
 
-            Dictionary<string, int> lastUsedTiming = new Dictionary<string, int>();
+            //This is the time at which the cooldown will be *fully* returned. Charged abilities might be usable before this time stamp is reached
+            //(e.g. if it has 3 charges at 30s each and you only have 1 left, this could be 55s in the future, which means you have 1 charge and 5s/30s of the next).
+            Dictionary<string, int> fullyChargedTime = new Dictionary<string, int>();
 
             foreach (ActionDef step in rotationActions) {
                 int animLock = step.AnimationLockOverride != 0 ? step.AnimationLockOverride : AnimationLock;
@@ -76,12 +78,12 @@ namespace RotationSimulator
                     gcdTimeRemaining = step.RecastGCD;
                 }
 
-                int lastUsed = lastUsedTiming.ContainsKey(step.UniqueID) ? lastUsedTiming[step.UniqueID] : int.MinValue;
+                int fullCharge = fullyChargedTime.ContainsKey(step.UniqueID) ? fullyChargedTime[step.UniqueID] : int.MinValue;
 
                 bool cancelExecution = false;
                 //---- Verify action is not being used too early against recast.
-                if (step.Recast > 0 && lastUsed + step.Recast > time) {
-                    Trace.WriteLine("\tERROR: " + step.DisplayName + " being executed before recast is over. Needs another " + (time - lastUsed - step.Recast)/-100.0f +"s. Skipping action.");
+                if (step.Recast > 0 && fullCharge > time) {
+                    Trace.WriteLine("\tERROR: " + step.DisplayName + " being executed before recast is over. Needs another " + ((fullCharge - time)/-100.0f) +"s. Skipping action.");
                     cancelExecution = true;
                 }
 
@@ -105,7 +107,7 @@ namespace RotationSimulator
                 }
 
                 //---- Set last used time on this action
-                lastUsedTiming[step.UniqueID] = time;
+                fullyChargedTime[step.UniqueID] = (fullCharge == int.MinValue ? time+step.Recast : fullCharge+step.Recast);
 
                 //---- Apply cast time (if any)
                 if (step.CastTime > 0) {

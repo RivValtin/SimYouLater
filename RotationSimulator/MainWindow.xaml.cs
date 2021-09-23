@@ -1,18 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace RotationSimulator
 {
@@ -85,21 +76,22 @@ namespace RotationSimulator
                 newPanel.Orientation = Orientation.Horizontal;
 
                 if (!step.IsGCD) {
-                    Image blankImage = new Image();
-                    blankImage.Stretch = Stretch.Fill;
-                    blankImage.Source = new BitmapImage(new Uri("/images/icons/down_right_arrow.png", UriKind.Relative));
-                    blankImage.Width = 32;
-                    blankImage.Height = 32;
-                    blankImage.ToolTip = "This ability is an off-GCD.";
-
-                    newPanel.Children.Add(blankImage);
+                    newPanel.Children.Add(new Image
+                    {
+                        Stretch = Stretch.Fill,
+                        Source = new BitmapImage(new Uri("/images/icons/down_right_arrow.png", UriKind.Relative)),
+                        Width = 32,
+                        Height = 32,
+                        ToolTip = "This ability is an off-GCD."
+                    });
                 }
-                Image abilityIcon = new Image();
-                abilityIcon.Stretch = Stretch.Fill;
-                abilityIcon.Source = new BitmapImage(new Uri("/images/icons/" + step.IconName, UriKind.Relative));
-                abilityIcon.Width = 32;
-                abilityIcon.Height = 32;
-                newPanel.Children.Add(abilityIcon);
+                newPanel.Children.Add(new Image
+                {
+                    Stretch = Stretch.Fill,
+                    Source = new BitmapImage(new Uri("/images/icons/" + step.IconName, UriKind.Relative)),
+                    Width = 32,
+                    Height = 32
+                });
 
                 TextBlock textBlock = new TextBlock();
                 textBlock.Text = step.DisplayName;
@@ -132,7 +124,7 @@ namespace RotationSimulator
         }
 
 
-        private void button_Click(object sender, RoutedEventArgs e)
+        private void button_Simulate(object sender, RoutedEventArgs e)
         {
             Simulator simulator = new Simulator();
 
@@ -152,6 +144,11 @@ namespace RotationSimulator
             textBlock.Text = "PPS: " + results.pps + "\n" +
                              "ePPS: " + results.epps + "\n" + 
                              "Time: " + (float)results.totalTime/100 + "s";
+        }
+
+        private void button_AddRotation(object sender, RoutedEventArgs e) {
+            AddRotationDialog dialog = new AddRotationDialog();
+            dialog.ShowDialog();
         }
     }
 }

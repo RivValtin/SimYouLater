@@ -20,7 +20,7 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <Button x:Name="button" Content="Simulate" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="button_Click"/>
+                    <Button x:Name="button" Content="Simulate" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="button_Simulate"/>
                     <TextBlock x:Name="textBlock" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Text="0 potency per second" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="150"/>
                 </Grid>
             </TabItem>
@@ -40,10 +40,11 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" FontSize="24">Rotations List</TextBlock>
-                    <Button Grid.Row="2" Grid.Column="0" Margin="5,5,5,5">Add...</Button>
+                    <Button Grid.Row="2" Grid.Column="0" Margin="5,5,5,5" Click="button_AddRotation">Add...</Button>
                     <Button Grid.Row="2" Grid.Column="1" Margin="5,5,5,5">Delete</Button>
                     <Button Grid.Row="3" Grid.Column="0" Margin="5,5,5,5">Import...</Button>
                     <Button Grid.Row="3" Grid.Column="1" Margin="5,5,5,5">Export...</Button>
+                    <!--TODO: Need a duplicate button/option-->
 
                     <StackPanel Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" Orientation="Horizontal">
                         <Image Source="images/icons/icon_missing.png" ToolTip="JOB NAME HERE"></Image>
