@@ -32,12 +32,12 @@ namespace RotationSimulator
         /// </summary>
         public int detBonus = 86;
 
-        private Dictionary<EActiveEffect, ActiveEffect> activeEffects;
+        private Dictionary<string, ActiveEffect> activeEffects;
         private List<ActiveEffect> extEffects;
         private int time = 0;
 
         private void ResetState() {
-            activeEffects = new Dictionary<EActiveEffect, ActiveEffect>();
+            activeEffects = new Dictionary<string, ActiveEffect>();
             time = 0;
             extEffects = new List<ActiveEffect>();
         }
@@ -78,7 +78,7 @@ namespace RotationSimulator
                     gcdTimeRemaining = step.RecastGCD;
                 }
 
-                int fullCharge = fullyChargedTime.ContainsKey(step.UniqueID) ? fullyChargedTime[step.UniqueID] : int.MinValue;
+                int fullCharge = fullyChargedTime.ContainsKey(step.CooldownID) ? fullyChargedTime[step.CooldownID] : int.MinValue;
 
                 bool cancelExecution = false;
                 //---- Verify action is not being used too early against recast.
@@ -88,17 +88,20 @@ namespace RotationSimulator
                 }
 
                 //---- Verify that any required state for the action is present.
-                foreach (ActiveEffect effect in step.RequiredEffects) {
-                    if (!activeEffects.ContainsKey(effect.type)) {
-                        Trace.WriteLine("\tERROR: Required active effect " + effect.DisplayName + " missing when trying to execute " + step.DisplayName + ". Skipping action.");
+                foreach (EffectRequirement effectRequirement in step.RequiredEffects) {
+                    if (!activeEffects.ContainsKey(effectRequirement.effect.UniqueID)) {
+                        Trace.WriteLine("\tERROR: Required active effect " + effectRequirement.effect.DisplayName + " missing when trying to execute " + step.DisplayName + ". Skipping action.");
+                        cancelExecution = true;
+                    } else if (effectRequirement.Stacks > 1 && activeEffects[effectRequirement.effect.UniqueID].Stacks < effectRequirement.Stacks) {
+                        Trace.WriteLine("\tERROR: Insufficient stacks of effect " + effectRequirement.effect.DisplayName + " when trying to execute " + step.DisplayName + ". Skipping action.");
                         cancelExecution = true;
                     }
                 }
 
                 //---- Verify that any state that *cannot* be present is not present.
-                foreach (ActiveEffect effect in step.RequiredAbsentEffects) {
-                    if (activeEffects.ContainsKey(effect.type)) {
-                        Trace.WriteLine("\tERROR: Active effect " + effect.DisplayName + " prevents execution of " + step.DisplayName + ". Skipping action.");
+                foreach (EffectRequirement effectRequirement in step.RequiredAbsentEffects) {
+                    if (activeEffects.ContainsKey(effectRequirement.effect.UniqueID)) {
+                        Trace.WriteLine("\tERROR: Active effect " + effectRequirement.effect.DisplayName + " prevents execution of " + step.DisplayName + ". Skipping action.");
                         cancelExecution = true;
                     }
                 }
@@ -107,7 +110,7 @@ namespace RotationSimulator
                 }
 
                 //---- Set last used time on this action
-                fullyChargedTime[step.UniqueID] = (fullCharge == int.MinValue ? time+step.Recast : fullCharge+step.Recast);
+                fullyChargedTime[step.CooldownID] = (fullCharge == int.MinValue ? time+step.Recast : fullCharge+step.Recast);
 
                 //---- Apply cast time (if any)
                 if (step.CastTime > 0) {
@@ -117,37 +120,36 @@ namespace RotationSimulator
 
                 //---- Apply the effect
                 float ePotencyMulti = 1.0f;
-                if (activeEffects.Keys.Contains(EActiveEffect.SMN_Devotion)) {
+                if (activeEffects.Keys.Contains("SMN_Devotion")) {
                     ePotencyMulti *= 1.03f;
                 }
-                if (activeEffects.Keys.Contains(EActiveEffect.NIN_TrickAttack)) {
+                if (activeEffects.Keys.Contains("NIN_TrickAttack")) {
                     ePotencyMulti *= 1.05f;
                 }
                 potency += step.Potency; //TODO: Account for crit/dh/det?
                 effectivePotency += step.Potency * ePotencyMulti;
                 Trace.WriteLine("Executed Ability " + step.DisplayName + " at " + (float)time / 100 + "s");
-                foreach (EffectApplication effect in step.AppliedEffects) {
+                foreach (EffectApplication effectApplication in step.AppliedEffects) {
                     ActiveEffect newEffect = new ActiveEffect()
                     {
-                        type = effect.type,
+                        effect = effectApplication.effect,
                         ActiveStartTime = startTime,
-                        ActiveEndTime = (effect.Duration == int.MaxValue ? int.MaxValue : startTime + effect.Duration),
-                        DisplayName = effect.DisplayName,
+                        ActiveEndTime = (effectApplication.Duration == int.MaxValue ? int.MaxValue : startTime + effectApplication.Duration),
                     };
-                    activeEffects.Add(effect.type, newEffect);
-                    Trace.WriteLine("\tApplied active effect " + newEffect.DisplayName + " at " + time / 100.0f + "s");
+                    activeEffects.Add(effectApplication.effect.UniqueID, newEffect);
+                    Trace.WriteLine("\tApplied active effect " + newEffect.effect.DisplayName + " at " + time / 100.0f + "s");
                 }
 
                 //---- Remove any effects that activating this ability is meant to strip.
-                foreach (Tuple<EActiveEffect, int> removedEffect in step.RemoveEffectStacks) {
+                foreach (Tuple<string, int> removedEffect in step.RemoveEffectStacks) {
                     if (activeEffects.ContainsKey(removedEffect.Item1)) {
                         ActiveEffect e = activeEffects[removedEffect.Item1];
 
                         if (removedEffect.Item2 <= 0 || removedEffect.Item2 >= e.Stacks) {
-                            Trace.WriteLine("\tRemoved active effect " + e.DisplayName + " at " + time / 100.0f + "s");
+                            Trace.WriteLine("\tRemoved active effect " + e.effect.DisplayName + " at " + time / 100.0f + "s");
                             activeEffects.Remove(removedEffect.Item1);
                         } else {
-                            Trace.WriteLine("\tReduced active effect " + e.DisplayName + " by " + removedEffect.Item2 + " stacks at " + time / 100.0f + "s");
+                            Trace.WriteLine("\tReduced active effect " + e.effect.DisplayName + " by " + removedEffect.Item2 + " stacks at " + time / 100.0f + "s");
                             e.Stacks -= removedEffect.Item2;
                         }
                     }
@@ -181,8 +183,8 @@ namespace RotationSimulator
             List<ActiveEffect> newEffects = extEffects.Where(x => x.ActiveStartTime <= newTime && x.ActiveStartTime > time).ToList();
 
             foreach (ActiveEffect e in newEffects) {
-                activeEffects.Add(e.type, e);
-                Trace.WriteLine("\tApplied active effect " + e.DisplayName + " at " + e.ActiveStartTime/100.0f + "s");
+                activeEffects.Add(e.effect.UniqueID, e);
+                Trace.WriteLine("\tApplied active effect " + e.effect.DisplayName + " at " + e.ActiveStartTime/100.0f + "s");
             }
 
             time = newTime;
@@ -193,7 +195,7 @@ namespace RotationSimulator
         private void CleanExpiredBuffs() {
             foreach (ActiveEffect e in activeEffects.Values) {
                 if (e.ActiveEndTime <= time) {
-                    Trace.WriteLine("\tRemoved active effect " + e.DisplayName + " at " + e.ActiveEndTime / 100.0f + "s");
+                    Trace.WriteLine("\tRemoved active effect " + e.effect.DisplayName + " at " + e.ActiveEndTime / 100.0f + "s");
                 }
             }
 

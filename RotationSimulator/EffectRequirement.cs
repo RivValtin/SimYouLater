@@ -6,15 +6,12 @@ using System.Threading.Tasks;
 
 namespace RotationSimulator
 {
-
     /// <summary>
-    /// A currently-active effect, when it started, when it will end, and how many stacks it currently has.
+    /// Describes a required active effect and stack quantity.
     /// </summary>
-    public class ActiveEffect
+    public class EffectRequirement
     {
         public EffectDef effect;
-        public int ActiveStartTime;
-        public int ActiveEndTime;
         public int Stacks;
     }
 }

@@ -32,46 +32,6 @@ namespace RotationSimulator
             List<ActionDef> summonerActionSet = new List<ActionDef>();
             actionSets.Add("SMN", summonerActionSet);
 
-            #region SMN Effects
-            EffectApplication summonBahamutEffectApplication = new EffectApplication
-            {
-                type = EActiveEffect.SMN_BahamutSummoned,
-                Duration = 1500,
-                Stacks = 1,
-                DisplayName = "Bahamut Summoned"
-            };
-            ActiveEffect bahamutSummonedActiveEffect = new ActiveEffect()
-            {
-                type = EActiveEffect.SMN_BahamutSummoned,
-                Stacks = 0,
-                DisplayName = "Bahamut Summoned"
-            };
-            EffectApplication phoenixAvailableApplication = new EffectApplication()
-            {
-                type = EActiveEffect.SMN_PhoenixAvailable,
-                Duration = int.MaxValue,
-                Stacks = 1,
-                DisplayName = "(Phoenix Available)"
-            };
-            EffectApplication devotionEffectApplication = new EffectApplication()
-            {
-                type = EActiveEffect.SMN_Devotion,
-                Duration = 3000,
-                DisplayName = "(Devotion)"
-            };
-            EffectApplication ruinationApplication = new EffectApplication()
-            {
-                DisplayName = "Ruination",
-                Duration = 6000,
-                Stacks = 1,
-                type = EActiveEffect.SMN_Ruination,
-            };
-            ActiveEffect ruinationActiveEffect = new ActiveEffect()
-            {
-                type = EActiveEffect.SMN_Ruination
-            };
-            #endregion
-
             ActionDef SMN_SummonBahamut = new ActionDef()
             {
                 UniqueID = "SMN_SummonBahamut",
@@ -79,12 +39,45 @@ namespace RotationSimulator
                 IsSpell = true,
                 CastTime = 0,
                 RecastGCD = BASE_GCD,
+                Recast = 6000,
+                RecastScales = true,
                 Potency = 700,
                 DisplayName = "Summon Bahamut",
                 IconName = "smn_summon_phoenix.png",
                 AppliedEffects = new List<EffectApplication>
                 {
-                    summonBahamutEffectApplication
+                    new EffectApplication
+                    {
+                        effect = EffectsBank.effects["SMN_BahamutSummoned"],
+                        Duration = 1500,
+                    },
+                    new EffectApplication
+                    {
+                        effect = EffectsBank.effects["SMN_PhoenixAvailable"],
+                        Duration = int.MaxValue,
+                    },
+                    new EffectApplication
+                    {
+                        effect = EffectsBank.effects["SMN_IfritGem"],
+                        Duration = int.MaxValue,
+                    },
+                    new EffectApplication
+                    {
+                        effect = EffectsBank.effects["SMN_GarudaGem"],
+                        Duration = int.MaxValue,
+                    },
+                    new EffectApplication
+                    {
+                        effect = EffectsBank.effects["SMN_TitanGem"],
+                        Duration = int.MaxValue,
+                    }
+                },
+                RequiredAbsentEffects = new List<EffectRequirement>()
+                {
+                    new EffectRequirement()
+                    {
+                        effect = EffectsBank.effects["SMN_PhoenixAvailable"],
+                    }
                 }
             };
             summonerActionSet.Add(SMN_SummonBahamut);
@@ -99,8 +92,11 @@ namespace RotationSimulator
                 RecastGCD = BASE_GCD,
                 Potency = 400,
                 DisplayName = "(Bahamut Filler)",
-                RequiredEffects = new List<ActiveEffect>() {
-                    bahamutSummonedActiveEffect
+                RequiredEffects = new List<EffectRequirement>() {
+                    new EffectRequirement()
+                    {
+                        effect = EffectsBank.effects["SMN_BahamutSummoned"]
+                    }
                 }
             };
             summonerActionSet.Add(SMN_BahamutFiller);
@@ -128,13 +124,16 @@ namespace RotationSimulator
                 RecastGCD = BASE_GCD,
                 Potency = 430,
                 DisplayName = "Ruin 4",
-                RequiredEffects = new List<ActiveEffect>
+                RequiredEffects = new List<EffectRequirement>
                 {
-                    ruinationActiveEffect
+                    new EffectRequirement()
+                    {
+                        effect = EffectsBank.effects["SMN_Ruination"]
+                    }
                 },
-                RemoveEffectStacks = new List<Tuple<EActiveEffect, int>>()
+                RemoveEffectStacks = new List<Tuple<string, int>>()
                 {
-                    new Tuple<EActiveEffect, int>(EActiveEffect.SMN_Ruination, 1)
+                    new Tuple<string, int>("SMN_Ruination", 1)
                 }
             };
             summonerActionSet.Add(SMN_Ruin4);
@@ -147,9 +146,12 @@ namespace RotationSimulator
                 Potency = 600,
                 DisplayName = "Enkindle (Akh Morn)",
                 Recast = 800,
-                RequiredEffects = new List<ActiveEffect>()
+                RequiredEffects = new List<EffectRequirement>()
                 {
-                    bahamutSummonedActiveEffect
+                    new EffectRequirement()
+                    {
+                        effect = EffectsBank.effects["SMN_BahamutSummoned"]
+                    }
                 }
             };
             summonerActionSet.Add(SMN_BahamutEnkindle);
@@ -164,7 +166,11 @@ namespace RotationSimulator
                 Recast = 6000,
                 AppliedEffects = new List<EffectApplication>()
                 {
-                    ruinationApplication
+                    new EffectApplication()
+                    {
+                        effect = EffectsBank.effects["SMN_Ruination"],
+                        Duration=6000,
+                    }
                 }
             };
             summonerActionSet.Add(SMN_EnergyDrain);
@@ -190,7 +196,11 @@ namespace RotationSimulator
                 Recast = 300,
                 AppliedEffects = new List<EffectApplication>()
                 {
-                    ruinationApplication
+                    new EffectApplication()
+                    {
+                        effect = EffectsBank.effects["SMN_Ruination"],
+                        Duration=6000,
+                    }
                 }
             };
             summonerActionSet.Add(SMN_Painflare);
@@ -203,9 +213,12 @@ namespace RotationSimulator
                 Potency = 500,
                 DisplayName = "Deathflare",
                 Recast = 2000,
-                RequiredEffects = new List<ActiveEffect>()
+                RequiredEffects = new List<EffectRequirement>()
                 {
-                    bahamutSummonedActiveEffect
+                    new EffectRequirement()
+                    {
+                        effect = EffectsBank.effects["SMN_BahamutSummoned"]
+                    }
                 }
             };
             summonerActionSet.Add(SMN_Deathflare);
@@ -333,7 +346,11 @@ namespace RotationSimulator
                 Recast = 12000,
                 AppliedEffects = new List<EffectApplication>() 
                 {
-                    devotionEffectApplication
+                    new EffectApplication()
+                    {
+                        effect = EffectsBank.effects["SMN_Devotion"],
+                        Duration = 3000
+                    }
                 }
             };
             summonerActionSet.Add(SMN_Devotion);

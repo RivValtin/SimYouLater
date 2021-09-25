@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Input;
 
 namespace RotationSimulator
 {
@@ -74,6 +75,7 @@ namespace RotationSimulator
             foreach (ActionDef step in activeRotation) {
                 StackPanel newPanel = new StackPanel();
                 newPanel.Orientation = Orientation.Horizontal;
+                newPanel.MouseMove += DragRotationElement;
 
                 if (!step.IsGCD) {
                     newPanel.Children.Add(new Image
@@ -99,6 +101,12 @@ namespace RotationSimulator
                 newPanel.Children.Add(textBlock);
 
                 rotationPanel.Children.Add(newPanel);
+            }
+        }
+
+        private void DragRotationElement(object sender, MouseEventArgs e) {
+            if (sender != null && e.LeftButton == MouseButtonState.Pressed) {
+                DragDrop.DoDragDrop((DependencyObject)sender, "Test", DragDropEffects.Move);
             }
         }
 
@@ -134,8 +142,7 @@ namespace RotationSimulator
                 {
                     ActiveStartTime = 850,
                     ActiveEndTime = 1500 + 850,
-                    type = EActiveEffect.NIN_TrickAttack,
-                    DisplayName = "Trick Attack"
+                    effect = EffectsBank.effects["NIN_TrickAttack"],
                 });
             }
 
@@ -150,5 +157,7 @@ namespace RotationSimulator
             AddRotationDialog dialog = new AddRotationDialog();
             dialog.ShowDialog();
         }
+
+
     }
 }

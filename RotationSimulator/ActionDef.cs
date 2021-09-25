@@ -40,6 +40,10 @@ namespace RotationSimulator
         /// </summary>
         public int RecastGCD { get; init; } = 250;
         /// <summary>
+        /// If true, the non-GCD recast also scales with SpS/SkS/Haste
+        /// </summary>
+        public bool RecastScales { get; init; } = false;
+        /// <summary>
         /// Use if the action has an unusually low animation lock, like dancer steps or ninja mudras.
         /// </summary>
         public int AnimationLockOverride { get; init; } = 0;
@@ -60,22 +64,41 @@ namespace RotationSimulator
         /// The name of the icon that this ability uses.
         /// </summary>
         public string IconName { get; init; } = "icon_missing.png";
+        /// <summary>
+        /// If multiple abilities share a cooldown, choose one of them to be the main one and set this value equal
+        /// to that cooldown's UniqueID. For example, Drill and Bioblaster share a CD, so you can set Bioblaster's 
+        /// "CooldownID" to Drill's UniqueID so that they share.
+        /// 
+        /// This value does not cause Recast to be ignored. Each ability can still invoke a different recast.
+        /// </summary>
+        public string CooldownID { get {
+                if (String.IsNullOrEmpty(cooldownId)) {
+                    return UniqueID;
+                } else {
+                    return cooldownId;
+                }
+            }
+            init {
+                cooldownId = value;
+            }
+        }
+        private string cooldownId = String.Empty;
 
         /// <summary>
         /// Apply the listed effects when executing this ability.
         /// </summary>
         public IEnumerable<EffectApplication> AppliedEffects { get; init; } = new List<EffectApplication>();
         /// <summary>
-        /// Remove (int) stacks from the active effect of the given type when executed. If stacks hit 0, effect is removed prematurely. <=0 stacks indicates to remove the entire effect regardless of stack count.
+        /// Remove (int) stacks from the active effect with UniqueID of (string) when executed. If stacks hit 0, effect is removed prematurely. <=0 stacks indicates to remove the entire effect regardless of stack count.
         /// </summary>
-        public IEnumerable<Tuple<EActiveEffect, int>> RemoveEffectStacks { get; init; } = new List<Tuple<EActiveEffect, int>>();
+        public IEnumerable<Tuple<string, int>> RemoveEffectStacks { get; init; } = new List<Tuple<string, int>>();
         /// <summary>
-        /// NYI. Show an error if attempting to use the ability without any of these listed effects active. Stacks variable will be used to evaluate if enough stacks are available (e.g. set it to 3 to require 3 stacks available).
+        /// Show an error if attempting to use the ability without any of these listed effects active. Stacks variable will be used to evaluate if enough stacks are available (e.g. set it to 3 to require 3 stacks available).
         /// </summary>
-        public IEnumerable<ActiveEffect> RequiredEffects { get; init; } = new List<ActiveEffect>();
+        public IEnumerable<EffectRequirement> RequiredEffects { get; init; } = new List<EffectRequirement>();
         /// <summary>
-        /// NYI. Show an error if attempting to use an ability with any of the listed effects active. 
+        /// Show an error if attempting to use an ability with any of the listed effects active. 
         /// </summary>
-        public IEnumerable<ActiveEffect> RequiredAbsentEffects { get; init; } = new List<ActiveEffect>();
+        public IEnumerable<EffectRequirement> RequiredAbsentEffects { get; init; } = new List<EffectRequirement>();
     }
 }
