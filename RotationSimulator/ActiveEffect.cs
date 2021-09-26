@@ -15,6 +15,6 @@ namespace RotationSimulator
         public EffectDef effect;
         public int ActiveStartTime;
         public int ActiveEndTime;
-        public int Stacks;
+        public int Stacks = 1;
     }
 }

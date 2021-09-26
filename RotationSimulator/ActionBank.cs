@@ -357,8 +357,30 @@ namespace RotationSimulator
             actions.Add(SMN_Devotion.UniqueID, SMN_Devotion);
 
             #endregion
+
+            #region Machinist
+            List<ActionDef> machinistActionSet = new List<ActionDef>();
+            actionSets.Add("MCH", machinistActionSet);
+
+            //NOTES: Things that upgrades as you level.
+            //    Split Shot -> Heated Split Shot (180 potency before upgrade)
+            //    Slug Shot -> Heated Slug Shot (260 potency before upgrade, 100 uncombo'd)
+            //    Clean Shot -> Heated Clean Shot (340 potency before upgrade, 100 uncombo'd)
+            //    Hot Shot -> Air Anchor (300 potency before upgrade)
+            //    Wildfire (150 potency per GCD to 200)
+            //    Rook Autoturret -> Automaton Queen (80 potency autos and 400p finisher, to 150p autos and 800p finisher)
+            //      Battery also doesn't start shoting up until you get Rook, but all moves that generate battery immediately go to their full generation.
+            //      Heat doesn't generate until level 30 (hypercharge). All moves generate their full heat value from that point.
+            //    MCH has two level-based traits that give % damage bonus.
+            // Main challenges for simming MCH
+            //    * pet potency
+            //    * variable turret/queen length, and their AA modeling,
+            //    * wildfire potency (which also requires modeling animation delay)
+            //    * AA modeling in general (though this is the least impactful thing to skip)
+            //    * flamethrower (ground effect tick modeling, i.e. fast server tick)
+            #endregion
         }
 
-        
+
     }
 }

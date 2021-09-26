@@ -22,7 +22,7 @@ namespace RotationSimulator
         /// </summary>
         public int DurationMax = 0;
         /// <summary>
-        /// Number of stacks applied. Not used by abilities without stacks. 
+        /// Number of stacks applied. Abilities without stacks should still use a value of 1 (the default).
         /// </summary>
         public int Stacks = 1;
         /// <summary>

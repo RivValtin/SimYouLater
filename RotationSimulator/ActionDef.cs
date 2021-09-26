@@ -40,10 +40,6 @@ namespace RotationSimulator
         /// </summary>
         public int RecastGCD { get; init; } = 250;
         /// <summary>
-        /// If true, the non-GCD recast also scales with SpS/SkS/Haste
-        /// </summary>
-        public bool RecastScales { get; init; } = false;
-        /// <summary>
         /// Use if the action has an unusually low animation lock, like dancer steps or ninja mudras.
         /// </summary>
         public int AnimationLockOverride { get; init; } = 0;
@@ -52,6 +48,16 @@ namespace RotationSimulator
         /// Note that an ability can both invoke the global cooldown *and* have its own cooldown (for example, Machinist's Drill)
         /// </summary>
         public int Recast { get; init; } = 0;
+        /// <summary>
+        /// If Recast > 0, this is the number of charges the ability has. 
+        /// Defaults to 1 for coding simplicity; It is not used for abilties without recast.
+        /// </summary>
+        public int Charges { get; init; } = 1;
+        public int MPCost { get; init; } = 0;
+        /// <summary>
+        /// If true, the non-GCD recast also scales with SpS/SkS/Haste
+        /// </summary>
+        public bool RecastScales { get; init; } = false;
         /// <summary>
         /// The damage dealt. Can be set to 0 just fine. Do not set a negative value for healing, it might get interpreted as healing the boss.
         /// </summary>
@@ -85,6 +91,16 @@ namespace RotationSimulator
         private string cooldownId = String.Empty;
 
         /// <summary>
+        /// If non-null, indicates that this move upgrades to another move identified by (string) at character level (int). For example, Split Shot upgrades to Heated Split Shot at 54.
+        /// </summary>
+        public Tuple<int, string> LevelBasedUpgrade = null;
+
+        /// <summary>
+        /// For each tuple, reduce the cooldown of the CooldownID (string) by an amount equal to (int) centiseconds when this ability is activated.
+        /// </summary>
+        public IEnumerable<Tuple<string, int>> CooldownReset { get; init; } = new List<Tuple<string, int>>();
+
+        /// <summary>
         /// Apply the listed effects when executing this ability.
         /// </summary>
         public IEnumerable<EffectApplication> AppliedEffects { get; init; } = new List<EffectApplication>();
@@ -100,5 +116,6 @@ namespace RotationSimulator
         /// Show an error if attempting to use an ability with any of the listed effects active. 
         /// </summary>
         public IEnumerable<EffectRequirement> RequiredAbsentEffects { get; init; } = new List<EffectRequirement>();
+
     }
 }
