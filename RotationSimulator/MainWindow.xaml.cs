@@ -31,13 +31,13 @@ namespace RotationSimulator
             activeRotation.Add(ActionBank.actions["SMN_BahamutFiller"]);
             activeRotation.Add(ActionBank.actions["SMN_BahamutFiller"]);
             activeRotation.Add(ActionBank.actions["SMN_BahamutFiller"]);
-            activeRotation.Add(ActionBank.actions["SMN_Fester"]);
             activeRotation.Add(ActionBank.actions["SMN_Deathflare"]);
+            activeRotation.Add(ActionBank.actions["SMN_Fester"]);
             activeRotation.Add(ActionBank.actions["SMN_BahamutFiller"]);
             activeRotation.Add(ActionBank.actions["SMN_BahamutEnkindle"]);
+            activeRotation.Add(ActionBank.actions["SMN_Fester"]);
 
             activeRotation.Add(ActionBank.actions["SMN_SummonIfrit"]);
-            activeRotation.Add(ActionBank.actions["SMN_Fester"]);
             activeRotation.Add(ActionBank.actions["SMN_IfritEA1"]);
             activeRotation.Add(ActionBank.actions["SMN_Ruin4"]);
             activeRotation.Add(ActionBank.actions["SMN_IfritEA1"]);

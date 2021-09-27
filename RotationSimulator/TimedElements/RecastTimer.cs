@@ -39,13 +39,31 @@ namespace RotationSimulator.TimedElements
                 }
 
                 ActionDef actionDef = ActionBank.actions[actionId];
-                int nextCharge = actionDef.Recast - (timeWhenFullyCharged[actionId] - currentTime) % actionDef.Recast;
+                int fullChargeTime = timeWhenFullyCharged[actionId] - currentTime;
+                int nextCharge = fullChargeTime % actionDef.Recast;
+
+                //If a charge was gained right now, but we're not fully charged, then we want to report that *next* recast after that.
+                if (nextCharge == 0 && fullChargeTime > 0) {
+                    nextCharge = actionDef.Recast;
+                }
+
                 if (nextCharge < soonestRecast && nextCharge > 0) {
                     soonestRecast = nextCharge;
                 }
             }
 
-            return soonestRecast;
+            return currentTime + soonestRecast;
+        }
+
+        /// <summary>
+        /// Recover the recast timer by the listed amount. For example, 1500 would act as though 15s more had passed for that cooldown.
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="recovery"></param>
+        public void RecoverRecast(ActionDef action, int recovery) {
+            if (timeWhenFullyCharged.ContainsKey(action.UniqueID)) {
+                timeWhenFullyCharged[action.UniqueID] -= recovery;
+            }
         }
 
         /// <summary>
@@ -54,7 +72,7 @@ namespace RotationSimulator.TimedElements
         /// <param name="action"></param>
         public void ConsumeCharge(ActionDef action) {
             if (timeWhenFullyCharged.ContainsKey(action.UniqueID)) {
-                if (CalculateCharges(action, timeWhenFullyCharged[action.UniqueID]) < 1) { //this check is here to avoid redunandcy.
+                if (CalculateCharges(action, timeWhenFullyCharged[action.UniqueID]) < 1) {
                     throw new ArgumentException("Cannot consume a charge for an action that is fully on cooldown.");
                 }
 
@@ -63,7 +81,6 @@ namespace RotationSimulator.TimedElements
                 } else {
                     timeWhenFullyCharged[action.UniqueID] = currentTime + action.Recast;
                 }
-
             } else {
                 timeWhenFullyCharged[action.UniqueID] = currentTime + action.Recast;
             }

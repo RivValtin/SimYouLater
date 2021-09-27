@@ -15,8 +15,9 @@ namespace RotationSimulator
         /// <summary>
         /// Returns the timestamps, in centiseconds, of the next time this element will change state.
         /// 
-        /// Can return either int.MaxValue or a time less than current time to indicate no planned next event.
+        /// Can return either int.MaxValue or a time <= current time to indicate no planned next event.
         /// Even if that happens, this will be called again after time advances one step.
+        /// Times equal to current time are treated as "no next event" to prevent simulation lockup.
         /// </summary>
         /// <returns></returns>
         int NextEvent();

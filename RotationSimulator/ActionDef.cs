@@ -50,7 +50,7 @@ namespace RotationSimulator
         public int Recast { get; init; } = 0;
         /// <summary>
         /// If Recast > 0, this is the number of charges the ability has. 
-        /// Defaults to 1 for coding simplicity; It is not used for abilties without recast.
+        /// Should be left to its default value (1) for any non-charged ability. Setting it to another value may cause errors.
         /// </summary>
         public int Charges { get; init; } = 1;
         public int MPCost { get; init; } = 0;

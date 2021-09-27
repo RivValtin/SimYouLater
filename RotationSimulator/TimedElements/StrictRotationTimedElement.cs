@@ -34,6 +34,10 @@ namespace RotationSimulator.TimedElements
             if (currentAction.IsGCD && !GCDTimer.IsGCDAvailable)
                 return;
 
+            if (RecastTimer.GetAvailableCharges(currentAction) <= 0) {
+                return;
+            }
+
             if (currentAction.CastTime > 0) {
                 CastTimer.StartCasting(currentAction, currentAction.CastTime); //TODO: Apply speed
             } else {
@@ -42,6 +46,9 @@ namespace RotationSimulator.TimedElements
             AnimationLockTimer.InvokeAnimationLock(currentAction.AnimationLockOverride > 0 ? currentAction.AnimationLockOverride : DefaultAnimationLock);
             if (currentAction.IsGCD) {
                 GCDTimer.StartGCD(currentAction.RecastGCD); //TODO: Apply speed
+            }
+            if (currentAction.Recast > 0) {
+                RecastTimer.ConsumeCharge(currentAction);
             }
             currentStepIndice++;
         }
