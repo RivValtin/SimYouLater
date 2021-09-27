@@ -8,7 +8,15 @@ namespace RotationSimulator
 {
     public enum ERotationStepType
     {
+        /// <summary>
+        /// Parameters:
+        ///     "action" - (ActionDef) defining what action to execute.
+        /// </summary>
         Action,
+        /// <summary>
+        /// Parameters:
+        ///     "time" - (int?) Amount of time to wait. Note that "int?" is an actual type.
+        /// </summary>
         Wait,
         ActionConditional,
         Bookmark,

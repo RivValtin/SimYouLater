@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Input;
+using System.Linq;
 
 namespace RotationSimulator
 {
@@ -14,56 +15,67 @@ namespace RotationSimulator
     public partial class MainWindow : Window
     {
 
-        public List<ActionDef> activeRotation = new List<ActionDef>();
-        public int activeRotationTimeOffset = 0;
+        public List<RotationStep> activeRotation = new List<RotationStep>();
+        public int actionsListTimeOffset = 0;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            activeRotationTimeOffset = -ActionBank.actions["SMN_Ruin3"].CastTime; //remove the 1.5s cast time of ruin3, since it's happening before the pull starts
-            activeRotation.Add(ActionBank.actions["SMN_Ruin3"]);
-            activeRotation.Add(ActionBank.actions["SMN_Devotion"]);
-            activeRotation.Add(ActionBank.actions["SMN_SummonBahamut"]);
-            activeRotation.Add(ActionBank.actions["SMN_BahamutEnkindle"]);
-            activeRotation.Add(ActionBank.actions["SMN_EnergyDrain"]);
-            activeRotation.Add(ActionBank.actions["SMN_BahamutFiller"]);
-            activeRotation.Add(ActionBank.actions["SMN_BahamutFiller"]);
-            activeRotation.Add(ActionBank.actions["SMN_BahamutFiller"]);
-            activeRotation.Add(ActionBank.actions["SMN_BahamutFiller"]);
-            activeRotation.Add(ActionBank.actions["SMN_Deathflare"]);
-            activeRotation.Add(ActionBank.actions["SMN_Fester"]);
-            activeRotation.Add(ActionBank.actions["SMN_BahamutFiller"]);
-            activeRotation.Add(ActionBank.actions["SMN_BahamutEnkindle"]);
-            activeRotation.Add(ActionBank.actions["SMN_Fester"]);
+            actionsListTimeOffset = -ActionBank.actions["SMN_Ruin3"].CastTime; //remove the 1.5s cast time of ruin3, since it's happening before the pull starts
 
-            activeRotation.Add(ActionBank.actions["SMN_SummonIfrit"]);
-            activeRotation.Add(ActionBank.actions["SMN_IfritEA1"]);
-            activeRotation.Add(ActionBank.actions["SMN_Ruin4"]);
-            activeRotation.Add(ActionBank.actions["SMN_IfritEA1"]);
-            activeRotation.Add(ActionBank.actions["SMN_IfritEA2"]);
-            activeRotation.Add(ActionBank.actions["SMN_IfritEA2"]);
+            List<ActionDef> actionsList = new List<ActionDef>();
+            actionsList.Add(ActionBank.actions["SMN_Ruin3"]);
+            actionsList.Add(ActionBank.actions["SMN_Devotion"]);
+            actionsList.Add(ActionBank.actions["SMN_SummonBahamut"]);
+            actionsList.Add(ActionBank.actions["SMN_BahamutEnkindle"]);
+            actionsList.Add(ActionBank.actions["SMN_EnergyDrain"]);
+            actionsList.Add(ActionBank.actions["SMN_BahamutFiller"]);
+            actionsList.Add(ActionBank.actions["SMN_BahamutFiller"]);
+            actionsList.Add(ActionBank.actions["SMN_BahamutFiller"]);
+            actionsList.Add(ActionBank.actions["SMN_BahamutFiller"]);
+            actionsList.Add(ActionBank.actions["SMN_Fester"]);
+            actionsList.Add(ActionBank.actions["SMN_Deathflare"]);
+            actionsList.Add(ActionBank.actions["SMN_BahamutFiller"]);
+            actionsList.Add(ActionBank.actions["SMN_BahamutEnkindle"]);
+            actionsList.Add(ActionBank.actions["SMN_Fester"]);
 
-            activeRotation.Add(ActionBank.actions["SMN_SummonGaruda"]);
-            activeRotation.Add(ActionBank.actions["SMN_GarudaEA2"]);
-            activeRotation.Add(ActionBank.actions["SMN_GarudaEA1"]);
-            activeRotation.Add(ActionBank.actions["SMN_GarudaEA1"]);
-            activeRotation.Add(ActionBank.actions["SMN_GarudaEA1"]);
-            activeRotation.Add(ActionBank.actions["SMN_GarudaEA1"]);
+            actionsList.Add(ActionBank.actions["SMN_SummonIfrit"]);
+            actionsList.Add(ActionBank.actions["SMN_IfritEA1"]);
+            actionsList.Add(ActionBank.actions["SMN_Ruin4"]);
+            actionsList.Add(ActionBank.actions["SMN_IfritEA1"]);
+            actionsList.Add(ActionBank.actions["SMN_IfritEA2"]);
+            actionsList.Add(ActionBank.actions["SMN_IfritEA2"]);
 
-            activeRotation.Add(ActionBank.actions["SMN_SummonTitan"]);
-            activeRotation.Add(ActionBank.actions["SMN_TitanEA1"]);
-            activeRotation.Add(ActionBank.actions["SMN_TitanEA2"]);
-            activeRotation.Add(ActionBank.actions["SMN_TitanEA1"]);
-            activeRotation.Add(ActionBank.actions["SMN_TitanEA2"]);
-            activeRotation.Add(ActionBank.actions["SMN_TitanEA1"]);
-            activeRotation.Add(ActionBank.actions["SMN_TitanEA2"]);
-            activeRotation.Add(ActionBank.actions["SMN_TitanEA1"]);
-            activeRotation.Add(ActionBank.actions["SMN_TitanEA2"]);
+            actionsList.Add(ActionBank.actions["SMN_SummonGaruda"]);
+            actionsList.Add(ActionBank.actions["SMN_GarudaEA2"]);
+            actionsList.Add(ActionBank.actions["SMN_GarudaEA1"]);
+            actionsList.Add(ActionBank.actions["SMN_GarudaEA1"]);
+            actionsList.Add(ActionBank.actions["SMN_GarudaEA1"]);
+            actionsList.Add(ActionBank.actions["SMN_GarudaEA1"]);
 
-            activeRotation.Add(ActionBank.actions["SMN_Ruin3"]);
-            activeRotation.Add(ActionBank.actions["SMN_Ruin3"]);
-            activeRotation.Add(ActionBank.actions["SMN_Ruin3"]);
+            actionsList.Add(ActionBank.actions["SMN_SummonTitan"]);
+            actionsList.Add(ActionBank.actions["SMN_TitanEA1"]);
+            actionsList.Add(ActionBank.actions["SMN_TitanEA2"]);
+            actionsList.Add(ActionBank.actions["SMN_TitanEA1"]);
+            actionsList.Add(ActionBank.actions["SMN_TitanEA2"]);
+            actionsList.Add(ActionBank.actions["SMN_TitanEA1"]);
+            actionsList.Add(ActionBank.actions["SMN_TitanEA2"]);
+            actionsList.Add(ActionBank.actions["SMN_TitanEA1"]);
+            actionsList.Add(ActionBank.actions["SMN_TitanEA2"]);
+
+            actionsList.Add(ActionBank.actions["SMN_Ruin3"]);
+            actionsList.Add(ActionBank.actions["SMN_Ruin3"]);
+            actionsList.Add(ActionBank.actions["SMN_Ruin3"]);
+
+            activeRotation = actionsList.Select(x => new RotationStep()
+            {
+                Type = ERotationStepType.Action,
+                parameters = new Dictionary<string, object>()
+                {
+                    { "action", x }
+                }
+            }).ToList();
 
             UpdateRotationDisplay();
             UpdateActionSet();
@@ -72,12 +84,17 @@ namespace RotationSimulator
         private void UpdateRotationDisplay() {
             rotationPanel.Children.Clear();
 
-            foreach (ActionDef step in activeRotation) {
+            foreach (RotationStep rotationStep in activeRotation) {
+                if (rotationStep.Type != ERotationStepType.Action)
+                    continue;
+
+                ActionDef actionDef = rotationStep.parameters["action"] as ActionDef;
+
                 StackPanel newPanel = new StackPanel();
                 newPanel.Orientation = Orientation.Horizontal;
                 newPanel.MouseMove += DragRotationElement;
 
-                if (!step.IsGCD) {
+                if (!actionDef.IsGCD) {
                     newPanel.Children.Add(new Image
                     {
                         Stretch = Stretch.Fill,
@@ -90,13 +107,13 @@ namespace RotationSimulator
                 newPanel.Children.Add(new Image
                 {
                     Stretch = Stretch.Fill,
-                    Source = new BitmapImage(new Uri("/images/icons/" + step.IconName, UriKind.Relative)),
+                    Source = new BitmapImage(new Uri("/images/icons/" + actionDef.IconName, UriKind.Relative)),
                     Width = 32,
                     Height = 32
                 });
 
                 TextBlock textBlock = new TextBlock();
-                textBlock.Text = step.DisplayName;
+                textBlock.Text = actionDef.DisplayName;
                 textBlock.VerticalAlignment = VerticalAlignment.Center;
                 newPanel.Children.Add(textBlock);
 
@@ -113,7 +130,12 @@ namespace RotationSimulator
         private void UpdateActionSet() {
             actionSetPanel.Children.Clear();
 
-            foreach (ActionDef action in activeRotation) {
+            foreach (RotationStep rotationStep in activeRotation) {
+                if (rotationStep.Type != ERotationStepType.Action)
+                    continue;
+
+                ActionDef action = rotationStep.parameters["action"] as ActionDef;
+
                 StackPanel newPanel = new StackPanel();
                 newPanel.Orientation = Orientation.Horizontal;
 
@@ -146,7 +168,7 @@ namespace RotationSimulator
                 });
             }
 
-            SimulationResults results = simulator.Simulate(activeRotation, activeRotationTimeOffset, externalEffects);
+            SimulationResults results = simulator.Simulate(activeRotation, actionsListTimeOffset, externalEffects);
 
             textBlock.Text = "PPS: " + results.pps + "\n" +
                              "ePPS: " + results.epps + "\n" + 

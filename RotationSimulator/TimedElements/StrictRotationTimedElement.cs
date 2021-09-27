@@ -14,11 +14,16 @@ namespace RotationSimulator.TimedElements
         public GCDTimer GCDTimer { get; init; }
         public RecastTimer RecastTimer { get; init; }
         public int CurrentTime { get; set; }
-        public List<ActionDef> RotationSteps { get; init; }
+        public List<RotationStep> RotationSteps { get; init; }
         private int currentStepIndice = 0;
         public ActionInvoker ActionInvoker { get; init; }
 
         public int DefaultAnimationLock { get; init; } = 70;
+
+        /// <summary>
+        /// For when a wait is requested.
+        /// </summary>
+        private int waitUntil = 0;
 
         public void AdvanceTime(int time) {
             CurrentTime += time;
@@ -30,34 +35,48 @@ namespace RotationSimulator.TimedElements
             if (currentStepIndice >= RotationSteps.Count)
                 return;
 
-            ActionDef currentAction = RotationSteps[currentStepIndice];
-            if (currentAction.IsGCD && !GCDTimer.IsGCDAvailable)
-                return;
+            switch (RotationSteps[currentStepIndice].Type) {
+                case ERotationStepType.Action:
+                    ActionDef currentAction = RotationSteps[currentStepIndice].parameters["action"] as ActionDef;
+                    if (currentAction.IsGCD && !GCDTimer.IsGCDAvailable)
+                        return;
 
-            if (RecastTimer.GetAvailableCharges(currentAction) <= 0) {
-                return;
-            }
+                    if (RecastTimer.GetAvailableCharges(currentAction) <= 0) {
+                        return;
+                    }
 
-            if (currentAction.CastTime > 0) {
-                CastTimer.StartCasting(currentAction, currentAction.CastTime); //TODO: Apply speed
-            } else {
-                ActionInvoker.InvokeAction(currentAction, CurrentTime);
+                    if (currentAction.CastTime > 0) {
+                        CastTimer.StartCasting(currentAction, currentAction.CastTime); //TODO: Apply speed
+                    } else {
+                        ActionInvoker.InvokeAction(currentAction, CurrentTime);
+                    }
+                    AnimationLockTimer.InvokeAnimationLock(currentAction.AnimationLockOverride > 0 ? currentAction.AnimationLockOverride : DefaultAnimationLock);
+                    if (currentAction.IsGCD) {
+                        GCDTimer.StartGCD(currentAction.RecastGCD); //TODO: Apply speed
+                    }
+                    if (currentAction.Recast > 0) {
+                        RecastTimer.ConsumeCharge(currentAction);
+                    }
+                    currentStepIndice++;
+                    break;
+                case ERotationStepType.Wait:
+                    int? waitTime = RotationSteps[currentStepIndice].parameters["time"] as int?;
+                    if (waitTime != null) {
+                        waitUntil = (int)(CurrentTime + waitTime);
+                    }
+                    currentStepIndice++;
+                    return;
+                default:
+                    //TODO: throw error? action conditional might make sense as well.
+                    return;
             }
-            AnimationLockTimer.InvokeAnimationLock(currentAction.AnimationLockOverride > 0 ? currentAction.AnimationLockOverride : DefaultAnimationLock);
-            if (currentAction.IsGCD) {
-                GCDTimer.StartGCD(currentAction.RecastGCD); //TODO: Apply speed
-            }
-            if (currentAction.Recast > 0) {
-                RecastTimer.ConsumeCharge(currentAction);
-            }
-            currentStepIndice++;
         }
 
         public int NextEvent() {
             //Rotation in strict mode doesn't time anything itself, really. It just waits on other timers. So this function just returns indefinite wait time.
             //This works because all factors of its timing - gcd rolling, animation lock, cast times, recasts, etc - are timed externally in a way that ensures
             //    that the AdvanceTime function will be called right on the boundaries of those events. So all this class has to do is check action validity.
-            return int.MaxValue;
+            return waitUntil > CurrentTime ? waitUntil : int.MaxValue;
         }
 
         /// <summary>

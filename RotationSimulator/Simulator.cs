@@ -41,7 +41,7 @@ namespace RotationSimulator
         /// <param name="timeOffset">Used when calculating openers, set a negative time value equal to the amount of time between your first ability usage and when the boss becomes active.</param>
         /// <param name="externalEffects">A list of effects that come from other sources, but may interact with your rotation. Used to apply the effects of party buffs and such.</param>
         /// <returns></returns>
-        public SimulationResults Simulate(List<ActionDef> rotationActions, int timeOffset = 0, List<ActiveEffect> externalEffects = null) {
+        public SimulationResults Simulate(List<RotationStep> rotationActions, int timeOffset = 0, List<ActiveEffect> externalEffects = null) {
 
             //---- Insanely long initialization stpes
             int time = timeOffset;
