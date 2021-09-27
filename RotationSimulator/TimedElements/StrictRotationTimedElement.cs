@@ -37,7 +37,8 @@ namespace RotationSimulator.TimedElements
 
             switch (RotationSteps[currentStepIndice].Type) {
                 case ERotationStepType.Action:
-                    ActionDef currentAction = RotationSteps[currentStepIndice].parameters["action"] as ActionDef;
+                    string actionDefId = RotationSteps[currentStepIndice].Parameters["action"];
+                    ActionDef currentAction = ActionBank.actions[actionDefId];
                     if (currentAction.IsGCD && !GCDTimer.IsGCDAvailable)
                         return;
 
@@ -60,10 +61,8 @@ namespace RotationSimulator.TimedElements
                     currentStepIndice++;
                     break;
                 case ERotationStepType.Wait:
-                    int? waitTime = RotationSteps[currentStepIndice].parameters["time"] as int?;
-                    if (waitTime != null) {
-                        waitUntil = (int)(CurrentTime + waitTime);
-                    }
+                    int waitTime = Int32.Parse(RotationSteps[currentStepIndice].Parameters["time"]);
+                    waitUntil = CurrentTime + waitTime;
                     currentStepIndice++;
                     return;
                 default:

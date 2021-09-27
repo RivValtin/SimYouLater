@@ -42,8 +42,8 @@
                     <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" FontSize="24">Rotations List</TextBlock>
                     <Button Grid.Row="2" Grid.Column="0" Margin="5,5,5,5" Click="button_AddRotation">Add...</Button>
                     <Button Grid.Row="2" Grid.Column="1" Margin="5,5,5,5">Delete</Button>
-                    <Button Grid.Row="3" Grid.Column="0" Margin="5,5,5,5">Import...</Button>
-                    <Button Grid.Row="3" Grid.Column="1" Margin="5,5,5,5">Export...</Button>
+                    <Button Grid.Row="3" Grid.Column="0" Margin="5,5,5,5" Click="button_ImportRotation">Import...</Button>
+                    <Button Grid.Row="3" Grid.Column="1" Margin="5,5,5,5" Click="button_ExportRotation">Export...</Button>
                     <!--TODO: Need a duplicate button/option-->
 
                     <StackPanel Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" Orientation="Horizontal">

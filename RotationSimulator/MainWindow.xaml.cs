@@ -7,6 +7,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Input;
 using System.Linq;
 using System.Diagnostics;
+using System.Runtime.Serialization;
+using System.Xml.Serialization;
+using System.IO;
+using Microsoft.Win32;
 
 namespace RotationSimulator
 {
@@ -72,9 +76,9 @@ namespace RotationSimulator
             activeRotation = actionsList.Select(x => new RotationStep()
             {
                 Type = ERotationStepType.Action,
-                parameters = new Dictionary<string, object>()
+                Parameters = new RotationStep.RotationStepParameters()
                 {
-                    { "action", x }
+                    { "action", x.UniqueID }
                 }
             }).ToList();
 
@@ -89,7 +93,8 @@ namespace RotationSimulator
                 if (rotationStep.Type != ERotationStepType.Action)
                     continue;
 
-                ActionDef actionDef = rotationStep.parameters["action"] as ActionDef;
+                string actionDefId = rotationStep.Parameters["action"];
+                ActionDef actionDef = ActionBank.actions[actionDefId];
 
                 StackPanel newPanel = new StackPanel();
                 newPanel.Orientation = Orientation.Horizontal;
@@ -144,7 +149,6 @@ namespace RotationSimulator
         private void DragRotationElement(object sender, MouseEventArgs e) {
             if (sender != null && e.LeftButton == MouseButtonState.Pressed) {
                 DragDrop.DoDragDrop((DependencyObject)sender, activeRotation.First(x=>x.Id == MyXaml.GetRotationStepId(sender as DependencyObject)), DragDropEffects.Move);
-                Trace.WriteLine("Rotation Id: " + MyXaml.GetRotationStepId(sender as DependencyObject));
             }
         }
 
@@ -211,9 +215,9 @@ namespace RotationSimulator
                 RotationStep rotationStep = new RotationStep()
                 {
                     Type = ERotationStepType.Action,
-                    parameters = new Dictionary<string, object>()
+                    Parameters = new RotationStep.RotationStepParameters()
                     {
-                        {"action", action }
+                        {"action", action.UniqueID }
                     }
                 };
                 activeRotation.Add(rotationStep);
@@ -232,9 +236,9 @@ namespace RotationSimulator
                 RotationStep rotationStep = new RotationStep()
                 {
                     Type = ERotationStepType.Action,
-                    parameters = new Dictionary<string, object>()
+                    Parameters = new RotationStep.RotationStepParameters()
                     {
-                        {"action", action }
+                        {"action", action.UniqueID }
                     }
                 };
 
@@ -260,6 +264,38 @@ namespace RotationSimulator
                 }
 
                 e.Handled = true;
+            }
+        }
+
+        private void button_ImportRotation(object sender, RoutedEventArgs e) {
+            OpenFileDialog openFiledialog = new OpenFileDialog();
+            openFiledialog.Filter = "xml files|*.xml";
+            openFiledialog.RestoreDirectory = true;
+
+            bool? success = openFiledialog.ShowDialog();
+            if (success != null && success == true) {
+                string filePath = openFiledialog.FileName;
+
+                XmlSerializer serializer = new XmlSerializer(typeof(List<RotationStep>));
+                TextReader reader = new StreamReader(filePath);
+                object serializerOutput = serializer.Deserialize(reader);
+                activeRotation = serializerOutput as List<RotationStep>;
+
+                UpdateRotationDisplay();
+                UpdateLayout();
+            }
+        }
+
+        private void button_ExportRotation(object sender, RoutedEventArgs e) {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "XML File|*.xml";
+            saveFileDialog.Title = "Save Rotation";
+            saveFileDialog.ShowDialog();
+
+            if (!string.IsNullOrEmpty(saveFileDialog.FileName)) {
+                XmlSerializer serializer = new XmlSerializer(typeof(List<RotationStep>));
+                TextWriter writer = new StreamWriter(saveFileDialog.FileName);
+                serializer.Serialize(writer, activeRotation);
             }
         }
     }
