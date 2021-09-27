@@ -28,7 +28,8 @@ namespace RotationSimulator
         /// <summary>
         /// An arbitrary ID only valid for a given run of the program, but is nonetheless unique (barring someone making literally billions of elements in one run).
         /// </summary>
-        public static int Id { get; } = IdCounter++;
+        public int Id { get; } = IdCounter++;
+
         public ERotationStepType Type { get; init; } = ERotationStepType.Action;
         public Dictionary<string, object> parameters { get; init; } = new Dictionary<string, object>();
     }

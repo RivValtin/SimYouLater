@@ -6,6 +6,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Input;
 using System.Linq;
+using System.Diagnostics;
 
 namespace RotationSimulator
 {
@@ -92,7 +93,18 @@ namespace RotationSimulator
 
                 StackPanel newPanel = new StackPanel();
                 newPanel.Orientation = Orientation.Horizontal;
+
+                MyXaml.SetRotationStepId(newPanel, rotationStep.Id);
                 newPanel.MouseMove += DragRotationElement;
+                newPanel.AllowDrop = true;
+                newPanel.Drop += rotationElement_drop;
+
+                newPanel.ContextMenu = new ContextMenu();
+                MenuItem contextMenuItem = new MenuItem();
+                contextMenuItem.Header = "Delete";
+                contextMenuItem.Click += RotationElement_ContextMenu_Delete;
+                MyXaml.SetRotationStepId(contextMenuItem, rotationStep.Id);
+                newPanel.ContextMenu.Items.Add(contextMenuItem);
 
                 if (!actionDef.IsGCD) {
                     newPanel.Children.Add(new Image
@@ -121,23 +133,35 @@ namespace RotationSimulator
             }
         }
 
+        private void RotationElement_ContextMenu_Delete(object sender, RoutedEventArgs e) {
+            if (sender != null && MyXaml.GetRotationStepId(sender as DependencyObject) != null) {
+                activeRotation = activeRotation.Where(x => x.Id != MyXaml.GetRotationStepId(sender as DependencyObject)).ToList();
+                UpdateRotationDisplay();
+                UpdateLayout();
+            }
+        }
+
         private void DragRotationElement(object sender, MouseEventArgs e) {
             if (sender != null && e.LeftButton == MouseButtonState.Pressed) {
-                DragDrop.DoDragDrop((DependencyObject)sender, "Test", DragDropEffects.Move);
+                DragDrop.DoDragDrop((DependencyObject)sender, activeRotation.First(x=>x.Id == MyXaml.GetRotationStepId(sender as DependencyObject)), DragDropEffects.Move);
+                Trace.WriteLine("Rotation Id: " + MyXaml.GetRotationStepId(sender as DependencyObject));
+            }
+        }
+
+        private void DragActionFromBank(object sender, MouseEventArgs e) {
+            if (sender != null && e.LeftButton == MouseButtonState.Pressed) {
+                DragDrop.DoDragDrop((DependencyObject)sender, ActionBank.actions[MyXaml.GetActionIdProperty(sender as DependencyObject)], DragDropEffects.Move);
             }
         }
 
         private void UpdateActionSet() {
             actionSetPanel.Children.Clear();
 
-            foreach (RotationStep rotationStep in activeRotation) {
-                if (rotationStep.Type != ERotationStepType.Action)
-                    continue;
-
-                ActionDef action = rotationStep.parameters["action"] as ActionDef;
-
+            foreach (ActionDef action in ActionBank.actionSets["SMN"]) {
                 StackPanel newPanel = new StackPanel();
                 newPanel.Orientation = Orientation.Horizontal;
+                newPanel.MouseMove += DragActionFromBank;
+                MyXaml.SetActionIdProperty(newPanel, action.UniqueID);
 
                 Image abilityIcon = new Image();
                 abilityIcon.Stretch = Stretch.Fill;
@@ -180,6 +204,63 @@ namespace RotationSimulator
             dialog.ShowDialog();
         }
 
+        private void rotationPanel_Drop(object sender, DragEventArgs e) {
+            if (e.Data.GetDataPresent(typeof(ActionDef))) {
+                ActionDef action = (ActionDef)e.Data.GetData(typeof(ActionDef));
 
+                RotationStep rotationStep = new RotationStep()
+                {
+                    Type = ERotationStepType.Action,
+                    parameters = new Dictionary<string, object>()
+                    {
+                        {"action", action }
+                    }
+                };
+                activeRotation.Add(rotationStep);
+                UpdateRotationDisplay();
+                UpdateLayout();
+
+                e.Handled = true;
+            }
+        }
+
+        private void rotationElement_drop(object sender, DragEventArgs e) {
+            if (e.Data.GetDataPresent(typeof(ActionDef))) {
+                ActionDef action = (ActionDef)e.Data.GetData(typeof(ActionDef));
+                int targetedRotationStepId = (int)MyXaml.GetRotationStepId(sender as DependencyObject);
+
+                RotationStep rotationStep = new RotationStep()
+                {
+                    Type = ERotationStepType.Action,
+                    parameters = new Dictionary<string, object>()
+                    {
+                        {"action", action }
+                    }
+                };
+
+                int index = activeRotation.FindIndex(x => x.Id == targetedRotationStepId);
+                activeRotation.Insert(index, rotationStep);
+
+                UpdateRotationDisplay();
+                UpdateLayout();
+                e.Handled = true;
+            }
+            if (e.Data.GetDataPresent(typeof(RotationStep))) {
+                //This is a "move" operation.
+                RotationStep movingRotationStep = (RotationStep)e.Data.GetData(typeof(RotationStep));
+                int targetedRotationStepId = (int)MyXaml.GetRotationStepId(sender as DependencyObject);
+
+                if (movingRotationStep.Id != targetedRotationStepId) {
+                    activeRotation = activeRotation.Where(x => x.Id != movingRotationStep.Id).ToList();
+                    int targetedIndex = activeRotation.FindIndex(x => x.Id == targetedRotationStepId);
+                    activeRotation.Insert(targetedIndex, movingRotationStep);
+
+                    UpdateRotationDisplay();
+                    UpdateLayout();
+                }
+
+                e.Handled = true;
+            }
+        }
     }
 }

@@ -51,8 +51,8 @@
                         <TextBlock FontSize="24">Rotation</TextBlock>
                     </StackPanel>
                     <TextBlock Grid.Row="0" Grid.Column="3" HorizontalAlignment="Center" FontSize="24">Action Bank</TextBlock>
-                    <ScrollViewer VerticalScrollBarVisibility="Auto" MinWidth="100" Margin="5,5,5,5" Grid.Row="1" Grid.Column="2" Grid.RowSpan="3">
-                        <StackPanel x:Name="rotationPanel" />
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" MinWidth="100" Margin="5,5,5,5" Grid.Row="1" Grid.Column="2" Grid.RowSpan="3" AllowDrop="True" Drop="rotationPanel_Drop">
+                        <StackPanel x:Name="rotationPanel"/>
                     </ScrollViewer>
                     <ScrollViewer VerticalScrollBarVisibility="Visible" Grid.Row="1" Grid.Column="3" Grid.RowSpan="3">
                         <StackPanel x:Name="actionSetPanel" />
