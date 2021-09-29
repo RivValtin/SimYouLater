@@ -18,12 +18,13 @@
         </Grid.RowDefinitions>
         
         <TextBlock Grid.Row="0" Grid.Column="0" Margin="5,5,5,5">Rotation Name: </TextBlock>
-        <TextBox Grid.Row="0" Grid.Column="1" Margin="5,5,5,5">Rotation Name...</TextBox>
+        <TextBox x:Name="tb_rotationName" Grid.Row="0" Grid.Column="1" Margin="5,5,5,5" TextChanged="tb_rotationName_TextChanged">Rotation Name...</TextBox>
         <TextBlock Grid.Row="1" Grid.Column="0" Margin="5,5,5,5">Class/Job: </TextBlock>
-        <ComboBox Grid.Row="1" Grid.Column="1" Margin="5,5,5,5">
-            <ComboBoxItem>Summoner</ComboBoxItem>
+        <ComboBox x:Name="cb_jobSelector" Grid.Row="1" Grid.Column="1" Margin="5,5,5,5" SelectedItem="0" SelectionChanged="cb_jobSelector_SelectionChanged">
+            <ComboBoxItem>MCH</ComboBoxItem>
+            <ComboBoxItem>SMN</ComboBoxItem>
         </ComboBox>
         <Button x:Name="b_cancel" Grid.Row="2" Grid.Column="0" Margin="5,5,5,5" Click="b_cancel_Click">Cancel</Button>
-        <Button x:Name="b_add" Grid.Row="2" Grid.Column="1" Margin="5,5,5,5" Click="b_add_Click">Add</Button>
+        <Button x:Name="b_add" Grid.Row="2" Grid.Column="1" Margin="5,5,5,5" Click="b_add_Click" IsEnabled="False">Add</Button>
     </Grid>
 </Window>

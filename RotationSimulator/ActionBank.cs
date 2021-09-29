@@ -378,7 +378,37 @@ namespace RotationSimulator
             //    * wildfire potency (which also requires modeling animation delay)
             //    * AA modeling in general (though this is the least impactful thing to skip)
             //    * flamethrower (ground effect tick modeling, i.e. fast server tick)
+
+            //NOTE: MCH is still very much just placeholder'd here. Just a few actions so I can test selection of job in the rotations UI.
+            ActionDef MCH_SplitShot = new ActionDef()
+            {
+                UniqueID = "MCH_SplitShot",
+                IsGCD = true,
+                IsWeaponskill = true,
+                CastTime = 0,
+                RecastGCD = BASE_GCD,
+                Potency = 180,
+                DisplayName = "Split Shot"
+            };
+            machinistActionSet.Add(MCH_SplitShot);
+            actions.Add(MCH_SplitShot.UniqueID, MCH_SplitShot);
+
+            ActionDef MCH_Drill = new ActionDef()
+            {
+                UniqueID = "MCH_Drill",
+                IsGCD = true,
+                IsWeaponskill = true,
+                CastTime = 0,
+                RecastGCD = BASE_GCD,
+                Recast = 2000,
+                RecastScales = true,
+                Potency = 700,
+                DisplayName = "Drill"
+            };
+            machinistActionSet.Add(MCH_Drill);
+            actions.Add(MCH_Drill.UniqueID, MCH_Drill);
             #endregion
+
         }
 
 

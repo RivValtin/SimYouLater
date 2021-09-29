@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RotationSimulator"
         mc:Ignorable="d"
-        Title="Sim You Later" Height="596" Width="1453">
+        Title="Sim You Later" Height="596" Width="1453"
+        Closing="OnExit">
     <Grid>
         <TabControl>
             <TabItem Header="Simulate">
@@ -40,6 +41,37 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" FontSize="24">Rotations List</TextBlock>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" MinWidth="100" Margin="5,5,5,5" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+                        <ListBox x:Name="lb_rotationsList" MinWidth="100" Margin="5,5,5,5" SelectionChanged="lb_rotationsList_SelectionChanged">
+                            <ListBoxItem Content="Sample Item"></ListBoxItem>
+                            <ListBoxItem Content="Sample Item"></ListBoxItem>
+                            <ListBoxItem Content="Sample Item"></ListBoxItem>
+                            <ListBoxItem Content="Sample Item"></ListBoxItem>
+                            <ListBoxItem Content="Sample Item"></ListBoxItem>
+                            <ListBoxItem Content="Sample Item"></ListBoxItem>
+                            <ListBoxItem Content="Sample Item"></ListBoxItem>
+                            <ListBoxItem Content="Sample Item"></ListBoxItem>
+                            <ListBoxItem Content="Sample Item"></ListBoxItem>
+                            <ListBoxItem Content="Sample Item"></ListBoxItem>
+                            <ListBoxItem Content="Sample Item"></ListBoxItem>
+                            <ListBoxItem Content="Sample Item"></ListBoxItem>
+                            <ListBoxItem Content="Sample Item"></ListBoxItem>
+                            <ListBoxItem Content="Sample Item"></ListBoxItem>
+                            <ListBoxItem Content="Sample Item"></ListBoxItem>
+                            <ListBoxItem Content="Sample Item"></ListBoxItem>
+                            <ListBoxItem Content="Sample Item"></ListBoxItem>
+                            <ListBoxItem Content="Sample Item"></ListBoxItem>
+                            <ListBoxItem Content="Sample Item"></ListBoxItem>
+                            <ListBoxItem Content="Sample Item"></ListBoxItem>
+                            <ListBoxItem Content="Sample Item"></ListBoxItem>
+                            <ListBoxItem Content="Sample Item"></ListBoxItem>
+                            <ListBoxItem Content="Sample Item"></ListBoxItem>
+                            <ListBoxItem Content="Sample Item"></ListBoxItem>
+                            <ListBoxItem Content="Sample Item"></ListBoxItem>
+                            <ListBoxItem Content="Sample Item"></ListBoxItem>
+                            <ListBoxItem Content="Sample Item"></ListBoxItem>
+                        </ListBox>
+                    </ScrollViewer>
                     <Button Grid.Row="2" Grid.Column="0" Margin="5,5,5,5" Click="button_AddRotation">Add...</Button>
                     <Button Grid.Row="2" Grid.Column="1" Margin="5,5,5,5">Delete</Button>
                     <Button Grid.Row="3" Grid.Column="0" Margin="5,5,5,5" Click="button_ImportRotation">Import...</Button>

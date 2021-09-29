@@ -32,6 +32,10 @@ namespace RotationSimulator
         /// In tenths of a percent.
         /// </summary>
         public int detBonus = 86;
+        /// <summary>
+        /// Set a maximum length to a simulation as a fail-safe. Since no fight in the game meets/exceeds 20m, this is currently set to 20m
+        /// </summary>
+        public int maximumReasonableFightLength = 20 * 60 * 100;
 
 
         /// <summary>
@@ -98,10 +102,10 @@ namespace RotationSimulator
             };
             IEnumerable<ITimedElement> allTimedElements = finiteTimedElements.Concat(infiniteTimedElements);
 
-            //---- The dummy thin loop
+            //---- The main time advancing loop. 
             bool allFiniteElementsComplete = false;
             int newTime = time;
-            while (!allFiniteElementsComplete) {
+            while (!allFiniteElementsComplete && newTime < maximumReasonableFightLength) {
                 //-- Advance time
                 foreach (ITimedElement element in allTimedElements) {
                     element.AdvanceTime(newTime - time);
