@@ -131,6 +131,7 @@ namespace RotationSimulator
 
                 StackPanel newPanel = new StackPanel();
                 newPanel.Orientation = Orientation.Horizontal;
+                newPanel.Margin = new Thickness(1);
 
                 MyXaml.SetRotationStepId(newPanel, rotationStep.Id);
                 newPanel.MouseMove += DragRotationElement;
@@ -165,6 +166,7 @@ namespace RotationSimulator
                 TextBlock textBlock = new TextBlock();
                 textBlock.Text = actionDef.DisplayName;
                 textBlock.VerticalAlignment = VerticalAlignment.Center;
+                textBlock.Margin = new Thickness(3, 0, 0, 0);
                 newPanel.Children.Add(textBlock);
 
                 rotationPanel.Children.Add(newPanel);
@@ -205,6 +207,8 @@ namespace RotationSimulator
                 Image abilityIcon = new Image();
                 abilityIcon.Stretch = Stretch.Fill;
                 abilityIcon.Source = new BitmapImage(new Uri("/images/icons/" + action.IconName, UriKind.Relative));
+                abilityIcon.Width = 32;
+                abilityIcon.Height = 32;
                 newPanel.Children.Add(abilityIcon);
 
                 TextBlock textBlock = new TextBlock();

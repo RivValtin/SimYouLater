@@ -12,8 +12,8 @@ namespace RotationSimulator
         public static int BASE_GCD = 250;
 
         /// <summary>
-        /// Key: Class abbreviation string.
-        /// Value: List of all actions defined for that class.
+        /// Key: Class abbreviation string (e.g. SMN), or role name with first letter capitalized (Caster, Healer, Tank, Melee, Ranged).
+        /// Value: List of all actions defined for that class/role.
         /// </summary>
         public static readonly Dictionary<string, List<ActionDef>> actionSets;
 
@@ -27,6 +27,20 @@ namespace RotationSimulator
         {
             actionSets = new Dictionary<string, List<ActionDef>>();
             actions = new Dictionary<string, ActionDef>();
+
+            #region Role
+            List<ActionDef> casterActions = new List<ActionDef>();
+            actionSets.Add("Caster", casterActions);
+            List<ActionDef> meleeActions = new List<ActionDef>();
+            actionSets.Add("Melee", meleeActions);
+            List<ActionDef> rangedActions = new List<ActionDef>();
+            actionSets.Add("Ranged", rangedActions);
+            List<ActionDef> healerActions = new List<ActionDef>();
+            actionSets.Add("Healer", healerActions);
+            List<ActionDef> tankActions = new List<ActionDef>();
+            actionSets.Add("Tank", tankActions);
+
+            #endregion
 
             #region Summoner
             List<ActionDef> summonerActionSet = new List<ActionDef>();
@@ -388,10 +402,81 @@ namespace RotationSimulator
                 CastTime = 0,
                 RecastGCD = BASE_GCD,
                 Potency = 180,
-                DisplayName = "Split Shot"
+                DisplayName = "Split Shot",
+                IconName = "mch_splitshot.png"
             };
             machinistActionSet.Add(MCH_SplitShot);
             actions.Add(MCH_SplitShot.UniqueID, MCH_SplitShot);
+
+            ActionDef MCH_HeatedSplitShot = new ActionDef()
+            {
+                UniqueID = "MCH_HeatedSplitShot",
+                IsGCD = true,
+                IsWeaponskill = true,
+                CastTime = 0,
+                RecastGCD = BASE_GCD,
+                Potency = 220,
+                DisplayName = "Heated Split Shot",
+                IconName="mch_heatedsplitshot.png"
+            };
+            machinistActionSet.Add(MCH_HeatedSplitShot);
+            actions.Add(MCH_HeatedSplitShot.UniqueID, MCH_HeatedSplitShot);
+
+            ActionDef MCH_SlugShot = new ActionDef()
+            {
+                UniqueID = "MCH_SlugShot",
+                IsGCD = true,
+                IsWeaponskill = true,
+                CastTime = 0,
+                RecastGCD = BASE_GCD,
+                Potency = 260,
+                DisplayName = "Slug Shot",
+                IconName="mch_slugshot.png"
+            };
+            machinistActionSet.Add(MCH_SlugShot);
+            actions.Add(MCH_SlugShot.UniqueID, MCH_SlugShot);
+
+            ActionDef MCH_HeatedSlugShot = new ActionDef()
+            {
+                UniqueID = "MCH_HeatedSlugShot",
+                IsGCD = true,
+                IsWeaponskill = true,
+                CastTime = 0,
+                RecastGCD = BASE_GCD,
+                Potency = 330,
+                DisplayName = "Heated Slug Shot",
+                IconName = "mch_heatedslugshot.png"
+            };
+            machinistActionSet.Add(MCH_HeatedSlugShot);
+            actions.Add(MCH_HeatedSlugShot.UniqueID, MCH_HeatedSlugShot);
+
+            ActionDef MCH_CleanShot = new ActionDef()
+            {
+                UniqueID = "MCH_CleanShot",
+                IsGCD = true,
+                IsWeaponskill = true,
+                CastTime = 0,
+                RecastGCD = BASE_GCD,
+                Potency = 340,
+                DisplayName = "Clean Shot",
+                IconName = "mch_cleanshot.png"
+            };
+            machinistActionSet.Add(MCH_CleanShot);
+            actions.Add(MCH_CleanShot.UniqueID, MCH_CleanShot);
+
+            ActionDef MCH_HeatedCleanShot = new ActionDef()
+            {
+                UniqueID = "MCH_HeatedCleanShot",
+                IsGCD = true,
+                IsWeaponskill = true,
+                CastTime = 0,
+                RecastGCD = BASE_GCD,
+                Potency = 440,
+                DisplayName = "Heated Clean Shot",
+                IconName = "mch_heatedcleanshot.png"
+            };
+            machinistActionSet.Add(MCH_HeatedCleanShot);
+            actions.Add(MCH_HeatedCleanShot.UniqueID, MCH_HeatedCleanShot);
 
             ActionDef MCH_Drill = new ActionDef()
             {
@@ -403,10 +488,59 @@ namespace RotationSimulator
                 Recast = 2000,
                 RecastScales = true,
                 Potency = 700,
-                DisplayName = "Drill"
+                DisplayName = "Drill",
+                IconName = "mch_drill.png"
             };
             machinistActionSet.Add(MCH_Drill);
             actions.Add(MCH_Drill.UniqueID, MCH_Drill);
+
+            ActionDef MCH_HotShot = new ActionDef()
+            {
+                UniqueID = "MCH_HotShot",
+                IsGCD = true,
+                IsWeaponskill = true,
+                CastTime = 0,
+                RecastGCD = BASE_GCD,
+                Recast = 40,
+                RecastScales = true,
+                Potency = 300,
+                DisplayName = "Hot Shot",
+                IconName = "mch_hotshot.png"
+            };
+            machinistActionSet.Add(MCH_HotShot);
+            actions.Add(MCH_HotShot.UniqueID, MCH_HotShot);
+
+            ActionDef MCH_AirAnchor = new ActionDef()
+            {
+                UniqueID = "MCH_AirAnchor",
+                IsGCD = true,
+                IsWeaponskill = true,
+                CastTime = 0,
+                RecastGCD = BASE_GCD,
+                Recast = 40,
+                RecastScales = true,
+                Potency = 700,
+                DisplayName = "Air Anchor",
+                IconName = "mch_airanchor.png"
+            };
+            machinistActionSet.Add(MCH_AirAnchor);
+            actions.Add(MCH_AirAnchor.UniqueID, MCH_AirAnchor);
+
+            ActionDef MCH_HeatBlast = new ActionDef()
+            {
+                UniqueID = "MCH_HeatBlast",
+                IsGCD = true,
+                IsWeaponskill = true,
+                CastTime = 0,
+                RecastGCD = GCD_150,
+                RecastScales = true,
+                Potency = 220,
+                DisplayName = "Heat Blast",
+                IconName = "mch_heatblast.png"
+            };
+            machinistActionSet.Add(MCH_HeatBlast);
+            actions.Add(MCH_HeatBlast.UniqueID, MCH_HeatBlast);
+
             #endregion
 
         }
