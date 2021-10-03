@@ -42,6 +42,7 @@ namespace RotationSimulator
             {
                 UniqueID = "SMN_TitanGem",
                 DisplayName = "Titan Gem Available",
+                Type = EEffectType.Hidden,
             });
             effects.Add("SMN_IfritCharges", new EffectDef()
             {
@@ -79,8 +80,31 @@ namespace RotationSimulator
             {
                 UniqueID = "NIN_TrickAttack",
                 DisplayName = "Trick Attack",
+                Type = EEffectType.Debuff,
             });
-            #endregion 
+            #endregion
+
+            #region Machinist
+            effects.Add("MCH_SplitShotUsed", new EffectDef()
+            {
+                UniqueID= "MCH_SplitShotUsed",
+                DisplayName="(Slug Shot Ready)",
+                Type=EEffectType.Combo
+            });
+            effects.Add("MCH_SlugShotUsed", new EffectDef()
+            {
+                UniqueID = "MCH_SlugShotUsed",
+                DisplayName = "(Clean Shot Ready)",
+                Type = EEffectType.Combo
+            });
+            effects.Add("MCH_Wildfire", new EffectDef()
+            {
+                UniqueID = "MCH_Wildfire",
+                DisplayName = "Wildfire",
+                Type = EEffectType.Combo,
+                IconName = "mch_wildfire.png"
+            });
+            #endregion
         }
     }
 }

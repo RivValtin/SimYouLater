@@ -403,7 +403,20 @@ namespace RotationSimulator
                 RecastGCD = BASE_GCD,
                 Potency = 180,
                 DisplayName = "Split Shot",
-                IconName = "mch_splitshot.png"
+                IconName = "mch_splitshot.png",
+                LevelBasedUpgrade = new Tuple<int, string>(54,"MCH_HeatedSplitShot"),
+                AppliedEffects = new List<EffectApplication>()
+                {
+                    new EffectApplication()
+                    {
+                        effect = EffectsBank.effects["MCH_SplitShotUsed"],
+                        Duration = 1500
+                    }
+                },
+                RemoveEffectStacks = new List<Tuple<string, int>>()
+                {
+                    new Tuple<string, int>("MCH_SlugShotUsed", 0)
+                }
             };
             machinistActionSet.Add(MCH_SplitShot);
             actions.Add(MCH_SplitShot.UniqueID, MCH_SplitShot);
@@ -417,7 +430,19 @@ namespace RotationSimulator
                 RecastGCD = BASE_GCD,
                 Potency = 220,
                 DisplayName = "Heated Split Shot",
-                IconName="mch_heatedsplitshot.png"
+                IconName = "mch_heatedsplitshot.png",
+                AppliedEffects = new List<EffectApplication>()
+                {
+                    new EffectApplication()
+                    {
+                        effect = EffectsBank.effects["MCH_SplitShotUsed"],
+                        Duration = 1500
+                    }
+                },
+                RemoveEffectStacks = new List<Tuple<string, int>>()
+                {
+                    new Tuple<string, int>("MCH_SlugShotUsed", 0)
+                }
             };
             machinistActionSet.Add(MCH_HeatedSplitShot);
             actions.Add(MCH_HeatedSplitShot.UniqueID, MCH_HeatedSplitShot);
@@ -430,8 +455,19 @@ namespace RotationSimulator
                 CastTime = 0,
                 RecastGCD = BASE_GCD,
                 Potency = 260,
+                UncomboedPotency = 100,
                 DisplayName = "Slug Shot",
-                IconName="mch_slugshot.png"
+                IconName="mch_slugshot.png",
+                LevelBasedUpgrade = new Tuple<int, string>(60, "MCH_HeatedSlugShot"),
+                ComboEffectId = "MCH_SplitShotUsed",
+                AppliedEffects = new List<EffectApplication>()
+                {
+                    new EffectApplication()
+                    {
+                        effect = EffectsBank.effects["MCH_SlugShotUsed"],
+                        Duration = 1500
+                    }
+                }
             };
             machinistActionSet.Add(MCH_SlugShot);
             actions.Add(MCH_SlugShot.UniqueID, MCH_SlugShot);
@@ -444,8 +480,18 @@ namespace RotationSimulator
                 CastTime = 0,
                 RecastGCD = BASE_GCD,
                 Potency = 330,
+                UncomboedPotency = 100,
                 DisplayName = "Heated Slug Shot",
-                IconName = "mch_heatedslugshot.png"
+                IconName = "mch_heatedslugshot.png",
+                ComboEffectId = "MCH_SplitShotUsed",
+                AppliedEffects = new List<EffectApplication>()
+                {
+                    new EffectApplication()
+                    {
+                        effect = EffectsBank.effects["MCH_SlugShotUsed"],
+                        Duration = 1500
+                    }
+                }
             };
             machinistActionSet.Add(MCH_HeatedSlugShot);
             actions.Add(MCH_HeatedSlugShot.UniqueID, MCH_HeatedSlugShot);
@@ -458,8 +504,15 @@ namespace RotationSimulator
                 CastTime = 0,
                 RecastGCD = BASE_GCD,
                 Potency = 340,
+                UncomboedPotency = 100,
                 DisplayName = "Clean Shot",
-                IconName = "mch_cleanshot.png"
+                IconName = "mch_cleanshot.png",
+                LevelBasedUpgrade = new Tuple<int, string>(64, "MCH_HeatedCleanShot"),
+                ComboEffectId = "MCH_SlugShotUsed",
+                RemoveEffectStacks = new List<Tuple<string, int>>()
+                {
+                    new Tuple<string, int>("MCH_SplitShotUsed", 0)
+                }
             };
             machinistActionSet.Add(MCH_CleanShot);
             actions.Add(MCH_CleanShot.UniqueID, MCH_CleanShot);
@@ -472,8 +525,14 @@ namespace RotationSimulator
                 CastTime = 0,
                 RecastGCD = BASE_GCD,
                 Potency = 440,
+                UncomboedPotency = 100,
                 DisplayName = "Heated Clean Shot",
-                IconName = "mch_heatedcleanshot.png"
+                IconName = "mch_heatedcleanshot.png",
+                ComboEffectId = "MCH_SlugShotUsed",
+                RemoveEffectStacks = new List<Tuple<string, int>>()
+                {
+                    new Tuple<string, int>("MCH_SplitShotUsed", 0)
+                }
             };
             machinistActionSet.Add(MCH_HeatedCleanShot);
             actions.Add(MCH_HeatedCleanShot.UniqueID, MCH_HeatedCleanShot);
@@ -505,7 +564,8 @@ namespace RotationSimulator
                 RecastScales = true,
                 Potency = 300,
                 DisplayName = "Hot Shot",
-                IconName = "mch_hotshot.png"
+                IconName = "mch_hotshot.png",
+                LevelBasedUpgrade = new Tuple<int, string>(76, "MCH_AirAnchor")
             };
             machinistActionSet.Add(MCH_HotShot);
             actions.Add(MCH_HotShot.UniqueID, MCH_HotShot);

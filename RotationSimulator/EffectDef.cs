@@ -6,6 +6,29 @@ using System.Threading.Tasks;
 
 namespace RotationSimulator
 {
+    public enum EEffectType
+    {
+        /// <summary>
+        /// A standard buff on the player.
+        /// </summary>
+        Buff,
+        /// <summary>
+        /// A debuff placed on an enemy target.
+        /// </summary>
+        Debuff,
+        /// <summary>
+        /// Used to track a resource, rather than being a true buff. 
+        /// </summary>
+        Resource,
+        /// <summary>
+        /// A buff for tracking combo state.
+        /// </summary>
+        Combo,
+        /// <summary>
+        /// A hidden state-tracking buff, meant for things not directly visible to the player like the short window after a summon GCD where EW SMN cannot use devotion.
+        /// </summary>
+        Hidden
+    }
     /// <summary>
     /// Contains the readonly information about a single active effect, such as a buff, debuff, or even special job-specific states like "is phoenix the next summoned demi?"
     /// 
@@ -29,6 +52,7 @@ namespace RotationSimulator
         /// If true, this effect comes in stacks and should show their quantity (even if it's 1).
         /// </summary>
         public bool UsesStacks { get; init; } = false;
+        public EEffectType Type { get; init; } = EEffectType.Buff;
 
     }
 }

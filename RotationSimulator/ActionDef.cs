@@ -63,6 +63,16 @@ namespace RotationSimulator
         /// </summary>
         public int Potency { get; init; } = 0;
         /// <summary>
+        /// The damage dealt if the ability is used outside of its intended combo. 
+        /// </summary>
+        public int UncomboedPotency { get; init; } = 0;
+        /// <summary>
+        /// If a non-null, non-empty string, defines the UniqueId of the EffectDef that this ability needs active to be considered "combo'd". 
+        /// If this effect is not active, it will deal the UncomboedPotency damage instead of its normal Potency.
+        /// In addition, if this effect is not active, this ability will not apply any of its AppliedEffects.
+        /// </summary>
+        public string ComboEffectId { get; init; } = "";
+        /// <summary>
         /// The user-visible name of the ability.
         /// </summary>
         public string DisplayName { get; init; } = "NAME MISSING";
@@ -75,7 +85,8 @@ namespace RotationSimulator
         /// to that cooldown's UniqueID. For example, Drill and Bioblaster share a CD, so you can set Bioblaster's 
         /// "CooldownID" to Drill's UniqueID so that they share.
         /// 
-        /// This value does not cause Recast to be ignored. Each ability can still invoke a different recast.
+        /// This value causes recast to be ignored in favor of the recast of the other action. May change later,
+        /// but for now all shared cooldowns also have the same recast.
         /// </summary>
         public string CooldownID { get {
                 if (String.IsNullOrEmpty(cooldownId)) {

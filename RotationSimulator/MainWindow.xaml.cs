@@ -199,9 +199,14 @@ namespace RotationSimulator
             actionSetPanel.Children.Clear();
 
             foreach (ActionDef action in ActionBank.actionSets[activeRotation.JobCode]) {
+                if (action.LevelBasedUpgrade != null) {
+                    continue; //TODO: Actually do this level-based instead of just hiding anything that isn't the max upgrade.
+                }
+
                 StackPanel newPanel = new StackPanel();
                 newPanel.Orientation = Orientation.Horizontal;
                 newPanel.MouseMove += DragActionFromBank;
+                newPanel.Margin = new Thickness(1);
                 MyXaml.SetActionIdProperty(newPanel, action.UniqueID);
 
                 Image abilityIcon = new Image();
@@ -214,6 +219,7 @@ namespace RotationSimulator
                 TextBlock textBlock = new TextBlock();
                 textBlock.Text = action.DisplayName;
                 textBlock.VerticalAlignment = VerticalAlignment.Center;
+                textBlock.Margin = new Thickness(3, 0, 0, 0);
                 newPanel.Children.Add(textBlock);
 
                 actionSetPanel.Children.Add(newPanel);

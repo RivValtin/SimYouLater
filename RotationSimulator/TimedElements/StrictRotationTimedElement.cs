@@ -55,8 +55,12 @@ namespace RotationSimulator.TimedElements
                     if (currentAction.IsGCD) {
                         GCDTimer.StartGCD(currentAction.RecastGCD); //TODO: Apply speed
                     }
-                    if (currentAction.Recast > 0) {
-                        RecastTimer.ConsumeCharge(currentAction);
+                    ActionDef recastAction = currentAction;
+                    if (!string.IsNullOrEmpty(currentAction.CooldownID)) {
+                        recastAction = ActionBank.actions[currentAction.CooldownID];
+                    }
+                    if (recastAction.Recast > 0) {
+                        RecastTimer.ConsumeCharge(recastAction);
                     }
                     currentStepIndice++;
                     break;
