@@ -17,7 +17,7 @@ namespace RotationSimulator
         /// </summary>
         Debuff,
         /// <summary>
-        /// Used to track a resource, rather than being a true buff. 
+        /// Used to track a resource, rather than being a true buff. Separate from buff/hidden so that it can warn about overcap.
         /// </summary>
         Resource,
         /// <summary>

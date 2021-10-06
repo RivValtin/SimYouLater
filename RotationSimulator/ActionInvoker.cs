@@ -11,6 +11,7 @@ namespace RotationSimulator
 
         public SimulationResults SimulationResults { get; init; }
         public TimedElements.ActiveEffectTimer ActiveEffectTimer {get; init;}
+        public CharacterStats CharStats { get; init; }
 
         /// <summary>
         /// Invoke the effects of the listed action immediately (ignoring cast time, if any).
@@ -25,6 +26,18 @@ namespace RotationSimulator
             if (ActiveEffectTimer.GetActiveStacks("NIN_TrickAttack") > 0) {
                 ePotencyMulti *= 1.05f;
             }
+            float critMulti = 1 + (CharStats.CritRate / 1000.0f) * (CharStats.CritBonus / 1000.0f);
+            float detMulti = 1 + CharStats.DetBonus / 1000.0f;
+            float dhMulti = 1 + (CharStats.DirectHitRate / 4000.0f);
+
+            //TODO: Modify crit/dh multiplier here for buffs like reassemble, litany, etc
+            if (ActiveEffectTimer.GetActiveStacks("MCH_Reassemble") > 0 && action.IsWeaponskill) {
+                critMulti = 1 + CharStats.CritBonus / 1000.0f;
+                dhMulti = 1.25f;
+                ActiveEffectTimer.RemoveEffect("MCH_Reassemble");
+                Trace.WriteLine("Applying reassemble to " + action.DisplayName);
+            }
+            ePotencyMulti *= critMulti * detMulti * dhMulti;
 
             //---- Apply the effect
             int potency = action.Potency;

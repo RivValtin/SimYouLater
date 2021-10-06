@@ -231,6 +231,15 @@ namespace RotationSimulator
         {
             Simulator simulator = new Simulator();
 
+            CharacterStats charStats = new CharacterStats()
+            {
+                CritBonus = Int32.Parse(tb_critBonus.Text),
+                CritRate = Int32.Parse(tb_critRate.Text),
+                DirectHitRate = Int32.Parse(tb_dhRate.Text),
+                DetBonus = Int32.Parse(tb_detBonus.Text)
+            };
+            simulator.CharStats = charStats;
+
             List<ActiveEffect> externalEffects = new List<ActiveEffect>();
             if ((bool)cb_opt_simulateTrickAttack.IsChecked) {
                 externalEffects.Add(new ActiveEffect()

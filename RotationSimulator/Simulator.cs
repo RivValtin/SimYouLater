@@ -17,25 +17,11 @@ namespace RotationSimulator
     {
         public int AnimationLock = 70;
         /// <summary>
-        /// In tenths of a percent (so 20% is stored as 200).
-        /// </summary>
-        public int critRate = 205;
-        /// <summary>
-        /// In tenths of a percent (so 40% is stored as 400).
-        /// </summary>
-        public int critBonus = 555;
-        /// <summary>
-        /// In tenths of a percent
-        /// </summary>
-        public int directHitRate = 473;
-        /// <summary>
-        /// In tenths of a percent.
-        /// </summary>
-        public int detBonus = 86;
-        /// <summary>
         /// Set a maximum length to a simulation as a fail-safe. Since no fight in the game meets/exceeds 20m, this is currently set to 20m
         /// </summary>
         public int maximumReasonableFightLength = 20 * 60 * 100;
+
+        public CharacterStats CharStats = new CharacterStats();
 
 
         /// <summary>
@@ -58,7 +44,8 @@ namespace RotationSimulator
             ActionInvoker actionInvoker = new ActionInvoker()
             {
                 ActiveEffectTimer = activeEffectTimer,
-                SimulationResults = results
+                SimulationResults = results,
+                CharStats=CharStats
             };
             AnimationLockTimer animationLockTimer = new AnimationLockTimer(time);
             AutoAttackTimer autoAttackTimer = new AutoAttackTimer()

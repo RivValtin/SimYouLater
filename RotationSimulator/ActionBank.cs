@@ -409,13 +409,20 @@ namespace RotationSimulator
                 {
                     new EffectApplication()
                     {
-                        effect = EffectsBank.effects["MCH_SplitShotUsed"],
+                        effect = EffectsBank.effects["MCH_SlugShotReady"],
                         Duration = 1500
+                    },
+                    new EffectApplication()
+                    {
+                        effect = EffectsBank.effects["MCH_Heat"],
+                        Stacks=5,
+                        IsAdditiveStacks=true,
+                        StackMax=100
                     }
                 },
                 RemoveEffectStacks = new List<Tuple<string, int>>()
                 {
-                    new Tuple<string, int>("MCH_SlugShotUsed", 0)
+                    new Tuple<string, int>("MCH_CleanShotReady", 0)
                 }
             };
             machinistActionSet.Add(MCH_SplitShot);
@@ -435,13 +442,20 @@ namespace RotationSimulator
                 {
                     new EffectApplication()
                     {
-                        effect = EffectsBank.effects["MCH_SplitShotUsed"],
+                        effect = EffectsBank.effects["MCH_SlugShotReady"],
                         Duration = 1500
+                    },
+                    new EffectApplication()
+                    {
+                        effect = EffectsBank.effects["MCH_Heat"],
+                        Stacks=5,
+                        IsAdditiveStacks=true,
+                        StackMax=100
                     }
                 },
                 RemoveEffectStacks = new List<Tuple<string, int>>()
                 {
-                    new Tuple<string, int>("MCH_SlugShotUsed", 0)
+                    new Tuple<string, int>("MCH_CleanShotReady", 0)
                 }
             };
             machinistActionSet.Add(MCH_HeatedSplitShot);
@@ -459,13 +473,20 @@ namespace RotationSimulator
                 DisplayName = "Slug Shot",
                 IconName="mch_slugshot.png",
                 LevelBasedUpgrade = new Tuple<int, string>(60, "MCH_HeatedSlugShot"),
-                ComboEffectId = "MCH_SplitShotUsed",
+                ComboEffectId = "MCH_SlugShotReady",
                 AppliedEffects = new List<EffectApplication>()
                 {
                     new EffectApplication()
                     {
-                        effect = EffectsBank.effects["MCH_SlugShotUsed"],
+                        effect = EffectsBank.effects["MCH_CleanShotReady"],
                         Duration = 1500
+                    },
+                    new EffectApplication()
+                    {
+                        effect = EffectsBank.effects["MCH_Heat"],
+                        Stacks=5,
+                        IsAdditiveStacks=true,
+                        StackMax=100
                     }
                 }
             };
@@ -483,13 +504,20 @@ namespace RotationSimulator
                 UncomboedPotency = 100,
                 DisplayName = "Heated Slug Shot",
                 IconName = "mch_heatedslugshot.png",
-                ComboEffectId = "MCH_SplitShotUsed",
+                ComboEffectId = "MCH_SlugShotReady",
                 AppliedEffects = new List<EffectApplication>()
                 {
                     new EffectApplication()
                     {
-                        effect = EffectsBank.effects["MCH_SlugShotUsed"],
+                        effect = EffectsBank.effects["MCH_CleanShotReady"],
                         Duration = 1500
+                    },
+                    new EffectApplication()
+                    {
+                        effect = EffectsBank.effects["MCH_Heat"],
+                        Stacks=5,
+                        IsAdditiveStacks=true,
+                        StackMax=100
                     }
                 }
             };
@@ -508,10 +536,26 @@ namespace RotationSimulator
                 DisplayName = "Clean Shot",
                 IconName = "mch_cleanshot.png",
                 LevelBasedUpgrade = new Tuple<int, string>(64, "MCH_HeatedCleanShot"),
-                ComboEffectId = "MCH_SlugShotUsed",
+                ComboEffectId = "MCH_CleanShotReady",
+                AppliedEffects = new List<EffectApplication>() {
+                    new EffectApplication()
+                    {
+                        effect = EffectsBank.effects["MCH_Heat"],
+                        Stacks=5,
+                        IsAdditiveStacks=true,
+                        StackMax=100
+                    },
+                    new EffectApplication()
+                    {
+                        effect = EffectsBank.effects["MCH_Battery"],
+                        Stacks=10,
+                        IsAdditiveStacks=true,
+                        StackMax=100
+                    }
+                },
                 RemoveEffectStacks = new List<Tuple<string, int>>()
                 {
-                    new Tuple<string, int>("MCH_SplitShotUsed", 0)
+                    new Tuple<string, int>("MCH_SlugShotReady", 0)
                 }
             };
             machinistActionSet.Add(MCH_CleanShot);
@@ -528,10 +572,26 @@ namespace RotationSimulator
                 UncomboedPotency = 100,
                 DisplayName = "Heated Clean Shot",
                 IconName = "mch_heatedcleanshot.png",
-                ComboEffectId = "MCH_SlugShotUsed",
+                ComboEffectId = "MCH_CleanShotReady",
+                AppliedEffects = new List<EffectApplication>() {
+                    new EffectApplication()
+                    {
+                        effect = EffectsBank.effects["MCH_Heat"],
+                        Stacks=5,
+                        IsAdditiveStacks=true,
+                        StackMax=100
+                    },
+                    new EffectApplication()
+                    {
+                        effect = EffectsBank.effects["MCH_Battery"],
+                        Stacks=10,
+                        IsAdditiveStacks=true,
+                        StackMax=100
+                    }
+                },
                 RemoveEffectStacks = new List<Tuple<string, int>>()
                 {
-                    new Tuple<string, int>("MCH_SplitShotUsed", 0)
+                    new Tuple<string, int>("MCH_SlugShotReady", 0)
                 }
             };
             machinistActionSet.Add(MCH_HeatedCleanShot);
@@ -600,6 +660,25 @@ namespace RotationSimulator
             };
             machinistActionSet.Add(MCH_HeatBlast);
             actions.Add(MCH_HeatBlast.UniqueID, MCH_HeatBlast);
+
+            ActionDef MCH_Reassemble = new ActionDef()
+            {
+                UniqueID = "MCH_Reassemble",
+                IsGCD = false,
+                Recast = 5500,
+                DisplayName = "Reassemble",
+                IconName = "mch_reassemble.png",
+                AppliedEffects = new List<EffectApplication>()
+                {
+                    new EffectApplication()
+                    {
+                        effect = EffectsBank.effects["MCH_Reassemble"],
+                        Duration = 500
+                    }
+                }
+            };
+            machinistActionSet.Add(MCH_Reassemble);
+            actions.Add(MCH_Reassemble.UniqueID, MCH_Reassemble);
 
             #endregion
 

@@ -85,15 +85,15 @@ namespace RotationSimulator
             #endregion
 
             #region Machinist
-            effects.Add("MCH_SplitShotUsed", new EffectDef()
+            effects.Add("MCH_SlugShotReady", new EffectDef()
             {
-                UniqueID= "MCH_SplitShotUsed",
+                UniqueID= "MCH_SlugShotReady",
                 DisplayName="(Slug Shot Ready)",
                 Type=EEffectType.Combo
             });
-            effects.Add("MCH_SlugShotUsed", new EffectDef()
+            effects.Add("MCH_CleanShotReady", new EffectDef()
             {
-                UniqueID = "MCH_SlugShotUsed",
+                UniqueID = "MCH_CleanShotReady",
                 DisplayName = "(Clean Shot Ready)",
                 Type = EEffectType.Combo
             });
@@ -103,6 +103,24 @@ namespace RotationSimulator
                 DisplayName = "Wildfire",
                 Type = EEffectType.Combo,
                 IconName = "mch_wildfire.png"
+            });
+            effects.Add("MCH_Heat", new EffectDef()
+            {
+                UniqueID = "MCH_Heat",
+                DisplayName = "Heat",
+                Type = EEffectType.Resource,
+            });
+            effects.Add("MCH_Battery", new EffectDef()
+            {
+                UniqueID = "MCH_Battery",
+                DisplayName = "Heat",
+                Type = EEffectType.Resource,
+            });
+            effects.Add("MCH_Reassemble", new EffectDef()
+            {
+                UniqueID = "MCH_Reassemble",
+                DisplayName = "Reassemble",
+                Type = EEffectType.Buff,
             });
             #endregion
         }
