@@ -11,6 +11,7 @@ namespace RotationSimulator
 
         public SimulationResults SimulationResults { get; init; }
         public TimedElements.ActiveEffectTimer ActiveEffectTimer {get; init;}
+        public TimedElements.RecastTimer RecastTimer { get; init; }
         public CharacterStats CharStats { get; init; }
 
         /// <summary>
@@ -68,6 +69,11 @@ namespace RotationSimulator
             }
             if (!string.IsNullOrEmpty(action.ComboEffectId)) {
                 ActiveEffectTimer.RemoveStacks(action.ComboEffectId, 0);
+            }
+
+            //---- Perform recast resets
+            foreach (Tuple<string,int> recastReset in action.CooldownReset) {
+                RecastTimer.RecoverRecast(recastReset.Item1, recastReset.Item2);
             }
 
             SimulationResults.totalTime = currentTime;

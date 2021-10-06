@@ -656,7 +656,12 @@ namespace RotationSimulator
                 RecastScales = true,
                 Potency = 220,
                 DisplayName = "Heat Blast",
-                IconName = "mch_heatblast.png"
+                IconName = "mch_heatblast.png",
+                CooldownReset = new List<Tuple<string,int>> ()
+                {
+                    new Tuple<string, int>("MCH_Ricochet", 1500),
+                    new Tuple<string, int>("MCH_GaussRound", 1500)
+                }
             };
             machinistActionSet.Add(MCH_HeatBlast);
             actions.Add(MCH_HeatBlast.UniqueID, MCH_HeatBlast);
@@ -679,6 +684,32 @@ namespace RotationSimulator
             };
             machinistActionSet.Add(MCH_Reassemble);
             actions.Add(MCH_Reassemble.UniqueID, MCH_Reassemble);
+
+            ActionDef MCH_Ricochet = new ActionDef()
+            {
+                UniqueID = "MCH_Ricochet",
+                IsGCD = false,
+                Recast = 3000,
+                Charges = 3,
+                DisplayName = "Ricochet",
+                IconName = "mch_ricochet.png",
+                Potency = 150,
+            };
+            machinistActionSet.Add(MCH_Ricochet);
+            actions.Add(MCH_Ricochet.UniqueID, MCH_Ricochet);
+
+            ActionDef MCH_GaussRound = new ActionDef()
+            {
+                UniqueID = "MCH_GaussRound",
+                IsGCD = false,
+                Recast = 3000,
+                Charges = 3,
+                DisplayName = "Guass Round",
+                IconName = "mch_gaussround.png",
+                Potency = 150,
+            };
+            machinistActionSet.Add(MCH_GaussRound);
+            actions.Add(MCH_GaussRound.UniqueID, MCH_GaussRound);
 
             #endregion
 

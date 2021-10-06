@@ -113,7 +113,7 @@ namespace RotationSimulator
             effects.Add("MCH_Battery", new EffectDef()
             {
                 UniqueID = "MCH_Battery",
-                DisplayName = "Heat",
+                DisplayName = "Battery",
                 Type = EEffectType.Resource,
             });
             effects.Add("MCH_Reassemble", new EffectDef()

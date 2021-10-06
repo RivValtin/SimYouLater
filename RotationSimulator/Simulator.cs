@@ -41,12 +41,6 @@ namespace RotationSimulator
             {
                 externalEffects = externalEffects
             };
-            ActionInvoker actionInvoker = new ActionInvoker()
-            {
-                ActiveEffectTimer = activeEffectTimer,
-                SimulationResults = results,
-                CharStats=CharStats
-            };
             AnimationLockTimer animationLockTimer = new AnimationLockTimer(time);
             AutoAttackTimer autoAttackTimer = new AutoAttackTimer()
             {
@@ -55,6 +49,13 @@ namespace RotationSimulator
             GCDTimer gcdTimer = new GCDTimer(time);
             RecastTimer recastTimer = new RecastTimer(time);
             ServerTickTimer serverTickTimer = new ServerTickTimer(time);
+            ActionInvoker actionInvoker = new ActionInvoker()
+            {
+                ActiveEffectTimer = activeEffectTimer,
+                RecastTimer = recastTimer,
+                SimulationResults = results,
+                CharStats = CharStats
+            };
             CastTimer castTimer = new CastTimer(time)
             {
                 ActionInvoker = actionInvoker

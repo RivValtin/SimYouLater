@@ -60,9 +60,9 @@ namespace RotationSimulator.TimedElements
         /// </summary>
         /// <param name="action"></param>
         /// <param name="recovery"></param>
-        public void RecoverRecast(ActionDef action, int recovery) {
-            if (timeWhenFullyCharged.ContainsKey(action.UniqueID)) {
-                timeWhenFullyCharged[action.UniqueID] -= recovery;
+        public void RecoverRecast(string actionId, int recovery) {
+            if (timeWhenFullyCharged.ContainsKey(actionId)) {
+                timeWhenFullyCharged[actionId] -= recovery;
             }
         }
 
@@ -90,7 +90,7 @@ namespace RotationSimulator.TimedElements
             if (fullyChargedTime <= currentTime) {
                 return action.Charges;
             } else {
-                return (fullyChargedTime - currentTime) / action.Recast;
+                return action.Charges - (fullyChargedTime - currentTime - 1) / action.Recast - 1;
             }
         }
 
