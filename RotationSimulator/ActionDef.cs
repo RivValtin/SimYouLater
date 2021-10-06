@@ -120,11 +120,13 @@ namespace RotationSimulator
         /// </summary>
         public IEnumerable<Tuple<string, int>> RemoveEffectStacks { get; init; } = new List<Tuple<string, int>>();
         /// <summary>
-        /// Show an error if attempting to use the ability without any of these listed effects active. Stacks variable will be used to evaluate if enough stacks are available (e.g. set it to 3 to require 3 stacks available).
+        /// Show an error if attempting to use the ability without any of these listed effects active. 
+        /// Stacks variable will be used to evaluate if enough stacks are available (e.g. set it to 3 to require 3 stacks available).
         /// </summary>
         public IEnumerable<EffectRequirement> RequiredEffects { get; init; } = new List<EffectRequirement>();
         /// <summary>
         /// Show an error if attempting to use an ability with any of the listed effects active. 
+        /// Stacks is the minimum number of stacks that will cause an error (e.g. if set to 3, it will not cause an error if at 0-2 stacks, but will at 3 or more)/
         /// </summary>
         public IEnumerable<EffectRequirement> RequiredAbsentEffects { get; init; } = new List<EffectRequirement>();
 

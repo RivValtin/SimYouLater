@@ -61,7 +61,7 @@ namespace RotationSimulator.TimedElements
                     newEndTime = existingEffect.ActiveEndTime + effectApplication.Duration;
                     newEndTime = Math.Min(newEndTime, effectApplication.DurationMax);
                 } else {
-                    newEndTime = currentTime + effectApplication.Duration;
+                    newEndTime = effectApplication.Duration == int.MaxValue ? int.MaxValue : currentTime + effectApplication.Duration;
                 }
                 existingEffect.ActiveEndTime = newEndTime;
 

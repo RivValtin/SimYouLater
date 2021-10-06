@@ -121,6 +121,14 @@ namespace RotationSimulator
                 UniqueID = "MCH_Reassemble",
                 DisplayName = "Reassemble",
                 Type = EEffectType.Buff,
+                IconName = "mch_reassemble.png"
+            });
+            effects.Add("MCH_Hypercharge", new EffectDef()
+            {
+                UniqueID = "MCH_Hypercharge",
+                DisplayName = "Hypercharge",
+                Type = EEffectType.Buff,
+                IconName = "mch_hypercharge.png"
             });
             #endregion
         }

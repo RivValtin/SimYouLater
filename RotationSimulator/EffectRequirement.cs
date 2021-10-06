@@ -12,6 +12,9 @@ namespace RotationSimulator
     public class EffectRequirement
     {
         public EffectDef effect;
-        public int Stacks;
+        /// <summary>
+        /// Number of stacks required. When requiring a buff that does not possess stacks, use a value of 1 (the default).
+        /// </summary>
+        public int Stacks = 1;
     }
 }

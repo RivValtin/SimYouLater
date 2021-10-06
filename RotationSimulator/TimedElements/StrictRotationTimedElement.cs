@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,6 +47,12 @@ namespace RotationSimulator.TimedElements
                         return;
                     }
 
+                    if (!PreconditionsMet(currentAction)) {
+                        Trace.WriteLine("Aborting activation of " + currentAction.DisplayName + " due to failed preconditon.");
+                        currentStepIndice++;
+                        return;
+                    }
+
                     if (currentAction.CastTime > 0) {
                         CastTimer.StartCasting(currentAction, currentAction.CastTime); //TODO: Apply speed
                     } else {
@@ -73,6 +80,32 @@ namespace RotationSimulator.TimedElements
                     //TODO: throw error? action conditional might make sense as well.
                     return;
             }
+        }
+
+        /// <summary>
+        /// Verifies the buff/resource/etc requirements of the action are present.
+        /// 
+        /// Note that this function only verifies conditions that should make the rotation abort using the ability entirely, skipping a step in the rotation.
+        /// In other words, only hard error conditions.
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns>True if the action can be legally executed. False otherwise.</returns>
+        public bool PreconditionsMet(ActionDef action) {
+            foreach (EffectRequirement requirement in action.RequiredEffects) {
+                if (ActiveEffectTimer.GetActiveStacks(requirement.effect.UniqueID) < requirement.Stacks) {
+                    //TODO: Log an error here.
+                    return false;
+                }
+            }
+
+            foreach (EffectRequirement requirement in action.RequiredAbsentEffects) {
+                if (ActiveEffectTimer.GetActiveStacks(requirement.effect.UniqueID) >= requirement.Stacks) {
+                    //TODO: Log an error here.
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         public int NextEvent() {

@@ -45,6 +45,7 @@ namespace RotationSimulator
             #region Summoner
             List<ActionDef> summonerActionSet = new List<ActionDef>();
             actionSets.Add("SMN", summonerActionSet);
+            summonerActionSet.AddRange(casterActions);
 
             ActionDef SMN_SummonBahamut = new ActionDef()
             {
@@ -375,6 +376,7 @@ namespace RotationSimulator
             #region Machinist
             List<ActionDef> machinistActionSet = new List<ActionDef>();
             actionSets.Add("MCH", machinistActionSet);
+            machinistActionSet.AddRange(rangedActions);
 
             //NOTES: Things that upgrades as you level.
             //    Split Shot -> Heated Split Shot (180 potency before upgrade)
@@ -625,6 +627,15 @@ namespace RotationSimulator
                 Potency = 300,
                 DisplayName = "Hot Shot",
                 IconName = "mch_hotshot.png",
+                AppliedEffects = new List<EffectApplication>() {
+                    new EffectApplication()
+                    {
+                        effect = EffectsBank.effects["MCH_Battery"],
+                        Stacks=20,
+                        IsAdditiveStacks=true,
+                        StackMax=100
+                    }
+                },
                 LevelBasedUpgrade = new Tuple<int, string>(76, "MCH_AirAnchor")
             };
             machinistActionSet.Add(MCH_HotShot);
@@ -641,7 +652,16 @@ namespace RotationSimulator
                 RecastScales = true,
                 Potency = 700,
                 DisplayName = "Air Anchor",
-                IconName = "mch_airanchor.png"
+                IconName = "mch_airanchor.png",
+                AppliedEffects = new List<EffectApplication>() {
+                    new EffectApplication()
+                    {
+                        effect = EffectsBank.effects["MCH_Battery"],
+                        Stacks=20,
+                        IsAdditiveStacks=true,
+                        StackMax=100
+                    }
+                },
             };
             machinistActionSet.Add(MCH_AirAnchor);
             actions.Add(MCH_AirAnchor.UniqueID, MCH_AirAnchor);
@@ -661,6 +681,13 @@ namespace RotationSimulator
                 {
                     new Tuple<string, int>("MCH_Ricochet", 1500),
                     new Tuple<string, int>("MCH_GaussRound", 1500)
+                },
+                RequiredEffects = new List<EffectRequirement> () 
+                { 
+                    new EffectRequirement()
+                    {
+                        effect = EffectsBank.effects["MCH_Hypercharge"]
+                    } 
                 }
             };
             machinistActionSet.Add(MCH_HeatBlast);
@@ -710,6 +737,58 @@ namespace RotationSimulator
             };
             machinistActionSet.Add(MCH_GaussRound);
             actions.Add(MCH_GaussRound.UniqueID, MCH_GaussRound);
+
+            ActionDef MCH_BarrelStabilizer = new ActionDef()
+            {
+                UniqueID = "MCH_BarrelStabilizer",
+                IsGCD = false,
+                Recast = 12000,
+                DisplayName = "Barrel Stabilizer",
+                IconName = "mch_barrelstabilizer.png",
+                AppliedEffects = new List<EffectApplication>()
+                {
+                    new EffectApplication()
+                    {
+                        effect = EffectsBank.effects["MCH_Heat"],
+                        Stacks = 50,
+                        StackMax = 100,
+                        IsAdditiveStacks = true,
+                    }
+                }
+            };
+            machinistActionSet.Add(MCH_BarrelStabilizer);
+            actions.Add(MCH_BarrelStabilizer.UniqueID, MCH_BarrelStabilizer);
+
+            ActionDef MCH_Hypercharge = new ActionDef()
+            {
+                UniqueID = "MCH_Hypercharge",
+                IsGCD = false,
+                Recast = 1000,
+                DisplayName = "Hypercharge",
+                IconName = "mch_hypercharge.png",
+                AppliedEffects = new List<EffectApplication>()
+                {
+                    new EffectApplication()
+                    {
+                        effect = EffectsBank.effects["MCH_Hypercharge"],
+                        Duration = 800
+                    }
+                },
+                RequiredEffects = new List<EffectRequirement>()
+                {
+                    new EffectRequirement()
+                    {
+                        effect = EffectsBank.effects["MCH_Heat"],
+                        Stacks = 50
+                    }
+                },
+                RemoveEffectStacks = new List<Tuple<string,int>>()
+                {
+                    new Tuple<string,int>("MCH_Heat", 50)
+                }
+            };
+            machinistActionSet.Add(MCH_Hypercharge);
+            actions.Add(MCH_Hypercharge.UniqueID, MCH_Hypercharge);
 
             #endregion
 

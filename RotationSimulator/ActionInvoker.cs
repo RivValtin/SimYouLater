@@ -49,6 +49,11 @@ namespace RotationSimulator
                 Trace.WriteLine("WARNING: Invoking below action uncombo'd!");
             }
 
+            //---- Because MCH's hypercharge has a stupidly weird bonus effect that exists nowhere else, I'm just hardcoding it here.
+            if (action.IsWeaponskill && ActiveEffectTimer.GetActiveStacks("MCH_Hypercharge") > 0) {
+                potency += 20;
+            }
+
             SimulationResults.totalPotency += potency; //TODO: Account for crit/dh/det?
             SimulationResults.totalEffectivePotency += potency * ePotencyMulti;
             if (action.IsGCD) {
