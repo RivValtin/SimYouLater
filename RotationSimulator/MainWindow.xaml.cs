@@ -11,6 +11,7 @@ using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using System.IO;
 using Microsoft.Win32;
+using System.Windows.Documents;
 
 namespace RotationSimulator
 {
@@ -229,6 +230,8 @@ namespace RotationSimulator
 
         private void button_Simulate(object sender, RoutedEventArgs e)
         {
+            SimLog.Clear();
+
             Simulator simulator = new Simulator();
 
             CharacterStats charStats = new CharacterStats()
@@ -255,6 +258,31 @@ namespace RotationSimulator
             textBlock.Text = "PPS: " + results.pps + "\n" +
                              "ePPS: " + results.epps + "\n" +
                              "Time: " + (float)results.totalTime / 100 + "s";
+
+            tb_logOutput.Inlines.Clear();
+            foreach (SimLogEvent logEvent in SimLog.GetInfoOrWorse()) {
+                int minutes = logEvent.TimeStamp / 6000;
+                float seconds = Math.Abs((logEvent.TimeStamp % 6000) / 100.0f);
+                string timeString = (logEvent.TimeStamp < 0 ? "-" : "") + minutes.ToString() + "m" + seconds.ToString("00.00") + "s";
+
+                
+                tb_logOutput.Inlines.Add(timeString + " - " + logEvent.Message + " ");
+                if (logEvent.RelevantAction != null) {
+                    BitmapImage actionIconSource = new BitmapImage(new Uri("/images/icons/" + logEvent.RelevantAction.IconName, UriKind.Relative));
+                    Image actionIconImage = new Image()
+                    {
+                        Source = actionIconSource,
+                        Width = 12,
+                        Height = 12,
+                        Stretch = Stretch.Fill,
+                        Opacity = 1
+                    };
+                    InlineUIContainer actionIconInline = new InlineUIContainer(actionIconImage);
+                    tb_logOutput.Inlines.Add(actionIconInline);
+                    tb_logOutput.Inlines.Add(logEvent.RelevantAction.DisplayName);
+                }
+                tb_logOutput.Inlines.Add("\n");
+            }
         }
 
         private void rotationPanel_Drop(object sender, DragEventArgs e) {

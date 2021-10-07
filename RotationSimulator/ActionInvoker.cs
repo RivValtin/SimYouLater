@@ -36,7 +36,7 @@ namespace RotationSimulator
                 critMulti = 1 + CharStats.CritBonus / 1000.0f;
                 dhMulti = 1.25f;
                 ActiveEffectTimer.RemoveEffect("MCH_Reassemble");
-                Trace.WriteLine("Applying reassemble to " + action.DisplayName);
+                SimLog.Detail("Applying reassemble", currentTime, action);
             }
             ePotencyMulti *= critMulti * detMulti * dhMulti;
 
@@ -46,7 +46,7 @@ namespace RotationSimulator
             if (!string.IsNullOrEmpty(action.ComboEffectId) && ActiveEffectTimer.GetActiveStacks(action.ComboEffectId) <= 0) {
                 potency = action.UncomboedPotency;
                 isComboed = false;
-                Trace.WriteLine("WARNING: Invoking below action uncombo'd!");
+                SimLog.Warning("Combo action used outside of combo.", currentTime, action);
             }
 
             //---- Because MCH's hypercharge has a stupidly weird bonus effect that exists nowhere else, I'm just hardcoding it here.
@@ -56,11 +56,7 @@ namespace RotationSimulator
 
             SimulationResults.totalPotency += potency; //TODO: Account for crit/dh/det?
             SimulationResults.totalEffectivePotency += potency * ePotencyMulti;
-            if (action.IsGCD) {
-                Trace.WriteLine("Invoked action " + action.DisplayName + " at " + currentTime / 100.0f + "s");
-            } else {
-                Trace.WriteLine("-->Invoked action " + action.DisplayName + " at " + currentTime / 100.0f + "s");
-            }
+            SimLog.Info("Invoked action.", currentTime, action);
 
             if (isComboed) {
                 foreach (EffectApplication effectApplication in action.AppliedEffects) {

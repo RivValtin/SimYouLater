@@ -39,7 +39,7 @@ namespace RotationSimulator.TimedElements
         public void StartCasting(ActionDef action, int time) {
             castTimeEnd = currentTime + time;
             castingAction = action;
-            Trace.WriteLine("(Started cast for " + action.DisplayName + " at " + currentTime / 100.0f + "s)");
+            SimLog.Info("Starting cast.", currentTime, action);
         }
 
         public bool IsCasting { get {

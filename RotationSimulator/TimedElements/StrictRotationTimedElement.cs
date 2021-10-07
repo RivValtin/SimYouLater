@@ -48,7 +48,7 @@ namespace RotationSimulator.TimedElements
                     }
 
                     if (!PreconditionsMet(currentAction)) {
-                        Trace.WriteLine("Aborting activation of " + currentAction.DisplayName + " due to failed preconditon.");
+                        SimLog.Error("Aborting activation due to failed precondition.", CurrentTime, currentAction);
                         currentStepIndice++;
                         return;
                     }

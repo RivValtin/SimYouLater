@@ -33,9 +33,11 @@ namespace RotationSimulator.TimedElements
         public void AdvanceTime(int time) {
             currentTime += time;
             if (IsOneSecondTick()) {
+                SimLog.Detail("Server tick: 1s.", currentTime);
                 ServerTickOneSecond?.Invoke();
             }
             if (IsThreeSecondTick()) {
+                SimLog.Detail("Server tick: 3s.", currentTime);
                 ServerTickThreeSeconds?.Invoke();
                 //TODO: MP
             }

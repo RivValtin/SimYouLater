@@ -13,9 +13,9 @@
                 <Grid Margin="5,5,5,5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"></RowDefinition>
@@ -23,6 +23,12 @@
                     </Grid.RowDefinitions>
                     <Button x:Name="button" Content="Simulate" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="button_Simulate"/>
                     <TextBlock x:Name="textBlock" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Text="0 potency per second" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="150"/>
+
+                    <TextBlock Grid.Row="0" Grid.Column="1" Margin="5,5,5,5" FontSize="24">Simulation Log</TextBlock>
+
+                    <ScrollViewer VerticalScrollBarVisibility="Visible" Grid.Row="1" Grid.Column="1">
+                        <TextBlock x:Name="tb_logOutput" Grid.Row="1" Grid.Column="1" Margin="5,5,5,5"><InlineUIContainer><Image Source="pack://application:,,,/images/icons/mch_detonator.png" /></InlineUIContainer>lol</TextBlock>
+                    </ScrollViewer>
                 </Grid>
             </TabItem>
             <TabItem Header="Rotation Editor">
@@ -43,33 +49,6 @@
                     <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" FontSize="24">Rotations List</TextBlock>
                     <ScrollViewer VerticalScrollBarVisibility="Auto" MinWidth="100" Margin="5,5,5,5" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
                         <ListBox x:Name="lb_rotationsList" MinWidth="100" Margin="5,5,5,5" SelectionChanged="lb_rotationsList_SelectionChanged">
-                            <ListBoxItem Content="Sample Item"></ListBoxItem>
-                            <ListBoxItem Content="Sample Item"></ListBoxItem>
-                            <ListBoxItem Content="Sample Item"></ListBoxItem>
-                            <ListBoxItem Content="Sample Item"></ListBoxItem>
-                            <ListBoxItem Content="Sample Item"></ListBoxItem>
-                            <ListBoxItem Content="Sample Item"></ListBoxItem>
-                            <ListBoxItem Content="Sample Item"></ListBoxItem>
-                            <ListBoxItem Content="Sample Item"></ListBoxItem>
-                            <ListBoxItem Content="Sample Item"></ListBoxItem>
-                            <ListBoxItem Content="Sample Item"></ListBoxItem>
-                            <ListBoxItem Content="Sample Item"></ListBoxItem>
-                            <ListBoxItem Content="Sample Item"></ListBoxItem>
-                            <ListBoxItem Content="Sample Item"></ListBoxItem>
-                            <ListBoxItem Content="Sample Item"></ListBoxItem>
-                            <ListBoxItem Content="Sample Item"></ListBoxItem>
-                            <ListBoxItem Content="Sample Item"></ListBoxItem>
-                            <ListBoxItem Content="Sample Item"></ListBoxItem>
-                            <ListBoxItem Content="Sample Item"></ListBoxItem>
-                            <ListBoxItem Content="Sample Item"></ListBoxItem>
-                            <ListBoxItem Content="Sample Item"></ListBoxItem>
-                            <ListBoxItem Content="Sample Item"></ListBoxItem>
-                            <ListBoxItem Content="Sample Item"></ListBoxItem>
-                            <ListBoxItem Content="Sample Item"></ListBoxItem>
-                            <ListBoxItem Content="Sample Item"></ListBoxItem>
-                            <ListBoxItem Content="Sample Item"></ListBoxItem>
-                            <ListBoxItem Content="Sample Item"></ListBoxItem>
-                            <ListBoxItem Content="Sample Item"></ListBoxItem>
                         </ListBox>
                     </ScrollViewer>
                     <Button Grid.Row="2" Grid.Column="0" Margin="5,5,5,5" Click="button_AddRotation">Add...</Button>

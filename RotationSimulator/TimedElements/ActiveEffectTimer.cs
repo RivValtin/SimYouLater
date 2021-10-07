@@ -23,13 +23,13 @@ namespace RotationSimulator.TimedElements
             currentTime += time;
             foreach (ActiveEffect effect in activeEffects.Values) {
                 if (effect.ActiveEndTime <= currentTime) {
-                    Trace.WriteLine("\tExpired effect " + effect.effect.DisplayName + " at " + currentTime / 100.0f + "s");
+                    SimLog.Detail("Expired effect. " + effect.effect.DisplayName, currentTime);
                 }
             }
             foreach (ActiveEffect effect in externalEffects) {
                 if (effect.ActiveStartTime == currentTime) {
                     activeEffects.Add(effect.effect.UniqueID, effect);
-                    Trace.WriteLine("\tApplied external effect " + effect.effect.DisplayName + " at " + currentTime / 100.0f + "s");
+                    SimLog.Detail("Applied external effect. " + effect.effect.DisplayName, currentTime);
                 }
             }
             activeEffects = activeEffects.Where(x => x.Value.ActiveEndTime > currentTime).ToDictionary(x => x.Key, x => x.Value);
@@ -87,7 +87,7 @@ namespace RotationSimulator.TimedElements
                 };
                 activeEffects.Add(effectApplication.effect.UniqueID, newEffect);
             }
-            Trace.WriteLine("\tApplied effect " + effectApplication.effect.DisplayName + " at " + currentTime / 100.0f + "s");
+            SimLog.Detail("Applied effect." + effectApplication.effect.DisplayName, currentTime);
         }
         /// <summary>
         /// Returns the number of currently active stacks for the given effect. 

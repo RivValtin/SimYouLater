@@ -62,46 +62,126 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="images\icons\down_right_arrow.png" />
-    <Resource Include="images\icons\icon_missing.png" />
-    <Resource Include="images\icons\mch_airanchor.png" />
-    <Resource Include="images\icons\mch_armpunch.png" />
-    <Resource Include="images\icons\mch_autocrossbow.png" />
-    <Resource Include="images\icons\mch_automatonqueen.png" />
-    <Resource Include="images\icons\mch_barrelstabilizer.png" />
-    <Resource Include="images\icons\mch_bioblaster.png" />
-    <Resource Include="images\icons\mch_cleanshot.png" />
-    <Resource Include="images\icons\mch_detonator.png" />
-    <Resource Include="images\icons\mch_drill.png" />
-    <Resource Include="images\icons\mch_flamethrower.png" />
-    <Resource Include="images\icons\mch_gaussround.png" />
-    <Resource Include="images\icons\mch_heatblast.png" />
-    <Resource Include="images\icons\mch_heatedcleanshot.png" />
-    <Resource Include="images\icons\mch_heatedslugshot.png" />
-    <Resource Include="images\icons\mch_heatedsplitshot.png" />
-    <Resource Include="images\icons\mch_hotshot.png" />
-    <Resource Include="images\icons\mch_hypercharge.png" />
-    <Resource Include="images\icons\mch_pilebunker.png" />
-    <Resource Include="images\icons\mch_queenoverdrive.png" />
-    <Resource Include="images\icons\mch_reassemble.png" />
-    <Resource Include="images\icons\mch_ricochet.png" />
-    <Resource Include="images\icons\mch_rollerdash.png" />
-    <Resource Include="images\icons\mch_rookautoturret.png" />
-    <Resource Include="images\icons\mch_rookoverdrive.png" />
-    <Resource Include="images\icons\mch_rookoverload.png" />
-    <Resource Include="images\icons\mch_slugshot.png" />
-    <Resource Include="images\icons\mch_splitshot.png" />
-    <Resource Include="images\icons\mch_spreadshot.png" />
-    <Resource Include="images\icons\mch_tactician.png" />
-    <Resource Include="images\icons\mch_wildfire.png" />
-    <Resource Include="images\icons\role_armslength.png" />
-    <Resource Include="images\icons\role_footgraze.png" />
-    <Resource Include="images\icons\role_headgraze.png" />
-    <Resource Include="images\icons\role_leggraze.png" />
-    <Resource Include="images\icons\role_peloton.png" />
-    <Resource Include="images\icons\role_secondwind.png" />
-    <Resource Include="images\icons\smn_shield.png" />
-    <Resource Include="images\icons\smn_summon_phoenix.png" />
+    <Resource Include="images\icons\down_right_arrow.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\icons\icon_missing.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\icons\mch_airanchor.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\icons\mch_armpunch.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\icons\mch_autocrossbow.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\icons\mch_automatonqueen.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\icons\mch_barrelstabilizer.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\icons\mch_bioblaster.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\icons\mch_cleanshot.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\icons\mch_detonator.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\icons\mch_drill.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\icons\mch_flamethrower.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\icons\mch_gaussround.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\icons\mch_heatblast.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\icons\mch_heatedcleanshot.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\icons\mch_heatedslugshot.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\icons\mch_heatedsplitshot.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\icons\mch_hotshot.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\icons\mch_hypercharge.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\icons\mch_pilebunker.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\icons\mch_queenoverdrive.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\icons\mch_reassemble.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\icons\mch_ricochet.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\icons\mch_rollerdash.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\icons\mch_rookautoturret.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\icons\mch_rookoverdrive.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\icons\mch_rookoverload.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\icons\mch_slugshot.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\icons\mch_splitshot.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\icons\mch_spreadshot.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\icons\mch_tactician.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\icons\mch_wildfire.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\icons\role_armslength.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\icons\role_footgraze.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\icons\role_headgraze.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\icons\role_leggraze.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\icons\role_peloton.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\icons\role_secondwind.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\icons\smn_shield.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\icons\smn_summon_phoenix.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>
