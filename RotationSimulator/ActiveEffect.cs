@@ -16,5 +16,23 @@ namespace RotationSimulator
         public int ActiveStartTime;
         public int ActiveEndTime;
         public int Stacks = 1;
+
+        /// <summary>
+        /// The crit rate at the time of effect application.
+        /// </summary>
+        public int SnapshotCritRate = -1;
+        /// <summary>
+        /// The crit bonus at the time of effect application.
+        /// NOTE: At this time no abilities modify multiplier, that I'm aware, but this is here anyway.
+        /// </summary>
+        public int SnapshotCritBonus = -1;
+        /// <summary>
+        /// The Direct Hit rate at the time of effect application.
+        /// </summary>
+        public int SnapshotDHRate = -1;
+        /// <summary>
+        /// The total multiplier from all flat multiplier sources (buffs, det, etc).
+        /// </summary>
+        public float SnapshotMulti = 1.0f;
     }
 }

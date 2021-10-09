@@ -101,8 +101,8 @@ namespace RotationSimulator
             {
                 UniqueID = "MCH_Wildfire",
                 DisplayName = "Wildfire",
-                Type = EEffectType.Combo,
-                IconName = "mch_wildfire.png"
+                Type = EEffectType.Debuff,
+                IconName = "mch_wildfire.png",
             });
             effects.Add("MCH_Heat", new EffectDef()
             {

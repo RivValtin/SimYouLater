@@ -233,6 +233,10 @@ namespace RotationSimulator
             SimLog.Clear();
 
             Simulator simulator = new Simulator();
+            simulator.AnimationLock = int.Parse(tb_opt_ping.Text) / 10 + 60;
+            if (simulator.AnimationLock < 61) {
+                simulator.AnimationLock = 61;
+            }
 
             CharacterStats charStats = new CharacterStats()
             {
@@ -265,7 +269,6 @@ namespace RotationSimulator
                 float seconds = Math.Abs((logEvent.TimeStamp % 6000) / 100.0f);
                 string timeString = (logEvent.TimeStamp < 0 ? "-" : "") + minutes.ToString() + "m" + seconds.ToString("00.00") + "s";
 
-                
                 tb_logOutput.Inlines.Add(timeString + " - " + logEvent.Message + " ");
                 if (logEvent.RelevantAction != null) {
                     BitmapImage actionIconSource = new BitmapImage(new Uri("/images/icons/" + logEvent.RelevantAction.IconName, UriKind.Relative));

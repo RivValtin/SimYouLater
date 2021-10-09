@@ -790,6 +790,25 @@ namespace RotationSimulator
             machinistActionSet.Add(MCH_Hypercharge);
             actions.Add(MCH_Hypercharge.UniqueID, MCH_Hypercharge);
 
+            ActionDef MCH_Wildfire = new ActionDef()
+            {
+                UniqueID = "MCH_Wildfire",
+                IsGCD = false,
+                Recast = 1000,
+                DisplayName = "Wildfire",
+                IconName = "mch_wildfire.png",
+                AppliedEffects = new List<EffectApplication>()
+                {
+                    new EffectApplication()
+                    {
+                        effect = EffectsBank.effects["MCH_Wildfire"],
+                        Duration = 1000
+                    }
+                }
+            };
+            machinistActionSet.Add(MCH_Wildfire);
+            actions.Add(MCH_Wildfire.UniqueID, MCH_Wildfire);
+
             #endregion
 
         }

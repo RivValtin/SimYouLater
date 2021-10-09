@@ -39,7 +39,8 @@ namespace RotationSimulator
 
             ActiveEffectTimer activeEffectTimer = new ActiveEffectTimer(time)
             {
-                externalEffects = externalEffects
+                externalEffects = externalEffects,
+                simResult = results
             };
             AnimationLockTimer animationLockTimer = new AnimationLockTimer(time);
             AutoAttackTimer autoAttackTimer = new AutoAttackTimer()

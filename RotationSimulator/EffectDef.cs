@@ -53,6 +53,9 @@ namespace RotationSimulator
         /// </summary>
         public bool UsesStacks { get; init; } = false;
         public EEffectType Type { get; init; } = EEffectType.Buff;
-
+        /// <summary>
+        /// For DoTs only. Specifies the potency per tick. Default value of 0 indicates that this effect is not a dot.
+        /// </summary>
+        public int Potency = 0;
     }
 }

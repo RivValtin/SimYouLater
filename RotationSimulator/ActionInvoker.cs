@@ -19,26 +19,30 @@ namespace RotationSimulator
         /// </summary>
         /// <param name="action"></param>
         public void InvokeAction(ActionDef action, int currentTime) {
+            //WARNING: Modify critRate/dhRate variables for DoT snapshots only. Auto crit/dh does NOT apply to DoT portions (e.g. bioblaster) and as such IR/REA should not modify them, and instead change the crit/dh multi directly after other crit/dh calculations are done.
+            int critRate = CharStats.CritRate;
+            int dhRate = CharStats.DirectHitRate;
+
             //---- Calculate potency multipliers
             float ePotencyMulti = 1.0f;
+            float buffPotencyMulti = 1.0f;
             if (ActiveEffectTimer.GetActiveStacks("SMN_Devotion") > 0) {
-                ePotencyMulti *= 1.03f;
+                buffPotencyMulti *= 1.03f;
             }
             if (ActiveEffectTimer.GetActiveStacks("NIN_TrickAttack") > 0) {
-                ePotencyMulti *= 1.05f;
+                buffPotencyMulti *= 1.05f;
             }
-            float critMulti = 1 + (CharStats.CritRate / 1000.0f) * (CharStats.CritBonus / 1000.0f);
+            float critMulti = 1 + (critRate / 1000.0f) * (CharStats.CritBonus / 1000.0f);
             float detMulti = 1 + CharStats.DetBonus / 1000.0f;
-            float dhMulti = 1 + (CharStats.DirectHitRate / 4000.0f);
+            float dhMulti = 1 + (dhRate / 4000.0f);
 
-            //TODO: Modify crit/dh multiplier here for buffs like reassemble, litany, etc
             if (ActiveEffectTimer.GetActiveStacks("MCH_Reassemble") > 0 && action.IsWeaponskill) {
                 critMulti = 1 + CharStats.CritBonus / 1000.0f;
                 dhMulti = 1.25f;
                 ActiveEffectTimer.RemoveEffect("MCH_Reassemble");
                 SimLog.Detail("Applying reassemble", currentTime, action);
             }
-            ePotencyMulti *= critMulti * detMulti * dhMulti;
+            ePotencyMulti = buffPotencyMulti * critMulti * detMulti * dhMulti;
 
             //---- Apply the effect
             int potency = action.Potency;
@@ -53,6 +57,10 @@ namespace RotationSimulator
             if (action.IsWeaponskill && ActiveEffectTimer.GetActiveStacks("MCH_Hypercharge") > 0) {
                 potency += 20;
             }
+            //---- Likewise, MCH wildfire is the only buff that cares about how many hits go off while it's active. But it applies it on expiration, so we tell ActiveEffectTimer about it here.
+            if (ActiveEffectTimer.GetActiveStacks("MCH_Wildfire") > 0 && action.IsWeaponskill) {
+                ActiveEffectTimer.WildfireEligibleHitApplied();
+            }
 
             SimulationResults.totalPotency += potency; //TODO: Account for crit/dh/det?
             SimulationResults.totalEffectivePotency += potency * ePotencyMulti;
@@ -60,7 +68,7 @@ namespace RotationSimulator
 
             if (isComboed) {
                 foreach (EffectApplication effectApplication in action.AppliedEffects) {
-                    ActiveEffectTimer.ApplyEffect(effectApplication);
+                    ActiveEffectTimer.ApplyEffect(effectApplication, critRate, CharStats.CritBonus, dhRate, buffPotencyMulti * detMulti);
                 }
             }
 
