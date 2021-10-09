@@ -52,7 +52,7 @@ namespace RotationSimulator.TimedElements
         private void ApplyWildfireDamage(ActiveEffect effect) {
             SimLog.Info("Wildfire applied damage at potency " + wildfireHitCounter * 200, currentTime);
             simResult.totalPotency += wildfireHitCounter * 200;
-            simResult.totalEffectivePotency += wildfireHitCounter * 200 * (1 + effect.SnapshotCritBonus / 1000.0f * effect.SnapshotCritRate / 1000.0f) * (1 + effect.SnapshotDHRate / 4000.0f) * effect.SnapshotMulti;
+            simResult.totalEffectivePotency += wildfireHitCounter * 200 * effect.SnapshotMulti; //NOTE: Wildfire neither crits nor direct hits, so those are not factors here.
             wildfireHitCounter = 0;
         }
 
@@ -168,8 +168,9 @@ namespace RotationSimulator.TimedElements
             foreach (ActiveEffect effect in activeEffects.Values) {
                 if (effect.effect.Potency != 0) {
                     simResult.totalPotency += effect.effect.Potency;
-                    simResult.totalEffectivePotency += effect.effect.Potency * (1 + effect.SnapshotCritBonus / 1000.0f * effect.SnapshotCritRate / 1000.0f) * (1 + effect.SnapshotDHRate / 4000.0f) * effect.SnapshotMulti;
-                    SimLog.Detail("Dot tick applied at potency " + effect.effect.Potency, currentTime);
+                    float effectivePotency = effect.effect.Potency * (1 + effect.SnapshotCritBonus / 1000.0f * effect.SnapshotCritRate / 1000.0f) * (1 + effect.SnapshotDHRate / 4000.0f) * effect.SnapshotMulti;
+                    simResult.totalEffectivePotency += effectivePotency;
+                    SimLog.Detail("Dot tick applied at potency " + effect.effect.Potency + " and effective potency " + effectivePotency, currentTime);
                 }
             }
         }

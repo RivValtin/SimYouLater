@@ -15,6 +15,7 @@ namespace RotationSimulator.TimedElements
     {
         private int currentTime = 0;
         private int tickOffset = 0;
+        public ActiveEffectTimer ActiveEffectTimer;
 
         /// <summary>
         /// 
@@ -34,11 +35,10 @@ namespace RotationSimulator.TimedElements
             currentTime += time;
             if (IsOneSecondTick()) {
                 SimLog.Detail("Server tick: 1s.", currentTime);
-                ServerTickOneSecond?.Invoke();
             }
             if (IsThreeSecondTick()) {
                 SimLog.Detail("Server tick: 3s.", currentTime);
-                ServerTickThreeSeconds?.Invoke();
+                ActiveEffectTimer.TickDots();
                 //TODO: MP
             }
         }
@@ -55,8 +55,5 @@ namespace RotationSimulator.TimedElements
         private bool IsThreeSecondTick() {
             return (currentTime + tickOffset) % 300 == 0;
         }
-
-        public event Action ServerTickOneSecond;
-        public event Action ServerTickThreeSeconds;
     }
 }

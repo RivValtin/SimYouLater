@@ -49,7 +49,10 @@ namespace RotationSimulator
             };;
             GCDTimer gcdTimer = new GCDTimer(time);
             RecastTimer recastTimer = new RecastTimer(time);
-            ServerTickTimer serverTickTimer = new ServerTickTimer(time);
+            ServerTickTimer serverTickTimer = new ServerTickTimer(time)
+            {
+                ActiveEffectTimer = activeEffectTimer
+            };
             ActionInvoker actionInvoker = new ActionInvoker()
             {
                 ActiveEffectTimer = activeEffectTimer,

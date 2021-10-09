@@ -19,15 +19,22 @@
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
                     <Button x:Name="button" Content="Simulate" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="button_Simulate"/>
-                    <TextBlock x:Name="textBlock" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Text="0 potency per second" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="150"/>
+                    <TextBlock x:Name="textBlock" Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" HorizontalAlignment="Left" Text="0 potency per second" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="150"/>
 
                     <TextBlock Grid.Row="0" Grid.Column="1" Margin="5,5,5,5" FontSize="24">Simulation Log</TextBlock>
 
-                    <ScrollViewer VerticalScrollBarVisibility="Visible" Grid.Row="1" Grid.Column="1">
-                        <TextBlock x:Name="tb_logOutput" Grid.Row="1" Grid.Column="1" Margin="5,5,5,5"><InlineUIContainer><Image Source="pack://application:,,,/images/icons/mch_detonator.png" /></InlineUIContainer>lol</TextBlock>
+                    <ComboBox x:Name="cmb_logLevel" Grid.Row="1" Grid.Column="1" IsEditable="False" SelectedIndex="2" SelectionChanged="cmb_logLevel_SelectionChanged">
+                        <ComboBoxItem>Display Errors Only</ComboBoxItem>
+                        <ComboBoxItem>Display Error/Warnings</ComboBoxItem>
+                        <ComboBoxItem>Display Errors, Warnings, Info</ComboBoxItem>
+                        <ComboBoxItem>Display All</ComboBoxItem>
+                    </ComboBox>
+                    <ScrollViewer VerticalScrollBarVisibility="Visible" Grid.Row="2" Grid.Column="1" Grid.RowSpan="2">
+                        <TextBlock x:Name="tb_logOutput" Margin="5,5,5,5"><InlineUIContainer><Image Source="pack://application:,,,/images/icons/mch_detonator.png" /></InlineUIContainer>lol</TextBlock>
                     </ScrollViewer>
                 </Grid>
             </TabItem>

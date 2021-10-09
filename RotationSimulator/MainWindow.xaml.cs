@@ -262,9 +262,28 @@ namespace RotationSimulator
             textBlock.Text = "PPS: " + results.pps + "\n" +
                              "ePPS: " + results.epps + "\n" +
                              "Time: " + (float)results.totalTime / 100 + "s";
+            UpdateLogText();
+        }
 
+        private void UpdateLogText() {
             tb_logOutput.Inlines.Clear();
-            foreach (SimLogEvent logEvent in SimLog.GetInfoOrWorse()) {
+            IEnumerable<SimLogEvent> logsToParse;
+            switch (cmb_logLevel.SelectedIndex) {
+                case 0:
+                    logsToParse = SimLog.GetErrors();
+                    break;
+                case 1:
+                    logsToParse = SimLog.GetErrorsWarnings();
+                    break;
+                case 2:
+                    logsToParse = SimLog.GetInfoOrWorse();
+                    break;
+                case 3:
+                default:
+                    logsToParse = SimLog.GetAll();
+                    break;
+            }
+            foreach (SimLogEvent logEvent in logsToParse) {
                 int minutes = logEvent.TimeStamp / 6000;
                 float seconds = Math.Abs((logEvent.TimeStamp % 6000) / 100.0f);
                 string timeString = (logEvent.TimeStamp < 0 ? "-" : "") + minutes.ToString() + "m" + seconds.ToString("00.00") + "s";
@@ -429,6 +448,12 @@ namespace RotationSimulator
                 UpdateRotationDisplay();
                 UpdateRotationListDisplay();
                 UpdateActionSet();
+            }
+        }
+
+        private void cmb_logLevel_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            if (tb_logOutput != null) {
+                UpdateLogText();
             }
         }
     }

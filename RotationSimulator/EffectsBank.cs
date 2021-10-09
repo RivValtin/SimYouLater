@@ -130,6 +130,14 @@ namespace RotationSimulator
                 Type = EEffectType.Buff,
                 IconName = "mch_hypercharge.png"
             });
+            effects.Add("MCH_Bioblaster", new EffectDef()
+            {
+                UniqueID = "MCH_Bioblaster",
+                DisplayName = "Bioblaster",
+                Type = EEffectType.Debuff,
+                IconName = "mch_bioblaster.png",
+                Potency = 60
+            }) ;
             #endregion
         }
     }

@@ -89,5 +89,11 @@ namespace RotationSimulator
                 }
             }
         }
+
+        public static IEnumerable<SimLogEvent> GetAll() {
+            foreach (SimLogEvent e in events) {
+                yield return e;
+            }
+        }
     }
 }

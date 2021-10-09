@@ -615,6 +615,31 @@ namespace RotationSimulator
             machinistActionSet.Add(MCH_Drill);
             actions.Add(MCH_Drill.UniqueID, MCH_Drill);
 
+            ActionDef MCH_Bioblaster = new ActionDef()
+            {
+                UniqueID = "MCH_Bioblaster",
+                IsGCD = true,
+                IsWeaponskill = true,
+                CastTime = 0,
+                RecastGCD = BASE_GCD,
+                Recast = 2000,
+                RecastScales = true,
+                Potency = 60,
+                DisplayName = "Bioblaster",
+                IconName = "mch_bioblaster.png",
+                CooldownID = "MCH_Drill",
+                AppliedEffects = new List<EffectApplication>()
+                {
+                    new EffectApplication()
+                    {
+                        Duration = 1500,
+                        effect = EffectsBank.effects["MCH_Bioblaster"]
+                    }
+                }
+            };
+            machinistActionSet.Add(MCH_Bioblaster);
+            actions.Add(MCH_Bioblaster.UniqueID, MCH_Bioblaster);
+
             ActionDef MCH_HotShot = new ActionDef()
             {
                 UniqueID = "MCH_HotShot",
