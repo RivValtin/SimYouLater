@@ -18,6 +18,8 @@ namespace RotationSimulator
         /// Can return either int.MaxValue or a time <= current time to indicate no planned next event.
         /// Even if that happens, this will be called again after time advances one step.
         /// Times equal to current time are treated as "no next event" to prevent simulation lockup.
+        /// 
+        /// This function should not modify state! 
         /// </summary>
         /// <returns></returns>
         int NextEvent();

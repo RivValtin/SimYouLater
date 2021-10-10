@@ -34,7 +34,7 @@ namespace RotationSimulator.TimedElements
         public void AdvanceTime(int time) {
             currentTime += time;
             if (IsOneSecondTick()) {
-                SimLog.Detail("Server tick: 1s.", currentTime);
+                //TODO: Only thing that happens here is that stupid flamethrower tick.
             }
             if (IsThreeSecondTick()) {
                 SimLog.Detail("Server tick: 3s.", currentTime);

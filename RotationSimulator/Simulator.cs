@@ -92,12 +92,20 @@ namespace RotationSimulator
                 autoAttackTimer,
                 serverTickTimer
             };
+            ///All elements in this list must say they're done for the fight to be considered "done", but others do not matter.
+            IEnumerable<ITimedElement> timedElementsThatContinueTheFight = new List<ITimedElement>() {
+                animationLockTimer,
+                castTimer,
+                gcdTimer,
+                strictRotation
+            };
             IEnumerable<ITimedElement> allTimedElements = finiteTimedElements.Concat(infiniteTimedElements);
 
             //---- The main time advancing loop. 
             bool allFiniteElementsComplete = false;
             int newTime = time;
-            while (!allFiniteElementsComplete && newTime < maximumReasonableFightLength) {
+            int endTracker = time;
+            while (!allFiniteElementsComplete && time < maximumReasonableFightLength) {
                 //-- Advance time
                 foreach (ITimedElement element in allTimedElements) {
                     element.AdvanceTime(newTime - time);
@@ -112,7 +120,17 @@ namespace RotationSimulator
                         newTime = nextEventTime;
                     }
                 }
-                if (newTime == int.MaxValue) {
+
+                //-- Discover the next finite event that's actually involved in the rotation (e.g. don't count future dot ticks, or server ticks in general)
+                endTracker = int.MaxValue;
+                foreach (ITimedElement element in timedElementsThatContinueTheFight) {
+                    int nextEventTime = element.NextEvent();
+                    if (nextEventTime < endTracker && nextEventTime > time) {
+                        endTracker = nextEventTime;
+                    }
+                }
+
+                if (endTracker == int.MaxValue) {
                     allFiniteElementsComplete = true;
                 } else {
                     foreach (ITimedElement element in infiniteTimedElements) {
