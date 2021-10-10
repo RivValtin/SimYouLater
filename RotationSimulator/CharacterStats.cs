@@ -11,9 +11,11 @@ namespace RotationSimulator
     /// </summary>
     public class CharacterStats
     {
-        public int CritRate { get; set; }
-        public int CritBonus { get; set; }
-        public int DirectHitRate { get; set; }
-        public int DetBonus { get; set; }
+        public int CritRate { get; init; }
+        public int CritBonus { get; init; }
+        public int DirectHitRate { get; init; }
+        public int DetBonus { get; init; }
+        public int SkillSpeed { get; init; }
+        public int SpellSpeed { get; init; }
     }
 }

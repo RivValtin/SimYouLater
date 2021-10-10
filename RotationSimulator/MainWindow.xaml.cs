@@ -243,7 +243,9 @@ namespace RotationSimulator
                 CritBonus = Int32.Parse(tb_critBonus.Text),
                 CritRate = Int32.Parse(tb_critRate.Text),
                 DirectHitRate = Int32.Parse(tb_dhRate.Text),
-                DetBonus = Int32.Parse(tb_detBonus.Text)
+                DetBonus = Int32.Parse(tb_detBonus.Text),
+                SkillSpeed = Int32.Parse(tb_skillspeed.Text),
+                SpellSpeed = Int32.Parse(tb_spellspeed.Text)
             };
             simulator.CharStats = charStats;
 

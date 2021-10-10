@@ -48,7 +48,10 @@ namespace RotationSimulator
 
             };;
             GCDTimer gcdTimer = new GCDTimer(time);
-            RecastTimer recastTimer = new RecastTimer(time);
+            RecastTimer recastTimer = new RecastTimer(time)
+            {
+                CharStat = CharStats
+            };
             ServerTickTimer serverTickTimer = new ServerTickTimer(time)
             {
                 ActiveEffectTimer = activeEffectTimer
@@ -74,7 +77,8 @@ namespace RotationSimulator
                 DefaultAnimationLock = AnimationLock,
                 GCDTimer = gcdTimer,
                 RecastTimer = recastTimer,
-                RotationSteps = rotationActions
+                RotationSteps = rotationActions,
+                CharStats = CharStats
             };
             //Any timed elements that eventually end their jobs naturally.
             IEnumerable<ITimedElement> finiteTimedElements = new List<ITimedElement>()

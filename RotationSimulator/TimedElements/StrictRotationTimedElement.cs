@@ -18,6 +18,7 @@ namespace RotationSimulator.TimedElements
         public List<RotationStep> RotationSteps { get; init; }
         private int currentStepIndice = 0;
         public ActionInvoker ActionInvoker { get; init; }
+        public CharacterStats CharStats { get; init; }
 
         public int DefaultAnimationLock { get; init; } = 70;
 
@@ -59,13 +60,13 @@ namespace RotationSimulator.TimedElements
                     }
 
                     if (currentAction.CastTime > 0) {
-                        CastTimer.StartCasting(currentAction, currentAction.CastTime); //TODO: Apply speed
+                        CastTimer.StartCasting(currentAction, GetScaledCastTime(currentAction)); 
                     } else {
                         ActionInvoker.InvokeAction(currentAction, CurrentTime);
                     }
                     AnimationLockTimer.InvokeAnimationLock(currentAction.AnimationLockOverride > 0 ? currentAction.AnimationLockOverride : DefaultAnimationLock);
                     if (currentAction.IsGCD) {
-                        GCDTimer.StartGCD(currentAction.RecastGCD); //TODO: Apply speed
+                        GCDTimer.StartGCD(GetScaledGCDRecastTime(currentAction));
                     }
                     if (recastAction.Recast > 0) {
                         RecastTimer.ConsumeCharge(recastAction);
@@ -80,6 +81,22 @@ namespace RotationSimulator.TimedElements
                 default:
                     //TODO: throw error? action conditional might make sense as well.
                     return;
+            }
+        }
+
+        private int GetScaledCastTime(ActionDef action) {
+            if (action.IsWeaponskill) {
+                return StatMath.GetCast(action.CastTime, CharStats.SkillSpeed);
+            } else {
+                return StatMath.GetCast(action.CastTime, CharStats.SpellSpeed);
+            }
+        }
+
+        private int GetScaledGCDRecastTime(ActionDef action) {
+            if (action.IsWeaponskill) {
+                return StatMath.GetRecast(action.RecastGCD, CharStats.SkillSpeed);
+            } else {
+                return StatMath.GetRecast(action.RecastGCD, CharStats.SpellSpeed);
             }
         }
 

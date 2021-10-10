@@ -55,9 +55,17 @@ namespace RotationSimulator
         public int Charges { get; init; } = 1;
         public int MPCost { get; init; } = 0;
         /// <summary>
-        /// If true, the non-GCD recast also scales with SpS/SkS/Haste
+        /// If true, the non-GCD recast also scales with SkS.
         /// </summary>
-        public bool RecastScales { get; init; } = false;
+        public bool RecastScalesWithSks { get; init; } = false;
+        /// <summary>
+        /// If true, the non-GCD recast also scales with SpS.
+        /// </summary>
+        public bool RecastScalesWithSps { get; init; } = false;
+        /// <summary>
+        /// If true, the non-GCD recast also scales with haste.
+        /// </summary>
+        public bool RecastScalesWithHaste { get; init; } = false;
         /// <summary>
         /// The damage dealt. Can be set to 0 just fine. Do not set a negative value for healing, it might get interpreted as healing the boss.
         /// </summary>

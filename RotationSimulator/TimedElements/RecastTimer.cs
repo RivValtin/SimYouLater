@@ -13,6 +13,8 @@ namespace RotationSimulator.TimedElements
     /// </summary>
     public class RecastTimer : ITimedElement
     {
+        public CharacterStats CharStat { get; init; }
+
         int currentTime = 0;
         /// <summary>
         /// Maps ActionDef.UniqueID to the time stamp when it will be full recharged.
@@ -39,12 +41,13 @@ namespace RotationSimulator.TimedElements
                 }
 
                 ActionDef actionDef = ActionBank.actions[actionId];
+                int scaledRecast = GetScaledRecast(actionDef);
                 int fullChargeTime = timeWhenFullyCharged[actionId] - currentTime;
-                int nextCharge = fullChargeTime % actionDef.Recast;
+                int nextCharge = fullChargeTime % scaledRecast;
 
                 //If a charge was gained right now, but we're not fully charged, then we want to report that *next* recast after that.
                 if (nextCharge == 0 && fullChargeTime > 0) {
-                    nextCharge = actionDef.Recast;
+                    nextCharge = scaledRecast;
                 }
 
                 if (nextCharge < soonestRecast && nextCharge > 0) {
@@ -53,6 +56,21 @@ namespace RotationSimulator.TimedElements
             }
 
             return currentTime + soonestRecast;
+        }
+        /// <summary>
+        /// Get the recast value, scaled appropriately for speed (where relevant).
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        private int GetScaledRecast(ActionDef action) {
+            int recast = action.Recast;
+            if (action.RecastScalesWithSks) {
+                recast = StatMath.GetRecast(recast, CharStat.SkillSpeed);
+            }
+            if (action.RecastScalesWithSps) {
+                recast = StatMath.GetRecast(recast, CharStat.SpellSpeed);
+            }
+            return recast;
         }
 
         /// <summary>
@@ -71,18 +89,19 @@ namespace RotationSimulator.TimedElements
         /// </summary>
         /// <param name="action"></param>
         public void ConsumeCharge(ActionDef action) {
+            int scaledRecast = GetScaledRecast(action);
             if (timeWhenFullyCharged.ContainsKey(action.UniqueID)) {
                 if (CalculateCharges(action, timeWhenFullyCharged[action.UniqueID]) < 1) {
                     throw new ArgumentException("Cannot consume a charge for an action that is fully on cooldown.");
                 }
 
                 if (timeWhenFullyCharged[action.UniqueID] > currentTime) {
-                    timeWhenFullyCharged[action.UniqueID] += action.Recast;
+                    timeWhenFullyCharged[action.UniqueID] += scaledRecast;
                 } else {
-                    timeWhenFullyCharged[action.UniqueID] = currentTime + action.Recast;
+                    timeWhenFullyCharged[action.UniqueID] = currentTime + scaledRecast;
                 }
             } else {
-                timeWhenFullyCharged[action.UniqueID] = currentTime + action.Recast;
+                timeWhenFullyCharged[action.UniqueID] = currentTime + scaledRecast;
             }
         }
 
@@ -90,7 +109,7 @@ namespace RotationSimulator.TimedElements
             if (fullyChargedTime <= currentTime) {
                 return action.Charges;
             } else {
-                return action.Charges - (fullyChargedTime - currentTime - 1) / action.Recast - 1;
+                return action.Charges - (fullyChargedTime - currentTime - 1) / GetScaledRecast(action) - 1;
             }
         }
 
