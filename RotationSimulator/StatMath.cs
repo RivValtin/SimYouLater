@@ -43,5 +43,53 @@ namespace RotationSimulator
 
             return (int)(bareMultiplier * baseCast / 1000.0d);
         }
+
+        /// <summary>
+        /// Get the crit chance, in tenths of a percent, from crit substat value.
+        /// </summary>
+        public static int GetCritRate(int critSubstat) {
+            const int levelBasedConstant = 3300;
+            const int baseCrit = 380;
+
+            int statSpread = critSubstat - baseCrit;
+            int bonus = (int)(200 * statSpread / levelBasedConstant) + 50;
+
+            return bonus;
+        }
+
+        /// <summary>
+        /// Get the crit bonus, in tenths of a percent, from crit substat value.
+        /// </summary>
+        public static int GetCritBonus(int critSubstat) {
+            return GetCritRate(critSubstat) + 350;
+        }
+
+        /// <summary>
+        /// Get the direct hit rate, in tenths of a percent, from the direct hit substat value.
+        /// </summary>
+        /// <param name="directHitSubstat"></param>
+        /// <returns></returns>
+        public static int GetDHRate(int directHitSubstat) {
+            const int levelBasedConstant = 3300;
+            const int baseDirect = 380;
+
+            int statSpread = directHitSubstat - baseDirect;
+            int rate = (int)(550 * statSpread / levelBasedConstant);
+
+            return rate;
+        }
+
+        /// <summary>
+        /// Get the bonus damage from det, in tenths of a percent, from det substat value.
+        /// </summary>
+        public static int GetDetBonus(int detSubstat) {
+            const int levelBasedConstant = 3300;
+            const int baseDet = 340;
+
+            int statSpread = detSubstat - baseDet;
+            int bonus = (int)(130 * statSpread / levelBasedConstant);
+
+            return bonus;
+        }
     }
 }

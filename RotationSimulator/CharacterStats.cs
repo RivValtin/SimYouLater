@@ -11,10 +11,42 @@ namespace RotationSimulator
     /// </summary>
     public class CharacterStats
     {
-        public int CritRate { get; init; }
-        public int CritBonus { get; init; }
-        public int DirectHitRate { get; init; }
-        public int DetBonus { get; init; }
+        public int CritRate { get; private set; }
+        public int CritBonus { get; private set; }
+        public int DirectHitRate { get; private set; }
+        public int DetBonus { get; private set; }
+
+        public int CriticalHitSubstat { 
+            get {
+                return criticalSub;
+            } 
+            init {
+                criticalSub = value;
+                CritRate = StatMath.GetCritRate(criticalSub);
+                CritBonus = StatMath.GetCritBonus(criticalSub);
+            } 
+        }
+        private int criticalSub;
+        public int DirectHitSubstat {
+            get {
+                return directHitSub;
+            }
+            init {
+                directHitSub = value;
+                DirectHitRate = StatMath.GetDHRate(directHitSub);
+            }
+        }
+        private int directHitSub;
+        public int DeterminationSubstat {
+            get {
+                return determinationSub;
+            }
+            init {
+                determinationSub = value;
+                DetBonus = StatMath.GetDetBonus(determinationSub);
+            }
+        }
+        private int determinationSub;
         public int SkillSpeed { get; init; }
         public int SpellSpeed { get; init; }
     }
