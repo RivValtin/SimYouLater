@@ -45,6 +45,21 @@ namespace RotationSimulator
         }
 
         /// <summary>
+        /// Returns the multiplier to apply to dot ticks based on speed. Also applies to auto-attacks, I believe.
+        /// </summary>
+        /// <param name="speed"></param>
+        /// <returns></returns>
+        public static int GetDotMultiplierFromSpeed(int speed) {
+            const int levelBasedConstant = 3300; //an arbitrary level-based constant. Currently hardcoded to lvl 80 value.
+            const int baseSpeed = 380; //the base substat you have with nothing increasing it. Increases with level, currently hardcoded to level 80 value.
+
+            int speedSpread = speed - baseSpeed;
+            int bareMultiplier = (int)(130.0d * speedSpread / levelBasedConstant);
+
+            return bareMultiplier;
+        }
+
+        /// <summary>
         /// Get the crit chance, in tenths of a percent, from crit substat value.
         /// </summary>
         public static int GetCritRate(int critSubstat) {

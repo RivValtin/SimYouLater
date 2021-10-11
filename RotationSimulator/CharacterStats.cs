@@ -15,6 +15,10 @@ namespace RotationSimulator
         public int CritBonus { get; private set; }
         public int DirectHitRate { get; private set; }
         public int DetBonus { get; private set; }
+        /// <summary>
+        /// If true, this class is a physical class and typically uses SkS and Attack Power for scaling.
+        /// </summary>
+        public bool PhysicalClass { get; set; } = true;
 
         public int CriticalHitSubstat { 
             get {

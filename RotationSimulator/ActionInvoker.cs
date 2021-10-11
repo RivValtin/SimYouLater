@@ -68,7 +68,13 @@ namespace RotationSimulator
 
             if (isComboed) {
                 foreach (EffectApplication effectApplication in action.AppliedEffects) {
-                    ActiveEffectTimer.ApplyEffect(effectApplication, critRate, CharStats.CritBonus, dhRate, buffPotencyMulti * detMulti);
+                    int speed = 0;
+                    if (CharStats.PhysicalClass) {
+                        speed = CharStats.SkillSpeed;
+                    } else {
+                        speed = CharStats.SpellSpeed;
+                    }
+                    ActiveEffectTimer.ApplyEffect(effectApplication, critRate, CharStats.CritBonus, dhRate, speed, buffPotencyMulti * detMulti);
                 }
             }
 

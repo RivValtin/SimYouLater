@@ -106,10 +106,9 @@ namespace RotationSimulator
             IEnumerable<ITimedElement> allTimedElements = finiteTimedElements.Concat(infiniteTimedElements);
 
             //---- The main time advancing loop. 
-            bool allFiniteElementsComplete = false;
+            bool rotationComplete = false;
             int newTime = time;
-            int endTracker = time;
-            while (!allFiniteElementsComplete && time < maximumReasonableFightLength) {
+            while (!rotationComplete && time < maximumReasonableFightLength) {
                 //-- Advance time
                 foreach (ITimedElement element in allTimedElements) {
                     element.AdvanceTime(newTime - time);
@@ -125,17 +124,8 @@ namespace RotationSimulator
                     }
                 }
 
-                //-- Discover the next finite event that's actually involved in the rotation (e.g. don't count future dot ticks, or server ticks in general)
-                endTracker = int.MaxValue;
-                foreach (ITimedElement element in timedElementsThatContinueTheFight) {
-                    int nextEventTime = element.NextEvent();
-                    if (nextEventTime < endTracker && nextEventTime > time) {
-                        endTracker = nextEventTime;
-                    }
-                }
-
-                if (endTracker == int.MaxValue) {
-                    allFiniteElementsComplete = true;
+                if (!strictRotation.ActionsRemain) {
+                    rotationComplete = true;
                 } else {
                     foreach (ITimedElement element in infiniteTimedElements) {
                         int nextEventTime = element.NextEvent();

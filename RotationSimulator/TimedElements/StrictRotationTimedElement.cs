@@ -22,6 +22,11 @@ namespace RotationSimulator.TimedElements
 
         public int DefaultAnimationLock { get; init; } = 70;
 
+        public bool ActionsRemain { get {
+                return currentStepIndice < RotationSteps.Count;
+            } 
+        }
+
         /// <summary>
         /// For when a wait is requested.
         /// </summary>
@@ -50,6 +55,9 @@ namespace RotationSimulator.TimedElements
                     }
 
                     if (RecastTimer.GetAvailableCharges(recastAction) <= 0) {
+                        if (currentAction.IsGCD && GCDTimer.IsGCDAvailable) {
+                            SimLog.Error("Warning: GCD drift detected. Delayed because next ability still on cooldown.", CurrentTime);
+                        }
                         return;
                     }
 

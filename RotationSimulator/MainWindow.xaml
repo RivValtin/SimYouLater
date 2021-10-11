@@ -95,16 +95,20 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <TextBlock  Grid.Row="1" Grid.Column="0" Margin="5,5,5,5">Critical Hit</TextBlock>
-                    <TextBox x:Name="tb_critical" Grid.Row="1" Grid.Column="1" Margin="5,5,5,5" MinWidth="100">2938</TextBox>
-                    <TextBlock  Grid.Row="2" Grid.Column="0" Margin="5,5,5,5">Direct Hit Rate</TextBlock>
-                    <TextBox x:Name="tb_directHit" Grid.Row="2" Grid.Column="1" Margin="5,5,5,5" MinWidth="100">3221</TextBox>
-                    <TextBlock  Grid.Row="3" Grid.Column="0" Margin="5,5,5,5">Determination Bonus</TextBlock>
-                    <TextBox x:Name="tb_determination" Grid.Row="3" Grid.Column="1" Margin="5,5,5,5" MinWidth="100">2524</TextBox>
-                    <TextBlock  Grid.Row="4" Grid.Column="0" Margin="5,5,5,5">Skill Speed</TextBlock>
-                    <TextBox x:Name="tb_skillspeed" Grid.Row="4" Grid.Column="1" Margin="5,5,5,5" MinWidth="100">380</TextBox>
-                    <TextBlock  Grid.Row="5" Grid.Column="0" Margin="5,5,5,5">Spell Speed</TextBlock>
-                    <TextBox x:Name="tb_spellspeed" Grid.Row="5" Grid.Column="1" Margin="5,5,5,5" MinWidth="100">380</TextBox>
+                    <TextBlock  Grid.Row="0" Grid.Column="0" Margin="5,5,5,5">Critical Hit</TextBlock>
+                    <TextBox x:Name="tb_critical" Grid.Row="0" Grid.Column="1" Margin="5,5,5,5" MinWidth="100">2938</TextBox>
+                    <TextBlock  Grid.Row="1" Grid.Column="0" Margin="5,5,5,5">Direct Hit Rate</TextBlock>
+                    <TextBox x:Name="tb_directHit" Grid.Row="1" Grid.Column="1" Margin="5,5,5,5" MinWidth="100">3221</TextBox>
+                    <TextBlock  Grid.Row="2" Grid.Column="0" Margin="5,5,5,5">Determination Bonus</TextBlock>
+                    <TextBox x:Name="tb_determination" Grid.Row="2" Grid.Column="1" Margin="5,5,5,5" MinWidth="100">2524</TextBox>
+                    <TextBlock  Grid.Row="3" Grid.Column="0" Margin="5,5,5,5">Skill Speed</TextBlock>
+                    <TextBox x:Name="tb_skillspeed" Grid.Row="3" Grid.Column="1" Margin="5,5,5,5" MinWidth="100">380</TextBox>
+                    <TextBlock  Grid.Row="4" Grid.Column="0" Margin="5,5,5,5">Spell Speed</TextBlock>
+                    <TextBox x:Name="tb_spellspeed" Grid.Row="4" Grid.Column="1" Margin="5,5,5,5" MinWidth="100">380</TextBox>
+                    <TextBlock  Grid.Row="5" Grid.Column="0" Margin="5,5,5,5">Tenacity</TextBlock>
+                    <TextBox x:Name="tb_tenacity" Grid.Row="5" Grid.Column="1" Margin="5,5,5,5" MinWidth="100" IsEnabled="False">NOT IMPLEMENTED</TextBox>
+                    <TextBlock  Grid.Row="6" Grid.Column="0" Margin="5,5,5,5">Piety</TextBlock>
+                    <TextBox x:Name="tb_piety" Grid.Row="6" Grid.Column="1" Margin="5,5,5,5" MinWidth="100" IsEnabled="False">NOT IMPLEMENTED</TextBox>
                 </Grid>
             </TabItem>
             <TabItem Header="Options">

@@ -31,6 +31,11 @@ namespace RotationSimulator
         /// </summary>
         public int SnapshotDHRate = -1;
         /// <summary>
+        /// The skill/spell speed (whichever the ability cares about) at the time of application.
+        /// NOTE: At this time no abilities would modify this, so "snapshotting" is meaningless, but oh well.
+        /// </summary>
+        public int SnapshotSpeed = -1;
+        /// <summary>
         /// The total multiplier from all flat multiplier sources (buffs, det, etc).
         /// </summary>
         public float SnapshotMulti = 1.0f;

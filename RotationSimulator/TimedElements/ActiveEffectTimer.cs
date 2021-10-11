@@ -71,11 +71,11 @@ namespace RotationSimulator.TimedElements
             return earliestEventTime;
         }
 
-        public void ApplyEffect(EffectApplication effectApplication, int critRate, int critBonus, int dh, float potencyMulti) {
+        public void ApplyEffect(EffectApplication effectApplication, int critRate, int critBonus, int dh, int speed, float potencyMulti) {
             if (activeEffects.ContainsKey(effectApplication.effect.UniqueID)) {
                 //Effect already present, update in-place.
                 ActiveEffect existingEffect = activeEffects[effectApplication.effect.UniqueID];
-                ApplySnapshot(existingEffect, critRate, critBonus, dh, potencyMulti);
+                ApplySnapshot(existingEffect, critRate, critBonus, dh, speed, potencyMulti);
 
                 //---- Update Duration
                 int newEndTime;
@@ -108,18 +108,19 @@ namespace RotationSimulator.TimedElements
                     Stacks = effectApplication.Stacks
                 };
 
-                ApplySnapshot(newEffect, critRate, critBonus, dh, potencyMulti);
+                ApplySnapshot(newEffect, critRate, critBonus, dh, speed, potencyMulti);
 
                 activeEffects.Add(effectApplication.effect.UniqueID, newEffect);
             }
             SimLog.Detail("Applied effect." + effectApplication.effect.DisplayName, currentTime);
         }
 
-        private void ApplySnapshot(ActiveEffect effect, int critRate, int critBonus, int dh, float multi) {
+        private void ApplySnapshot(ActiveEffect effect, int critRate, int critBonus, int dh, int speed, float multi) {
             effect.SnapshotCritRate = critRate;
             effect.SnapshotCritBonus = critBonus;
             effect.SnapshotDHRate = dh;
             effect.SnapshotMulti = multi;
+            effect.SnapshotSpeed = speed;
         }
 
         /// <summary>
@@ -168,7 +169,8 @@ namespace RotationSimulator.TimedElements
             foreach (ActiveEffect effect in activeEffects.Values) {
                 if (effect.effect.Potency != 0) {
                     simResult.totalPotency += effect.effect.Potency;
-                    float effectivePotency = effect.effect.Potency * (1 + effect.SnapshotCritBonus / 1000.0f * effect.SnapshotCritRate / 1000.0f) * (1 + effect.SnapshotDHRate / 4000.0f) * effect.SnapshotMulti;
+                    int speedMulti = StatMath.GetDotMultiplierFromSpeed(effect.SnapshotSpeed);
+                    float effectivePotency = effect.effect.Potency * (1 + effect.SnapshotCritBonus / 1000.0f * effect.SnapshotCritRate / 1000.0f) * (1 + effect.SnapshotDHRate / 4000.0f) * effect.SnapshotMulti * (1 + speedMulti / 1000.0f);
                     simResult.totalEffectivePotency += effectivePotency;
                     SimLog.Detail("Dot tick applied at potency " + effect.effect.Potency + " and effective potency " + effectivePotency, currentTime);
                 }

@@ -247,6 +247,20 @@ namespace RotationSimulator
                 SpellSpeed = Int32.Parse(tb_spellspeed.Text)
             };
             simulator.CharStats = charStats;
+            switch (activeRotation.JobCode) {
+                case "SMN":
+                case "BLM":
+                case "RDM":
+                case "SGE":
+                case "WHM":
+                case "SCH":
+                case "AST":
+                    charStats.PhysicalClass = false;
+                    break;
+                default:
+                    charStats.PhysicalClass = true;
+                    break;
+            }
 
             List<ActiveEffect> externalEffects = new List<ActiveEffect>();
             if ((bool)cb_opt_simulateTrickAttack.IsChecked) {
