@@ -36,8 +36,10 @@ namespace RotationSimulator
                 RotationCollection rotationCollection = serializerOutput as RotationCollection;
                 rotations = rotationCollection;
             }
-            activeRotation = rotations.First().Value;
-            activeRotationName = rotations.First().Key;
+            if (rotations.Keys.Count > 0) {
+                activeRotation = rotations.First().Value;
+                activeRotationName = rotations.First().Key;
+            }
 
             #region Test Rotation Code
             //List<ActionDef> actionsList = new List<ActionDef>();
@@ -240,6 +242,10 @@ namespace RotationSimulator
 
         private void button_Simulate(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrEmpty(activeRotationName)) {
+                return;
+            }
+
             SimLog.Clear();
 
             Simulator simulator = new Simulator();
@@ -409,6 +415,7 @@ namespace RotationSimulator
 
                 UpdateRotationDisplay();
                 UpdateRotationListDisplay();
+                UpdateActionSet();
             }
         }
 
