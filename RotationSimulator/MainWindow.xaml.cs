@@ -354,6 +354,25 @@ namespace RotationSimulator
             }
         }
 
+        private void button_DeleteRotation(object sender, RoutedEventArgs e) {
+            if (!string.IsNullOrEmpty(activeRotationName)) {
+                MessageBoxResult messageResult = MessageBox.Show("Are you sure you want to delete the rotation named \"" + activeRotationName + "\"?", "Confirm Rotation Deletion", MessageBoxButton.YesNo);
+                if (messageResult == MessageBoxResult.Yes) {
+                    rotations.Remove(activeRotationName);
+                    activeRotation = null;
+                    activeRotationName = null;
+                    if (rotations.Count > 0) {
+                        activeRotation = rotations.Values.First();
+                        activeRotationName = rotations.Keys.First();
+                        lb_rotationsList.SelectedItem = activeRotationName;
+                    }
+                    UpdateRotationDisplay();
+                    UpdateRotationListDisplay();
+                    UpdateActionSet();
+                }
+            }
+        }
+
         private void button_ImportRotation(object sender, RoutedEventArgs e) {
             OpenFileDialog openFiledialog = new OpenFileDialog();
             openFiledialog.Filter = "xml files|*.xml";

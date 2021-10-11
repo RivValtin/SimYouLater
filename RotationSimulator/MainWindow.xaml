@@ -70,7 +70,7 @@
                         </ListBox>
                     </ScrollViewer>
                     <Button Grid.Row="2" Grid.Column="0" Margin="5,5,5,5" Click="button_AddRotation">Add...</Button>
-                    <Button Grid.Row="2" Grid.Column="1" Margin="5,5,5,5">Delete</Button>
+                    <Button Grid.Row="2" Grid.Column="1" Margin="5,5,5,5" Click="button_DeleteRotation">Delete</Button>
                     <Button Grid.Row="3" Grid.Column="0" Margin="5,5,5,5" Click="button_ImportRotation">Import...</Button>
                     <Button Grid.Row="3" Grid.Column="1" Margin="5,5,5,5" Click="button_ExportRotation">Export...</Button>
                     <!--TODO: Need a duplicate button/option-->
