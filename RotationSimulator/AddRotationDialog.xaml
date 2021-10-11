@@ -20,7 +20,7 @@
         <TextBlock Grid.Row="0" Grid.Column="0" Margin="5,5,5,5">Rotation Name: </TextBlock>
         <TextBox x:Name="tb_rotationName" Grid.Row="0" Grid.Column="1" Margin="5,5,5,5" TextChanged="tb_rotationName_TextChanged">Rotation Name...</TextBox>
         <TextBlock Grid.Row="1" Grid.Column="0" Margin="5,5,5,5">Class/Job: </TextBlock>
-        <ComboBox x:Name="cb_jobSelector" Grid.Row="1" Grid.Column="1" Margin="5,5,5,5" SelectedItem="0" SelectionChanged="cb_jobSelector_SelectionChanged">
+        <ComboBox x:Name="cb_jobSelector" Grid.Row="1" Grid.Column="1" Margin="5,5,5,5" SelectedIndex="0" SelectionChanged="cb_jobSelector_SelectionChanged">
             <ComboBoxItem>MCH</ComboBoxItem>
             <ComboBoxItem>SMN</ComboBoxItem>
         </ComboBox>

@@ -41,72 +41,6 @@ namespace RotationSimulator
                 activeRotationName = rotations.First().Key;
             }
 
-            #region Test Rotation Code
-            //List<ActionDef> actionsList = new List<ActionDef>();
-            //actionsList.Add(ActionBank.actions["SMN_Ruin3"]);
-            //actionsList.Add(ActionBank.actions["SMN_Devotion"]);
-            //actionsList.Add(ActionBank.actions["SMN_SummonBahamut"]);
-            //actionsList.Add(ActionBank.actions["SMN_BahamutEnkindle"]);
-            //actionsList.Add(ActionBank.actions["SMN_EnergyDrain"]);
-            //actionsList.Add(ActionBank.actions["SMN_BahamutFiller"]);
-            //actionsList.Add(ActionBank.actions["SMN_BahamutFiller"]);
-            //actionsList.Add(ActionBank.actions["SMN_BahamutFiller"]);
-            //actionsList.Add(ActionBank.actions["SMN_BahamutFiller"]);
-            //actionsList.Add(ActionBank.actions["SMN_Fester"]);
-            //actionsList.Add(ActionBank.actions["SMN_Deathflare"]);
-            //actionsList.Add(ActionBank.actions["SMN_BahamutFiller"]);
-            //actionsList.Add(ActionBank.actions["SMN_BahamutEnkindle"]);
-            //actionsList.Add(ActionBank.actions["SMN_Fester"]);
-
-            //actionsList.Add(ActionBank.actions["SMN_SummonIfrit"]);
-            //actionsList.Add(ActionBank.actions["SMN_IfritEA1"]);
-            //actionsList.Add(ActionBank.actions["SMN_Ruin4"]);
-            //actionsList.Add(ActionBank.actions["SMN_IfritEA1"]);
-            //actionsList.Add(ActionBank.actions["SMN_IfritEA2"]);
-            //actionsList.Add(ActionBank.actions["SMN_IfritEA2"]);
-
-            //actionsList.Add(ActionBank.actions["SMN_SummonGaruda"]);
-            //actionsList.Add(ActionBank.actions["SMN_GarudaEA2"]);
-            //actionsList.Add(ActionBank.actions["SMN_GarudaEA1"]);
-            //actionsList.Add(ActionBank.actions["SMN_GarudaEA1"]);
-            //actionsList.Add(ActionBank.actions["SMN_GarudaEA1"]);
-            //actionsList.Add(ActionBank.actions["SMN_GarudaEA1"]);
-
-            //actionsList.Add(ActionBank.actions["SMN_SummonTitan"]);
-            //actionsList.Add(ActionBank.actions["SMN_TitanEA1"]);
-            //actionsList.Add(ActionBank.actions["SMN_TitanEA2"]);
-            //actionsList.Add(ActionBank.actions["SMN_TitanEA1"]);
-            //actionsList.Add(ActionBank.actions["SMN_TitanEA2"]);
-            //actionsList.Add(ActionBank.actions["SMN_TitanEA1"]);
-            //actionsList.Add(ActionBank.actions["SMN_TitanEA2"]);
-            //actionsList.Add(ActionBank.actions["SMN_TitanEA1"]);
-            //actionsList.Add(ActionBank.actions["SMN_TitanEA2"]);
-
-            //actionsList.Add(ActionBank.actions["SMN_Ruin3"]);
-            //actionsList.Add(ActionBank.actions["SMN_Ruin3"]);
-            //actionsList.Add(ActionBank.actions["SMN_Ruin3"]);
-
-            //activeRotation = new Rotation()
-            //{
-            //    DisplayName = "Test Rotation",
-            //    JobCode = "SMN",
-            //    StartTimeOffset = -150
-            //};
-            //rotations.Add("Test Rotation", activeRotation);
-            //activeRotationName = "Test Rotation";
-
-            //foreach (ActionDef a in actionsList) {
-            //    activeRotation.RotationSteps.Add(new RotationStep()
-            //    {
-            //        Type = ERotationStepType.Action,
-            //        Parameters = new RotationStep.RotationStepParameters()
-            //    {
-            //        { "action", a.UniqueID }
-            //    }
-            //    });
-            //}
-            #endregion
-
             UpdateRotationListDisplay();
             UpdateRotationDisplay();
             UpdateActionSet();
@@ -271,6 +205,7 @@ namespace RotationSimulator
                 case "WHM":
                 case "SCH":
                 case "AST":
+                case "BLU":
                     charStats.PhysicalClass = false;
                     break;
                 default:

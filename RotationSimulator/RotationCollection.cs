@@ -9,7 +9,7 @@ using System.Xml.Serialization;
 
 namespace RotationSimulator
 {
-    public class RotationCollection : Dictionary<string, Rotation>, IXmlSerializable
+    public class RotationCollection : SortedDictionary<string, Rotation>, IXmlSerializable
     {
         public XmlSchema GetSchema() {
             return null;
@@ -30,18 +30,20 @@ namespace RotationSimulator
 
                 reader.Read();//RotationSteps
                 reader.Read();//RotationStep
-                while (reader.NodeType != XmlNodeType.EndElement && reader.Name == "RotationStep") {
-                    ERotationStepType eRotationStepType = Enum.Parse<ERotationStepType>(reader.GetAttribute("Type"));
-                    RotationStep step = new RotationStep()
-                    {
-                        Type = eRotationStepType
-                    };
-                    reader.Read(); //RotationParams
-                    step.Parameters.ReadXml(reader); //will read off the RotationParams tag
-                    r.RotationSteps.Add(step);
-                    reader.Read();// </RotationStep
+                if (reader.Name == "RotationStep") {
+                    while (reader.NodeType != XmlNodeType.EndElement && reader.Name == "RotationStep") {
+                        ERotationStepType eRotationStepType = Enum.Parse<ERotationStepType>(reader.GetAttribute("Type"));
+                        RotationStep step = new RotationStep()
+                        {
+                            Type = eRotationStepType
+                        };
+                        reader.Read(); //RotationParams
+                        step.Parameters.ReadXml(reader); //will read off the RotationParams tag
+                        r.RotationSteps.Add(step);
+                        reader.Read();// </RotationStep
+                    }
+                    reader.Read();// </RotationSteps
                 }
-                reader.Read();// </RotationSteps
                 reader.Read();// </Rotation
                 Add(r.DisplayName,r);
             }

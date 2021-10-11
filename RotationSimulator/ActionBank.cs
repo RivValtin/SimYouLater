@@ -841,7 +841,5 @@ namespace RotationSimulator
             #endregion
 
         }
-
-
     }
 }
