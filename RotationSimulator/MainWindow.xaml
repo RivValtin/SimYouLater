@@ -20,22 +20,32 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <Button x:Name="button" Content="Simulate" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="button_Simulate"/>
-                    <TextBlock x:Name="textBlock" Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" HorizontalAlignment="Left" Text="0 potency per second" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="150"/>
+                    <Button x:Name="button" Content="Run Simulation" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Click="button_Simulate"/>
+                    <TextBlock Grid.Row="1" Grid.Column="0" Margin="5,5,5,5">Selected Rotation</TextBlock>
+                    <ComboBox x:Name="cb_simulationRotationSelection" IsEditable="False" Grid.Row="2" Grid.Column="0" Margin="5,5,5,5" SelectionChanged="cb_simulationRotationSelection_Changed" MinWidth="150">
+                    </ComboBox>
+                    <TextBlock Grid.Row="3" Grid.Column="0" Margin="5,5,5,5">Selected Gearset</TextBlock>
+                    <ComboBox IsEditable="False" Grid.Row="4" Grid.Column="0" Margin="5,5,5,5">
+                    </ComboBox>
+                    
 
                     <TextBlock Grid.Row="0" Grid.Column="1" Margin="5,5,5,5" FontSize="24">Simulation Log</TextBlock>
-
                     <ComboBox x:Name="cmb_logLevel" Grid.Row="1" Grid.Column="1" IsEditable="False" SelectedIndex="2" SelectionChanged="cmb_logLevel_SelectionChanged">
                         <ComboBoxItem>Display Errors Only</ComboBoxItem>
                         <ComboBoxItem>Display Error/Warnings</ComboBoxItem>
                         <ComboBoxItem>Display Errors, Warnings, Info</ComboBoxItem>
                         <ComboBoxItem>Display All</ComboBoxItem>
                     </ComboBox>
-                    <ScrollViewer VerticalScrollBarVisibility="Visible" Grid.Row="2" Grid.Column="1" Grid.RowSpan="2">
+                    <ScrollViewer VerticalScrollBarVisibility="Visible" Grid.Row="2" Grid.Column="1" Grid.RowSpan="12" MinWidth="200">
                         <TextBlock x:Name="tb_logOutput" Margin="5,5,5,5"><InlineUIContainer><Image Source="pack://application:,,,/images/icons/mch_detonator.png" /></InlineUIContainer>lol</TextBlock>
                     </ScrollViewer>
+
+                    <TextBlock x:Name="textBlock" Grid.Row="1" Grid.Column="2" Grid.RowSpan="4" HorizontalAlignment="Left" Text="(simulation basic output)" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="150" Margin="5,5,5,5"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Rotation Editor">

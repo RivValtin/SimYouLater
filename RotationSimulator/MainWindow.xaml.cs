@@ -111,6 +111,7 @@ namespace RotationSimulator
         }
 
         private void UpdateRotationListDisplay() {
+            //-- Update the list in the rotation tab
             lb_rotationsList.Items.Clear();
 
             foreach (string rotationName in rotations.Keys) {
@@ -118,6 +119,15 @@ namespace RotationSimulator
             }
 
             lb_rotationsList.SelectedItem = activeRotationName;
+
+            //-- Update the combo box in the simulate tab
+            cb_simulationRotationSelection.Items.Clear();
+
+            foreach (string rotName in rotations.Keys) {
+                cb_simulationRotationSelection.Items.Add(rotName);
+            }
+
+            cb_simulationRotationSelection.SelectedItem = activeRotationName;
         }
 
         private void UpdateRotationDisplay() {
@@ -458,12 +468,24 @@ namespace RotationSimulator
             ListBox listBox = sender as ListBox;
             string newRotationName = listBox.SelectedItem as string;
             if (newRotationName != null && newRotationName != activeRotationName) {
-                activeRotationName = newRotationName;
-                activeRotation = rotations[activeRotationName];
-                UpdateRotationDisplay();
-                UpdateRotationListDisplay();
-                UpdateActionSet();
+                ChangeActiveRotation(newRotationName);
             }
+        }
+
+        private void cb_simulationRotationSelection_Changed(object sender, SelectionChangedEventArgs e) {
+            ComboBox comboBox = sender as ComboBox;
+            string newRotation = comboBox.SelectedItem as string;
+            if (newRotation != null && newRotation != activeRotationName) {
+                ChangeActiveRotation(newRotation);
+            }
+        }
+
+        private void ChangeActiveRotation(string rotationName) {
+            activeRotationName = rotationName;
+            activeRotation = rotations[activeRotationName];
+            UpdateRotationDisplay();
+            UpdateRotationListDisplay();
+            UpdateActionSet();
         }
 
         private void cmb_logLevel_SelectionChanged(object sender, SelectionChangedEventArgs e) {

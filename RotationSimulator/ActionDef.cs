@@ -137,6 +137,5 @@ namespace RotationSimulator
         /// Stacks is the minimum number of stacks that will cause an error (e.g. if set to 3, it will not cause an error if at 0-2 stacks, but will at 3 or more)/
         /// </summary>
         public IEnumerable<EffectRequirement> RequiredAbsentEffects { get; init; } = new List<EffectRequirement>();
-
     }
 }

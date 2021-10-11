@@ -115,7 +115,7 @@ namespace RotationSimulator
                 }
                 time = newTime;
 
-                //-- Discover next time to advance to (MaxInt means we're done).
+                //-- Discover next time to advance to.
                 newTime = int.MaxValue;
                 foreach (ITimedElement element in finiteTimedElements) {
                     int nextEventTime = element.NextEvent();
