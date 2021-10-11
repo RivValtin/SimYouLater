@@ -34,18 +34,29 @@ namespace RotationSimulator.TimedElements
 
         public void AdvanceTime(int time) {
             CurrentTime += time;
-            if(AnimationLockTimer.IsAnimationLocked ||
-                CastTimer.IsCasting)
-                return;
 
             //If we're out of steps, we done.
             if (currentStepIndice >= RotationSteps.Count)
                 return;
 
+            //--- If it's an action step, grab the action here so we can detect drift.
+            ActionDef currentAction = null;
+            if (RotationSteps[currentStepIndice].Type == ERotationStepType.Action) {
+                string actionDefId = RotationSteps[currentStepIndice].Parameters["action"];
+                currentAction = ActionBank.actions[actionDefId];
+
+                if (currentAction.IsGCD && AnimationLockTimer.IsAnimationLocked && GCDTimer.IsGCDAvailable) {
+                    SimLog.Warning("GCD drift detected. Delayed because of animation lock, probable overweaving.", CurrentTime);
+                }
+            }
+
+            if (AnimationLockTimer.IsAnimationLocked ||
+                CastTimer.IsCasting) {
+                return;
+            }
+
             switch (RotationSteps[currentStepIndice].Type) {
                 case ERotationStepType.Action:
-                    string actionDefId = RotationSteps[currentStepIndice].Parameters["action"];
-                    ActionDef currentAction = ActionBank.actions[actionDefId];
                     if (currentAction.IsGCD && !GCDTimer.IsGCDAvailable)
                         return;
 
@@ -56,7 +67,7 @@ namespace RotationSimulator.TimedElements
 
                     if (RecastTimer.GetAvailableCharges(recastAction) <= 0) {
                         if (currentAction.IsGCD && GCDTimer.IsGCDAvailable) {
-                            SimLog.Error("Warning: GCD drift detected. Delayed because next ability still on cooldown.", CurrentTime);
+                            SimLog.Warning("GCD drift detected. Delayed because next ability still on cooldown.", CurrentTime);
                         }
                         return;
                     }
