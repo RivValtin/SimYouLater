@@ -214,7 +214,7 @@ namespace RotationSimulator
                     new EffectApplication
                     {
                         effect = EffectsBank.effects["SMN_BahamutSummoned"],
-                        Duration = 2000,
+                        Duration = 1500,
                     },
                     new EffectApplication
                     {
@@ -326,7 +326,7 @@ namespace RotationSimulator
                     new EffectApplication
                     {
                         effect = EffectsBank.effects["SMN_PhoenixSummoned"],
-                        Duration = 2000,
+                        Duration = 1500,
                     },
                     new EffectApplication
                     {
