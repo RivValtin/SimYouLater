@@ -57,6 +57,7 @@
     <None Remove="images\icons\role_leggraze.png" />
     <None Remove="images\icons\role_peloton.png" />
     <None Remove="images\icons\role_secondwind.png" />
+    <None Remove="images\icons\role_swiftcast.png" />
     <None Remove="images\icons\smn_astralimpulse.png" />
     <None Remove="images\icons\smn_crimsoncyclone.png" />
     <None Remove="images\icons\smn_crimsonstrike.png" />
@@ -201,6 +202,7 @@
     <Resource Include="images\icons\role_secondwind.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="images\icons\role_swiftcast.png" />
     <Resource Include="images\icons\smn_astralimpulse.png" />
     <Resource Include="images\icons\smn_crimsoncyclone.png" />
     <Resource Include="images\icons\smn_crimsonstrike.png" />

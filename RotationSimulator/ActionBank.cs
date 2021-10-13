@@ -40,6 +40,24 @@ namespace RotationSimulator
             List<ActionDef> tankActions = new List<ActionDef>();
             actionSets.Add("Tank", tankActions);
 
+            ActionDef Role_Swiftcast = new ActionDef()
+            {
+                UniqueID = "Role_Swiftcast",
+                IsGCD = false,
+                DisplayName = "Swiftcast",
+                IconName = "role_swiftcast.png",
+                AppliedEffects = new List<EffectApplication>()
+                {
+                    new EffectApplication()
+                    {
+                        effect = EffectsBank.effects["Role_Swiftcast"],
+                        Duration = 1000
+                    }
+                }
+            };
+            casterActions.Add(Role_Swiftcast);
+            healerActions.Add(Role_Swiftcast);
+            actions.Add(Role_Swiftcast.UniqueID, Role_Swiftcast);
             #endregion
 
             #region Summoner

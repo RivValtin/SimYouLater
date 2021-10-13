@@ -11,6 +11,13 @@ namespace RotationSimulator
         public static readonly Dictionary<string, EffectDef> effects = new Dictionary<string, EffectDef>();
         
         static EffectsBank() {
+            #region Role
+            effects.Add("Role_Swiftcast", new EffectDef()
+            {
+                UniqueID = "Role_Swiftcast",
+                DisplayName = "Swiftcast",
+            });
+            #endregion
 
             #region Summoner
             effects.Add("SMN_SearingLight", new EffectDef()

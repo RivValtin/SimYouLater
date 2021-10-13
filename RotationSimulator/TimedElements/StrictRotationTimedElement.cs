@@ -79,7 +79,11 @@ namespace RotationSimulator.TimedElements
                     }
 
                     if (currentAction.CastTime > 0) {
-                        CastTimer.StartCasting(currentAction, GetScaledCastTime(currentAction)); 
+                        if (ActiveEffectTimer.GetActiveStacks("Role_Swiftcast") > 0) {
+                            ActionInvoker.InvokeAction(currentAction, CurrentTime);
+                        } else {
+                            CastTimer.StartCasting(currentAction, GetScaledCastTime(currentAction));
+                        }
                     } else {
                         ActionInvoker.InvokeAction(currentAction, CurrentTime);
                     }
