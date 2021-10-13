@@ -26,7 +26,7 @@ namespace RotationSimulator
             //---- Calculate potency multipliers
             float ePotencyMulti = 1.0f;
             float buffPotencyMulti = 1.0f;
-            if (ActiveEffectTimer.GetActiveStacks("SMN_Devotion") > 0) {
+            if (ActiveEffectTimer.GetActiveStacks("SMN_SearingLight") > 0) {
                 buffPotencyMulti *= 1.03f;
             }
             if (ActiveEffectTimer.GetActiveStacks("NIN_TrickAttack") > 0) {
