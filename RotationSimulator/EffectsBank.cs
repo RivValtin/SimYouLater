@@ -13,59 +13,104 @@ namespace RotationSimulator
         static EffectsBank() {
 
             #region Summoner
-            effects.Add("SMN_Devotion", new EffectDef()
+            effects.Add("SMN_SearingLight", new EffectDef()
             {
-                UniqueID = "SMN_Devotion",
-                DisplayName = "Devotion",
+                UniqueID = "SMN_SearingLight",
+                DisplayName = "Searing Light",
             });
             effects.Add("SMN_BahamutSummoned", new EffectDef()
             {
                 UniqueID = "SMN_BahamutSummoned",
                 DisplayName = "Bahamut Summoned",
+                Type = EEffectType.Hidden
             });
             effects.Add("SMN_PhoenixAvailable", new EffectDef()
             {
                 UniqueID = "SMN_PhoenixAvailable",
                 DisplayName = "Phoenix Available",
+                Type = EEffectType.Hidden
             });
-            effects.Add("SMN_IfritGem", new EffectDef()
+            effects.Add("SMN_PhoenixSummoned", new EffectDef()
             {
-                UniqueID = "SMN_IfritGem",
-                DisplayName = "Ifrit Gem Available",
+                UniqueID = "SMN_PhoenixSummoned",
+                DisplayName = "Phoenix Summoned",
+                Type = EEffectType.Hidden
             });
-            effects.Add("SMN_GarudaGem", new EffectDef()
+            effects.Add("SMN_FireArcanum", new EffectDef()
             {
-                UniqueID = "SMN_GarudaGem",
-                DisplayName = "Garuda Gem Available",
+                UniqueID = "SMN_FireArcanum",
+                DisplayName = "Fire Arcanum",
+                Type = EEffectType.Hidden
             });
-            effects.Add("SMN_TitanGem", new EffectDef()
+            effects.Add("SMN_WindArcanum", new EffectDef()
             {
-                UniqueID = "SMN_TitanGem",
-                DisplayName = "Titan Gem Available",
+                UniqueID = "SMN_WindArcanum",
+                DisplayName = "Wind Arcanum",
+                Type = EEffectType.Hidden
+            });
+            effects.Add("SMN_EarthArcanum", new EffectDef()
+            {
+                UniqueID = "SMN_EarthArcanum",
+                DisplayName = "Earth Arcanum",
                 Type = EEffectType.Hidden,
             });
-            effects.Add("SMN_IfritCharges", new EffectDef()
+            effects.Add("SMN_FireAttunement", new EffectDef()
             {
-                UniqueID = "SMN_IfritCharges",
-                DisplayName = "Ifrit Aether Charged",
-                UsesStacks = true
+                UniqueID = "SMN_FireAttunement",
+                DisplayName = "Fire Attunement",
+                UsesStacks = true,
+                Type = EEffectType.Resource,
             });
-            effects.Add("SMN_GarudaCharges", new EffectDef()
+            effects.Add("SMN_IfritsFavor", new EffectDef()
             {
-                UniqueID = "SMN_GarudaCharges",
-                DisplayName = "Garuda Aether Charged",
-                UsesStacks = true
+                UniqueID = "SMN_IfritsFavor",
+                DisplayName = "Ifrit's Favor",
+                Type = EEffectType.Hidden,
             });
-            effects.Add("SMN_TitanCharges", new EffectDef()
+            effects.Add("SMN_CrimsonStrikeReady", new EffectDef()
             {
-                UniqueID = "SMN_TitanCharges",
-                DisplayName = "Titan Aether Charged",
-                UsesStacks = true
+                UniqueID = "SMN_CrimsonStrikeReady",
+                DisplayName = "Crimson Strike Ready",
+                UsesStacks = true,
+                Type = EEffectType.Combo,
             });
-            effects.Add("SMN_Ruination", new EffectDef()
+            effects.Add("SMN_WindAttunement", new EffectDef()
             {
-                UniqueID = "SMN_Ruination",
-                DisplayName = "Ruination",
+                UniqueID = "SMN_WindAttunement",
+                DisplayName = "Wind Attunement",
+                UsesStacks = true,
+                Type = EEffectType.Resource,
+            });
+            effects.Add("SMN_GarudasFavor", new EffectDef()
+            {
+                UniqueID = "SMN_GarudasFavor",
+                DisplayName = "Garuda's Favor",
+                Type = EEffectType.Hidden,
+            });
+            effects.Add("SMN_Slipstream", new EffectDef()
+            {
+                UniqueID = "SMN_Slipstream",
+                DisplayName = "Slipstream",
+                Type = EEffectType.Debuff,
+                Potency = 30
+            });
+            effects.Add("SMN_EarthAttunement", new EffectDef()
+            {
+                UniqueID = "SMN_EarthAttunement",
+                DisplayName = "Earth Attunement",
+                UsesStacks = true,
+                Type = EEffectType.Resource,
+            });
+            effects.Add("SMN_TitansFavor", new EffectDef()
+            {
+                UniqueID = "SMN_TitansFavor",
+                DisplayName = "Titan's Favor",
+                Type = EEffectType.Hidden,
+            });
+            effects.Add("SMN_FurtherRuin", new EffectDef()
+            {
+                UniqueID = "SMN_FurtherRuin",
+                DisplayName = "Further Ruin",
             });
             effects.Add("SMN_Aetherflow", new EffectDef()
             {

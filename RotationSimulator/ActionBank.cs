@@ -47,76 +47,8 @@ namespace RotationSimulator
             actionSets.Add("SMN", summonerActionSet);
             summonerActionSet.AddRange(casterActions);
 
-            ActionDef SMN_SummonBahamut = new ActionDef()
-            {
-                UniqueID = "SMN_SummonBahamut",
-                IsGCD = true,
-                IsSpell = true,
-                CastTime = 0,
-                RecastGCD = BASE_GCD,
-                Recast = 6000,
-                RecastScalesWithSps = true,
-                RecastScalesWithHaste = true,
-                Potency = 700,
-                DisplayName = "Summon Bahamut",
-                IconName = "smn_summon_phoenix.png",
-                AppliedEffects = new List<EffectApplication>
-                {
-                    new EffectApplication
-                    {
-                        effect = EffectsBank.effects["SMN_BahamutSummoned"],
-                        Duration = 1500,
-                    },
-                    new EffectApplication
-                    {
-                        effect = EffectsBank.effects["SMN_PhoenixAvailable"],
-                        Duration = int.MaxValue,
-                    },
-                    new EffectApplication
-                    {
-                        effect = EffectsBank.effects["SMN_IfritGem"],
-                        Duration = int.MaxValue,
-                    },
-                    new EffectApplication
-                    {
-                        effect = EffectsBank.effects["SMN_GarudaGem"],
-                        Duration = int.MaxValue,
-                    },
-                    new EffectApplication
-                    {
-                        effect = EffectsBank.effects["SMN_TitanGem"],
-                        Duration = int.MaxValue,
-                    }
-                },
-                RequiredAbsentEffects = new List<EffectRequirement>()
-                {
-                    new EffectRequirement()
-                    {
-                        effect = EffectsBank.effects["SMN_PhoenixAvailable"],
-                    }
-                }
-            };
-            summonerActionSet.Add(SMN_SummonBahamut);
-            actions.Add(SMN_SummonBahamut.UniqueID, SMN_SummonBahamut);
-
-            ActionDef SMN_BahamutFiller = new ActionDef()
-            {
-                UniqueID = "SMN_BahamutFiller",
-                IsGCD = true,
-                IsSpell = true,
-                CastTime = 0,
-                RecastGCD = BASE_GCD,
-                Potency = 400,
-                DisplayName = "(Bahamut Filler)",
-                RequiredEffects = new List<EffectRequirement>() {
-                    new EffectRequirement()
-                    {
-                        effect = EffectsBank.effects["SMN_BahamutSummoned"]
-                    }
-                }
-            };
-            summonerActionSet.Add(SMN_BahamutFiller);
-            actions.Add(SMN_BahamutFiller.UniqueID, SMN_BahamutFiller);
+            #region Non-Summons
+            //TODO: Ruin 1/2 upgrade path
 
             ActionDef SMN_Ruin3 = new ActionDef()
             {
@@ -125,8 +57,19 @@ namespace RotationSimulator
                 IsSpell = true,
                 CastTime = GCD_150,
                 RecastGCD = BASE_GCD,
-                Potency = 300,
-                DisplayName = "Ruin 3"
+                Potency = 310,
+                DisplayName = "Ruin 3",
+                RequiredAbsentEffects = new List<EffectRequirement>()
+                {
+                    new EffectRequirement()
+                    {
+                        effect = EffectsBank.effects["SMN_BahamutSummoned"]
+                    },
+                    new EffectRequirement()
+                    {
+                        effect = EffectsBank.effects["SMN_PhoenixSummoned"]
+                    }
+                }
             };
             summonerActionSet.Add(SMN_Ruin3);
             actions.Add(SMN_Ruin3.UniqueID, SMN_Ruin3);
@@ -144,53 +87,58 @@ namespace RotationSimulator
                 {
                     new EffectRequirement()
                     {
-                        effect = EffectsBank.effects["SMN_Ruination"]
+                        effect = EffectsBank.effects["SMN_FurtherRuin"]
                     }
                 },
                 RemoveEffectStacks = new List<Tuple<string, int>>()
                 {
-                    new Tuple<string, int>("SMN_Ruination", 1)
+                    new Tuple<string, int>("SMN_FurtherRuin", 1)
                 }
             };
             summonerActionSet.Add(SMN_Ruin4);
             actions.Add(SMN_Ruin4.UniqueID, SMN_Ruin4);
 
-            ActionDef SMN_BahamutEnkindle = new ActionDef()
-            {
-                UniqueID = "SMN_BahamutEnkindle",
-                IsGCD = false,
-                Potency = 600,
-                DisplayName = "Enkindle (Akh Morn)",
-                Recast = 800,
-                RequiredEffects = new List<EffectRequirement>()
-                {
-                    new EffectRequirement()
-                    {
-                        effect = EffectsBank.effects["SMN_BahamutSummoned"]
-                    }
-                }
-            };
-            summonerActionSet.Add(SMN_BahamutEnkindle);
-            actions.Add(SMN_BahamutEnkindle.UniqueID, SMN_BahamutEnkindle);
+            //TODO Outburst/Tridisaster
+
+            //TODO: Aethercharge into Trance (into bahamut) upgrade path
 
             ActionDef SMN_EnergyDrain = new ActionDef()
             {
                 UniqueID = "SMN_EnergyDrain",
                 IsGCD = false,
-                Potency = 100,
+                Potency = 200,
                 DisplayName = "Energy Drain",
                 Recast = 6000,
                 AppliedEffects = new List<EffectApplication>()
                 {
                     new EffectApplication()
                     {
-                        effect = EffectsBank.effects["SMN_Ruination"],
+                        effect = EffectsBank.effects["SMN_FurtherRuin"],
                         Duration=6000,
                     }
                 }
             };
             summonerActionSet.Add(SMN_EnergyDrain);
             actions.Add(SMN_EnergyDrain.UniqueID, SMN_EnergyDrain);
+
+            ActionDef SMN_EnergySiphon = new ActionDef()
+            {
+                UniqueID = "SMN_EnergySiphon",
+                IsGCD = false,
+                Potency = 100,
+                DisplayName = "Energy Siphon",
+                Recast = 6000,
+                AppliedEffects = new List<EffectApplication>()
+                {
+                    new EffectApplication()
+                    {
+                        effect = EffectsBank.effects["SMN_FurtherRuin"],
+                        Duration=6000,
+                    }
+                }
+            };
+            summonerActionSet.Add(SMN_EnergySiphon);
+            actions.Add(SMN_EnergySiphon.UniqueID, SMN_EnergySiphon);
 
             ActionDef SMN_Fester = new ActionDef()
             {
@@ -214,13 +162,104 @@ namespace RotationSimulator
                 {
                     new EffectApplication()
                     {
-                        effect = EffectsBank.effects["SMN_Ruination"],
+                        effect = EffectsBank.effects["SMN_FurtherRuin"],
                         Duration=6000,
                     }
                 }
             };
             summonerActionSet.Add(SMN_Painflare);
             actions.Add(SMN_Painflare.UniqueID, SMN_Painflare);
+
+            #endregion
+
+            #region Bahamut
+            ActionDef SMN_SummonBahamut = new ActionDef()
+            {
+                UniqueID = "SMN_SummonBahamut",
+                IsGCD = true,
+                IsSpell = true,
+                CastTime = 0,
+                RecastGCD = BASE_GCD,
+                Recast = 6000,
+                RecastScalesWithSps = true,
+                RecastScalesWithHaste = true,
+                DisplayName = "Summon Bahamut",
+                IconName = "smn_summon_phoenix.png",
+                AppliedEffects = new List<EffectApplication>
+                {
+                    new EffectApplication
+                    {
+                        effect = EffectsBank.effects["SMN_BahamutSummoned"],
+                        Duration = 2000,
+                    },
+                    new EffectApplication
+                    {
+                        effect = EffectsBank.effects["SMN_PhoenixAvailable"],
+                        Duration = int.MaxValue,
+                    },
+                    new EffectApplication
+                    {
+                        effect = EffectsBank.effects["SMN_FireArcanum"],
+                        Duration = int.MaxValue,
+                    },
+                    new EffectApplication
+                    {
+                        effect = EffectsBank.effects["SMN_WindArcanum"],
+                        Duration = int.MaxValue,
+                    },
+                    new EffectApplication
+                    {
+                        effect = EffectsBank.effects["SMN_EarthArcanum"],
+                        Duration = int.MaxValue,
+                    }
+                },
+                RequiredAbsentEffects = new List<EffectRequirement>()
+                {
+                    new EffectRequirement()
+                    {
+                        effect = EffectsBank.effects["SMN_PhoenixAvailable"],
+                    }
+                }
+            };
+            summonerActionSet.Add(SMN_SummonBahamut);
+            actions.Add(SMN_SummonBahamut.UniqueID, SMN_SummonBahamut);
+
+            ActionDef SMN_AstralImpulse = new ActionDef()
+            {
+                UniqueID = "SMN_AstralImpulse",
+                IsGCD = true,
+                IsSpell = true,
+                CastTime = 0,
+                RecastGCD = BASE_GCD,
+                Potency = 580, //TODO: Split WyrmWave out (430 + 150 instead of 580 in one chunk)
+                DisplayName = "Astral Impulse",
+                RequiredEffects = new List<EffectRequirement>() {
+                    new EffectRequirement()
+                    {
+                        effect = EffectsBank.effects["SMN_BahamutSummoned"]
+                    }
+                }
+            };
+            summonerActionSet.Add(SMN_AstralImpulse);
+            actions.Add(SMN_AstralImpulse.UniqueID, SMN_AstralImpulse);
+
+            ActionDef SMN_BahamutEnkindle = new ActionDef()
+            {
+                UniqueID = "SMN_BahamutEnkindle",
+                IsGCD = false,
+                Potency = 650,
+                DisplayName = "Enkindle (Akh Morn)",
+                Recast = 800,
+                RequiredEffects = new List<EffectRequirement>()
+                {
+                    new EffectRequirement()
+                    {
+                        effect = EffectsBank.effects["SMN_BahamutSummoned"]
+                    }
+                }
+            };
+            summonerActionSet.Add(SMN_BahamutEnkindle);
+            actions.Add(SMN_BahamutEnkindle.UniqueID, SMN_BahamutEnkindle);
 
             ActionDef SMN_Deathflare = new ActionDef()
             {
@@ -240,6 +279,97 @@ namespace RotationSimulator
             summonerActionSet.Add(SMN_Deathflare);
             actions.Add(SMN_Deathflare.UniqueID, SMN_Deathflare);
 
+            #endregion
+
+            #region Phoenix
+            ActionDef SMN_SummonPhoenix = new ActionDef()
+            {
+                UniqueID = "SMN_SummonPhoenix",
+                IsGCD = true,
+                IsSpell = true,
+                CastTime = 0,
+                RecastGCD = BASE_GCD,
+                Recast = 6000,
+                RecastScalesWithSps = true,
+                RecastScalesWithHaste = true,
+                DisplayName = "Summon Phoenix",
+                IconName = "smn_summon_phoenix.png",
+                AppliedEffects = new List<EffectApplication>
+                {
+                    new EffectApplication
+                    {
+                        effect = EffectsBank.effects["SMN_PhoenixSummoned"],
+                        Duration = 2000,
+                    },
+                    new EffectApplication
+                    {
+                        effect = EffectsBank.effects["SMN_FireArcanum"],
+                        Duration = int.MaxValue,
+                    },
+                    new EffectApplication
+                    {
+                        effect = EffectsBank.effects["SMN_WindArcanum"],
+                        Duration = int.MaxValue,
+                    },
+                    new EffectApplication
+                    {
+                        effect = EffectsBank.effects["SMN_EarthArcanum"],
+                        Duration = int.MaxValue,
+                    }
+                },
+                RequiredEffects = new List<EffectRequirement>()
+                {
+                    new EffectRequirement()
+                    {
+                        effect = EffectsBank.effects["SMN_PhoenixAvailable"],
+                    }
+                }
+            };
+            summonerActionSet.Add(SMN_SummonPhoenix);
+            actions.Add(SMN_SummonPhoenix.UniqueID, SMN_SummonPhoenix);
+
+            ActionDef SMN_FountainOfFire = new ActionDef()
+            {
+                UniqueID = "SMN_FountainOfFire",
+                IsGCD = true,
+                IsSpell = true,
+                CastTime = 0,
+                RecastGCD = BASE_GCD,
+                Potency = 580, //TODO: Split Scarlet Flame out (430 + 150 instead of 580)
+                DisplayName = "Fountain of Fire",
+                RequiredEffects = new List<EffectRequirement>() {
+                    new EffectRequirement()
+                    {
+                        effect = EffectsBank.effects["SMN_PhoenixSummoned"]
+                    }
+                }
+            };
+            summonerActionSet.Add(SMN_FountainOfFire);
+            actions.Add(SMN_FountainOfFire.UniqueID, SMN_FountainOfFire);
+
+            ActionDef SMN_PhoenixEnkindle = new ActionDef()
+            {
+                UniqueID = "SMN_PhoenixEnkindle",
+                IsGCD = false,
+                Potency = 650,
+                DisplayName = "Enkindle Phoenix (Revelation)",
+                Recast = 800,
+                RequiredEffects = new List<EffectRequirement>()
+                {
+                    new EffectRequirement()
+                    {
+                        effect = EffectsBank.effects["SMN_PhoenixSummoned"]
+                    }
+                }
+            };
+            summonerActionSet.Add(SMN_PhoenixEnkindle);
+            actions.Add(SMN_PhoenixEnkindle.UniqueID, SMN_PhoenixEnkindle);
+
+            #endregion
+
+            #region Ifrit
+            //TODO: Ruby carbuncle/ summon I upgrade path
+
             ActionDef SMN_SummonIfrit = new ActionDef()
             {
                 UniqueID = "SMN_SummonIfrit",
@@ -248,76 +378,125 @@ namespace RotationSimulator
                 CastTime = 0,
                 RecastGCD = BASE_GCD,
                 Potency = 700,
-                DisplayName = "Summon Ifrit"
+                DisplayName = "Summon Ifrit",
+                AppliedEffects = new List<EffectApplication>() { 
+                    new EffectApplication()
+                    {
+                        effect = EffectsBank.effects["SMN_FireAttunement"],
+                        Duration = 3000,
+                        Stacks = 2
+                    },
+                    new EffectApplication()
+                    {
+                        effect = EffectsBank.effects["SMN_IfritsFavor"],
+                        Duration = 3000,
+                        Stacks = 1
+                    }
+                },
+                RequiredEffects = new List<EffectRequirement>()
+                {
+                    new EffectRequirement()
+                    {
+                        effect = EffectsBank.effects["SMN_FireArcanum"]
+                    }
+                },
+                RemoveEffectStacks = new List<Tuple<string, int>>()
+                {
+                    new Tuple<string, int>("SMN_FireArcanum", 1)
+                }
             };
             summonerActionSet.Add(SMN_SummonIfrit);
             actions.Add(SMN_SummonIfrit.UniqueID, SMN_SummonIfrit);
 
-            ActionDef SMN_IfritEA1 = new ActionDef()
+            ActionDef SMN_RubyRite = new ActionDef()
             {
-                UniqueID = "SMN_IfritEA1",
+                UniqueID = "SMN_RubyRite",
                 IsGCD = true,
                 IsSpell = true,
-                CastTime = BASE_GCD,
+                CastTime = 280,
                 RecastGCD = BASE_GCD,
-                Potency = 400,
-                DisplayName = "(Ifrit EA1)"
+                Potency = 430,
+                DisplayName = "Ruby Rite",
+                RequiredEffects = new List<EffectRequirement>()
+                {
+                    new EffectRequirement()
+                    {
+                        effect = EffectsBank.effects["SMN_FireAttunement"]
+                    }
+                },
+                RemoveEffectStacks = new List<Tuple<string, int>>()
+                {
+                    new Tuple<string, int>("SMN_FireAttunement", 1)
+                }
             };
-            summonerActionSet.Add(SMN_IfritEA1);
-            actions.Add(SMN_IfritEA1.UniqueID, SMN_IfritEA1);
+            summonerActionSet.Add(SMN_RubyRite);
+            actions.Add(SMN_RubyRite.UniqueID, SMN_RubyRite);
 
-            ActionDef SMN_IfritEA2 = new ActionDef()
+            ActionDef SMN_CrimsonCyclone = new ActionDef()
             {
-                UniqueID = "SMN_IfritEA2",
+                UniqueID = "SMN_CrimsonCyclone",
                 IsGCD = true,
                 IsSpell = true,
                 CastTime = 0,
                 RecastGCD = BASE_GCD,
-                Potency = 400,
-                DisplayName = "(Ifrit EA2)"
+                Potency = 430,
+                DisplayName = "Crimson Cyclone",
+                AppliedEffects = new List<EffectApplication>() {
+                    new EffectApplication()
+                    {
+                        effect = EffectsBank.effects["SMN_CrimsonStrikeReady"],
+                        Duration = 300
+                    }
+                },
+                RequiredAbsentEffects = new List<EffectRequirement>()
+                {
+                    new EffectRequirement()
+                    {
+                        effect = EffectsBank.effects["SMN_CrimsonStrikeReady"]
+                    }
+                },
+                RequiredEffects = new List<EffectRequirement>()
+                {
+                    new EffectRequirement()
+                    {
+                        effect = EffectsBank.effects["SMN_IfritsFavor"]
+                    }
+                },
+                RemoveEffectStacks = new List<Tuple<string, int>>()
+                {
+                    new Tuple<string, int>("SMN_IfritsFavor", 1)
+                }
             };
-            summonerActionSet.Add(SMN_IfritEA2);
-            actions.Add(SMN_IfritEA2.UniqueID, SMN_IfritEA2);
+            summonerActionSet.Add(SMN_CrimsonCyclone);
+            actions.Add(SMN_CrimsonCyclone.UniqueID, SMN_CrimsonCyclone);
 
-            ActionDef SMN_SummonGaruda = new ActionDef()
+            ActionDef SMN_CrimsonStrike = new ActionDef()
             {
-                UniqueID = "SMN_SummonGaruda",
+                UniqueID = "SMN_CrimsonStrike",
                 IsGCD = true,
                 IsSpell = true,
                 CastTime = 0,
                 RecastGCD = BASE_GCD,
-                Potency = 700,
-                DisplayName = "Summon Garuda"
+                Potency = 430,
+                DisplayName = "Crimson Strike",
+                RequiredEffects = new List<EffectRequirement>()
+                {
+                    new EffectRequirement()
+                    {
+                        effect = EffectsBank.effects["SMN_CrimsonStrikeReady"]
+                    }
+                },
+                RemoveEffectStacks = new List<Tuple<string, int>>()
+                {
+                    new Tuple<string, int>("SMN_CrimsonStrikeReady", 1)
+                }
             };
-            summonerActionSet.Add(SMN_SummonGaruda);
-            actions.Add(SMN_SummonGaruda.UniqueID, SMN_SummonGaruda);
+            summonerActionSet.Add(SMN_CrimsonStrike);
+            actions.Add(SMN_CrimsonStrike.UniqueID, SMN_CrimsonStrike);
+            #endregion
 
-            ActionDef SMN_GarudaEA1 = new ActionDef()
-            {
-                UniqueID = "SMN_GarudaEA1",
-                IsGCD = true,
-                IsSpell = true,
-                CastTime = 0,
-                RecastGCD = GCD_150,
-                Potency = 300,
-                DisplayName = "(Garuda EA1)"
-            };
-            summonerActionSet.Add(SMN_GarudaEA1);
-            actions.Add(SMN_GarudaEA1.UniqueID, SMN_GarudaEA1);
-
-            ActionDef SMN_GarudaEA2 = new ActionDef()
-            {
-                UniqueID = "SMN_GarudaEA2",
-                IsGCD = true,
-                IsSpell = true,
-                CastTime = BASE_GCD,
-                RecastGCD = BASE_GCD,
-                Potency = 400,
-                DisplayName = "(Garuda EA2)"
-            };
-            summonerActionSet.Add(SMN_GarudaEA2);
-            actions.Add(SMN_GarudaEA2.UniqueID, SMN_GarudaEA2);
-
+            #region Titan
+            //TODO: Topaz Carbuncle / Summon I upgrade path
             ActionDef SMN_SummonTitan = new ActionDef()
             {
                 UniqueID = "SMN_SummonTitan",
@@ -326,51 +505,185 @@ namespace RotationSimulator
                 CastTime = 0,
                 RecastGCD = BASE_GCD,
                 Potency = 700,
-                DisplayName = "Summon Titan"
+                DisplayName = "Summon Titan",
+                AppliedEffects = new List<EffectApplication>() {
+                    new EffectApplication()
+                    {
+                        effect = EffectsBank.effects["SMN_EarthAttunement"],
+                        Duration = 3000,
+                        Stacks = 4
+                    }
+                },
+                RequiredEffects = new List<EffectRequirement>()
+                {
+                    new EffectRequirement()
+                    {
+                        effect = EffectsBank.effects["SMN_EarthArcanum"]
+                    }
+                },
+                RemoveEffectStacks = new List<Tuple<string, int>>()
+                {
+                    new Tuple<string, int>("SMN_EarthArcanum", 1)
+                }
             };
             summonerActionSet.Add(SMN_SummonTitan);
             actions.Add(SMN_SummonTitan.UniqueID, SMN_SummonTitan);
 
-            ActionDef SMN_TitanEA1 = new ActionDef()
+            ActionDef SMN_TopazRite = new ActionDef()
             {
-                UniqueID = "SMN_TitanEA1",
+                UniqueID = "SMN_TopazRite",
                 IsGCD = true,
                 IsSpell = true,
                 CastTime = 0,
                 RecastGCD = BASE_GCD,
                 Potency = 330,
-                DisplayName = "(Titan EA1)"
+                DisplayName = "Topaz Rite",
+                AppliedEffects = new List<EffectApplication>() {
+                    new EffectApplication()
+                    {
+                        effect = EffectsBank.effects["SMN_TitansFavor"],
+                        Duration = 3000,
+                        Stacks = 1
+                    }
+                }
             };
-            summonerActionSet.Add(SMN_TitanEA1);
-            actions.Add(SMN_TitanEA1.UniqueID, SMN_TitanEA1);
+            summonerActionSet.Add(SMN_TopazRite);
+            actions.Add(SMN_TopazRite.UniqueID, SMN_TopazRite);
 
-            ActionDef SMN_TitanEA2 = new ActionDef()
+            ActionDef SMN_MountainBuster = new ActionDef()
             {
-                UniqueID = "SMN_TitanEA2",
+                UniqueID = "SMN_MountainBuster",
                 IsGCD = false,
                 Potency = 150,
-                DisplayName = "(Titan EA2)"
+                DisplayName = "Mountain Buster",
+                RequiredEffects = new List<EffectRequirement>()
+                {
+                    new EffectRequirement()
+                    {
+                        effect = EffectsBank.effects["SMN_TitansFavor"]
+                    }
+                },
+                RemoveEffectStacks = new List<Tuple<string, int>>()
+                {
+                    new Tuple<string, int>("SMN_TitansFavor", 1)
+                }
             };
-            summonerActionSet.Add(SMN_TitanEA2);
-            actions.Add(SMN_TitanEA2.UniqueID, SMN_TitanEA2);
+            summonerActionSet.Add(SMN_MountainBuster);
+            actions.Add(SMN_MountainBuster.UniqueID, SMN_MountainBuster);
+            #endregion
 
-            ActionDef SMN_Devotion = new ActionDef()
+            #region Garuda
+            ActionDef SMN_SummonGaruda = new ActionDef()
             {
-                UniqueID = "SMN_Devotion",
+                UniqueID = "SMN_SummonGaruda",
+                IsGCD = true,
+                IsSpell = true,
+                CastTime = 0,
+                RecastGCD = BASE_GCD,
+                Potency = 700,
+                DisplayName = "Summon Garuda",
+                AppliedEffects = new List<EffectApplication>() {
+                    new EffectApplication()
+                    {
+                        effect = EffectsBank.effects["SMN_WindAttunement"],
+                        Duration = 3000,
+                        Stacks = 4
+                    },
+                    new EffectApplication()
+                    {
+                        effect = EffectsBank.effects["SMN_GarudasFavor"],
+                        Duration = 3000,
+                        Stacks = 1
+                    }
+                },
+                RequiredEffects = new List<EffectRequirement>()
+                {
+                    new EffectRequirement()
+                    {
+                        effect = EffectsBank.effects["SMN_WindArcanum"]
+                    }
+                },
+                RemoveEffectStacks = new List<Tuple<string, int>>()
+                {
+                    new Tuple<string, int>("SMN_WindArcanum", 1)
+                }
+            };
+            summonerActionSet.Add(SMN_SummonGaruda);
+            actions.Add(SMN_SummonGaruda.UniqueID, SMN_SummonGaruda);
+
+            ActionDef SMN_EmeraldRite = new ActionDef()
+            {
+                UniqueID = "SMN_EmeraldRite",
+                IsGCD = true,
+                IsSpell = true,
+                CastTime = 0,
+                RecastGCD = GCD_150,
+                Potency = 230,
+                DisplayName = "Emerald Rite",
+                RequiredEffects = new List<EffectRequirement>()
+                {
+                    new EffectRequirement()
+                    {
+                        effect = EffectsBank.effects["SMN_WindAttunement"]
+                    }
+                },
+                RemoveEffectStacks = new List<Tuple<string, int>>()
+                {
+                    new Tuple<string, int>("SMN_WindAttunement", 1)
+                }
+            };
+            summonerActionSet.Add(SMN_EmeraldRite);
+            actions.Add(SMN_EmeraldRite.UniqueID, SMN_EmeraldRite);
+
+            ActionDef SMN_Slipstream = new ActionDef()
+            {
+                UniqueID = "SMN_Slipstream",
+                IsGCD = true,
+                IsSpell = true,
+                CastTime = 300,
+                RecastGCD = 350,
+                Potency = 430,
+                DisplayName = "Slipstream",
+                AppliedEffects = new List<EffectApplication>() {
+                    new EffectApplication()
+                    {
+                        effect = EffectsBank.effects["SMN_Slipstream"],
+                        Duration = 1200
+                    }
+                },
+                RequiredEffects = new List<EffectRequirement>()
+                {
+                    new EffectRequirement()
+                    {
+                        effect = EffectsBank.effects["SMN_GarudasFavor"]
+                    }
+                },
+                RemoveEffectStacks = new List<Tuple<string, int>>()
+                {
+                    new Tuple<string, int>("SMN_GarudasFavor", 1)
+                }
+            };
+            summonerActionSet.Add(SMN_Slipstream);
+            actions.Add(SMN_Slipstream.UniqueID, SMN_Slipstream);
+            #endregion
+
+            ActionDef SMN_SearingLight = new ActionDef()
+            {
+                UniqueID = "SMN_SearingLight",
                 IsGCD = false,
-                DisplayName = "(Devotion)",
+                DisplayName = "Searing Light",
                 Recast = 12000,
                 AppliedEffects = new List<EffectApplication>() 
                 {
                     new EffectApplication()
                     {
-                        effect = EffectsBank.effects["SMN_Devotion"],
+                        effect = EffectsBank.effects["SMN_SearingLight"],
                         Duration = 3000
                     }
                 }
             };
-            summonerActionSet.Add(SMN_Devotion);
-            actions.Add(SMN_Devotion.UniqueID, SMN_Devotion);
+            summonerActionSet.Add(SMN_SearingLight);
+            actions.Add(SMN_SearingLight.UniqueID, SMN_SearingLight);
 
             #endregion
 

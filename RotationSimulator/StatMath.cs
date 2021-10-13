@@ -39,9 +39,9 @@ namespace RotationSimulator
             const int baseSpeed = 380; //the base substat you have with nothing increasing it. Increases with level, currently hardcoded to level 80 value.
 
             int speedSpread = speedSubstat - baseSpeed;
-            int bareMultiplier = 1000 - (int)(130.0d * speedSpread / levelBasedConstant);
+            int bareMultiplier = 1000 - 130 * speedSpread / levelBasedConstant;
 
-            return (int)(bareMultiplier * baseCast / 1000.0d);
+            return bareMultiplier * baseCast / 1000;
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace RotationSimulator
             const int baseSpeed = 380; //the base substat you have with nothing increasing it. Increases with level, currently hardcoded to level 80 value.
 
             int speedSpread = speed - baseSpeed;
-            int bareMultiplier = (int)(130.0d * speedSpread / levelBasedConstant);
+            int bareMultiplier = 130 * speedSpread / levelBasedConstant;
 
             return bareMultiplier;
         }
@@ -67,7 +67,7 @@ namespace RotationSimulator
             const int baseCrit = 380;
 
             int statSpread = critSubstat - baseCrit;
-            int bonus = (int)(200 * statSpread / levelBasedConstant) + 50;
+            int bonus = 200 * statSpread / levelBasedConstant + 50;
 
             return bonus;
         }
@@ -102,9 +102,20 @@ namespace RotationSimulator
             const int baseDet = 340;
 
             int statSpread = detSubstat - baseDet;
-            int bonus = (int)(130 * statSpread / levelBasedConstant);
+            int bonus = 130 * statSpread / levelBasedConstant;
 
             return bonus;
+        }
+
+        /// <summary>
+        /// Converts attack power into a multiplier on potency, in integer percent. (i.e. a value of 153 meants to multiply by 1.53)
+        /// </summary>
+        /// <param name="attackPower"></param>
+        /// <returns></returns>
+        public static int GetAttackPowerMultiplier (int attackPower, bool isTank) {
+            int baseMultiplier = isTank ? 115 : 165; //does not vary with level
+
+            return baseMultiplier * (attackPower - 340) / 340 + 100;
         }
     }
 }
