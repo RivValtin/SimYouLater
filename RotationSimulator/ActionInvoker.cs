@@ -25,13 +25,7 @@ namespace RotationSimulator
 
             //---- Calculate potency multipliers
             float ePotencyMulti = 1.0f;
-            float buffPotencyMulti = 1.0f;
-            if (ActiveEffectTimer.GetActiveStacks("SMN_SearingLight") > 0) {
-                buffPotencyMulti *= 1.03f;
-            }
-            if (ActiveEffectTimer.GetActiveStacks("NIN_TrickAttack") > 0) {
-                buffPotencyMulti *= 1.05f;
-            }
+            float buffPotencyMulti = ActiveEffectTimer.GetDamageMultiplier();
             float critMulti = 1 + (critRate / 1000.0f) * (CharStats.CritBonus / 1000.0f);
             float detMulti = 1 + CharStats.DetBonus / 1000.0f;
             float dhMulti = 1 + (dhRate / 4000.0f);
@@ -54,6 +48,7 @@ namespace RotationSimulator
             }
 
             //---- Because MCH's hypercharge has a stupidly weird bonus effect that exists nowhere else, I'm just hardcoding it here.
+            // NOTE: Now that I said that, it looks like SMN may have something like that at low level. Fuckin' 'ell.
             if (action.IsWeaponskill && ActiveEffectTimer.GetActiveStacks("MCH_Hypercharge") > 0) {
                 potency += 20;
             }
@@ -62,19 +57,13 @@ namespace RotationSimulator
                 ActiveEffectTimer.WildfireEligibleHitApplied();
             }
 
-            SimulationResults.totalPotency += potency; //TODO: Account for crit/dh/det?
+            SimulationResults.totalPotency += potency;
             SimulationResults.totalEffectivePotency += potency * ePotencyMulti;
             SimLog.Info("Invoked action.", currentTime, action);
 
             if (isComboed) {
                 foreach (EffectApplication effectApplication in action.AppliedEffects) {
-                    int speed = 0;
-                    if (CharStats.PhysicalClass) {
-                        speed = CharStats.SkillSpeed;
-                    } else {
-                        speed = CharStats.SpellSpeed;
-                    }
-                    ActiveEffectTimer.ApplyEffect(effectApplication, critRate, CharStats.CritBonus, dhRate, speed, buffPotencyMulti * detMulti);
+                    ActiveEffectTimer.ApplyEffect(effectApplication, critRate, CharStats.CritBonus, dhRate, CharStats.RelevantSpeed, buffPotencyMulti * detMulti);
                 }
             }
 

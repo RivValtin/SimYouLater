@@ -53,5 +53,9 @@ namespace RotationSimulator
         private int determinationSub;
         public int SkillSpeed { get; init; }
         public int SpellSpeed { get; init; }
+        /// <summary>
+        /// Returns skill speed for physical classes, and spell speed for magical ones.
+        /// </summary>
+        public int RelevantSpeed { get { return PhysicalClass ? SkillSpeed : SpellSpeed; } }
     }
 }

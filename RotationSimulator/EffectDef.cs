@@ -18,6 +18,7 @@ namespace RotationSimulator
         Debuff,
         /// <summary>
         /// Used to track a resource, rather than being a true buff. Separate from buff/hidden so that it can warn about overcap.
+        /// If you don't really overcap it, use a different category.
         /// </summary>
         Resource,
         /// <summary>
@@ -27,7 +28,11 @@ namespace RotationSimulator
         /// <summary>
         /// A hidden state-tracking buff, meant for things not directly visible to the player like the short window after a summon GCD where EW SMN cannot use devotion.
         /// </summary>
-        Hidden
+        Hidden,
+        /// <summary>
+        /// A ground effect.
+        /// </summary>
+        Ground
     }
     /// <summary>
     /// Contains the readonly information about a single active effect, such as a buff, debuff, or even special job-specific states like "is phoenix the next summoned demi?"
@@ -57,5 +62,9 @@ namespace RotationSimulator
         /// For DoTs only. Specifies the potency per tick. Default value of 0 indicates that this effect is not a dot.
         /// </summary>
         public int Potency = 0;
+        /// <summary>
+        /// If a dot, this determines whether it should snapshot. Generally speaking, ground effects do not snapshot, but debuffs do.
+        /// </summary>
+        public bool Snapshots = true;
     }
 }

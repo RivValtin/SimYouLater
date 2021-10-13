@@ -91,8 +91,9 @@ namespace RotationSimulator
             {
                 UniqueID = "SMN_Slipstream",
                 DisplayName = "Slipstream",
-                Type = EEffectType.Debuff,
-                Potency = 30
+                Type = EEffectType.Ground,
+                Potency = 30,
+                Snapshots = false
             });
             effects.Add("SMN_EarthAttunement", new EffectDef()
             {
