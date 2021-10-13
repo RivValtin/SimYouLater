@@ -59,6 +59,7 @@ namespace RotationSimulator
                 RecastGCD = BASE_GCD,
                 Potency = 310,
                 DisplayName = "Ruin 3",
+                IconName = "smn_ruin3.png",
                 RequiredAbsentEffects = new List<EffectRequirement>()
                 {
                     new EffectRequirement()
@@ -83,6 +84,7 @@ namespace RotationSimulator
                 RecastGCD = BASE_GCD,
                 Potency = 430,
                 DisplayName = "Ruin 4",
+                IconName = "smn_ruin4.png",
                 RequiredEffects = new List<EffectRequirement>
                 {
                     new EffectRequirement()
@@ -108,6 +110,7 @@ namespace RotationSimulator
                 IsGCD = false,
                 Potency = 200,
                 DisplayName = "Energy Drain",
+                IconName = "smn_energydrain.png",
                 Recast = 6000,
                 AppliedEffects = new List<EffectApplication>()
                 {
@@ -127,6 +130,7 @@ namespace RotationSimulator
                 IsGCD = false,
                 Potency = 100,
                 DisplayName = "Energy Siphon",
+                IconName = "smn_energysiphon.png",
                 Recast = 6000,
                 AppliedEffects = new List<EffectApplication>()
                 {
@@ -146,6 +150,7 @@ namespace RotationSimulator
                 IsGCD = false,
                 Potency = 300,
                 DisplayName = "Fester",
+                IconName = "smn_fester.png",
                 Recast = 300,
             };
             summonerActionSet.Add(SMN_Fester);
@@ -157,6 +162,7 @@ namespace RotationSimulator
                 IsGCD = false,
                 Potency = 130,
                 DisplayName = "Painflare",
+                IconName = "smn_painflare.png",
                 Recast = 300,
                 AppliedEffects = new List<EffectApplication>()
                 {
@@ -184,7 +190,7 @@ namespace RotationSimulator
                 RecastScalesWithSps = true,
                 RecastScalesWithHaste = true,
                 DisplayName = "Summon Bahamut",
-                IconName = "smn_summon_phoenix.png",
+                IconName = "smn_summonbahamut.png",
                 AppliedEffects = new List<EffectApplication>
                 {
                     new EffectApplication
@@ -233,6 +239,7 @@ namespace RotationSimulator
                 RecastGCD = BASE_GCD,
                 Potency = 580, //TODO: Split WyrmWave out (430 + 150 instead of 580 in one chunk)
                 DisplayName = "Astral Impulse",
+                IconName = "smn_astralimpulse.png",
                 RequiredEffects = new List<EffectRequirement>() {
                     new EffectRequirement()
                     {
@@ -249,6 +256,7 @@ namespace RotationSimulator
                 IsGCD = false,
                 Potency = 650,
                 DisplayName = "Enkindle (Akh Morn)",
+                IconName = "smn_enkindlebahamut.png",
                 Recast = 800,
                 RequiredEffects = new List<EffectRequirement>()
                 {
@@ -267,6 +275,7 @@ namespace RotationSimulator
                 IsGCD = false,
                 Potency = 500,
                 DisplayName = "Deathflare",
+                IconName = "smn_deathflare.png",
                 Recast = 2000,
                 RequiredEffects = new List<EffectRequirement>()
                 {
@@ -293,7 +302,7 @@ namespace RotationSimulator
                 RecastScalesWithSps = true,
                 RecastScalesWithHaste = true,
                 DisplayName = "Summon Phoenix",
-                IconName = "smn_summon_phoenix.png",
+                IconName = "smn_summonphoenix.png",
                 AppliedEffects = new List<EffectApplication>
                 {
                     new EffectApplication
@@ -337,6 +346,7 @@ namespace RotationSimulator
                 RecastGCD = BASE_GCD,
                 Potency = 580, //TODO: Split Scarlet Flame out (430 + 150 instead of 580)
                 DisplayName = "Fountain of Fire",
+                IconName = "smn_fountainoffire.png",
                 RequiredEffects = new List<EffectRequirement>() {
                     new EffectRequirement()
                     {
@@ -353,6 +363,7 @@ namespace RotationSimulator
                 IsGCD = false,
                 Potency = 650,
                 DisplayName = "Enkindle Phoenix (Revelation)",
+                IconName = "smn_enkindlephoenix.png",
                 Recast = 800,
                 RequiredEffects = new List<EffectRequirement>()
                 {
@@ -378,7 +389,8 @@ namespace RotationSimulator
                 CastTime = 0,
                 RecastGCD = BASE_GCD,
                 Potency = 700,
-                DisplayName = "Summon Ifrit",
+                DisplayName = "Summon Ifrit II",
+                IconName = "smn_summonifrit2.png",
                 AppliedEffects = new List<EffectApplication>() { 
                     new EffectApplication()
                     {
@@ -417,6 +429,7 @@ namespace RotationSimulator
                 RecastGCD = BASE_GCD,
                 Potency = 430,
                 DisplayName = "Ruby Rite",
+                IconName = "smn_rubyrite.png",
                 RequiredEffects = new List<EffectRequirement>()
                 {
                     new EffectRequirement()
@@ -441,6 +454,7 @@ namespace RotationSimulator
                 RecastGCD = BASE_GCD,
                 Potency = 430,
                 DisplayName = "Crimson Cyclone",
+                IconName = "smn_crimsoncyclone.png",
                 AppliedEffects = new List<EffectApplication>() {
                     new EffectApplication()
                     {
@@ -479,6 +493,7 @@ namespace RotationSimulator
                 RecastGCD = BASE_GCD,
                 Potency = 430,
                 DisplayName = "Crimson Strike",
+                IconName = "smn_crimsonstrike.png",
                 RequiredEffects = new List<EffectRequirement>()
                 {
                     new EffectRequirement()
@@ -505,7 +520,8 @@ namespace RotationSimulator
                 CastTime = 0,
                 RecastGCD = BASE_GCD,
                 Potency = 700,
-                DisplayName = "Summon Titan",
+                DisplayName = "Summon Titan II",
+                IconName = "smn_summontitan2.png",
                 AppliedEffects = new List<EffectApplication>() {
                     new EffectApplication()
                     {
@@ -538,6 +554,7 @@ namespace RotationSimulator
                 RecastGCD = BASE_GCD,
                 Potency = 330,
                 DisplayName = "Topaz Rite",
+                IconName = "smn_topazrite.png",
                 AppliedEffects = new List<EffectApplication>() {
                     new EffectApplication()
                     {
@@ -556,6 +573,7 @@ namespace RotationSimulator
                 IsGCD = false,
                 Potency = 150,
                 DisplayName = "Mountain Buster",
+                IconName = "smn_mountainbuster.png",
                 RequiredEffects = new List<EffectRequirement>()
                 {
                     new EffectRequirement()
@@ -581,7 +599,8 @@ namespace RotationSimulator
                 CastTime = 0,
                 RecastGCD = BASE_GCD,
                 Potency = 700,
-                DisplayName = "Summon Garuda",
+                DisplayName = "Summon Garuda II",
+                IconName = "smn_summongaruda2.png",
                 AppliedEffects = new List<EffectApplication>() {
                     new EffectApplication()
                     {
@@ -620,6 +639,7 @@ namespace RotationSimulator
                 RecastGCD = GCD_150,
                 Potency = 230,
                 DisplayName = "Emerald Rite",
+                IconName = "smn_emeraldrite.png",
                 RequiredEffects = new List<EffectRequirement>()
                 {
                     new EffectRequirement()
@@ -644,6 +664,7 @@ namespace RotationSimulator
                 RecastGCD = 350,
                 Potency = 430,
                 DisplayName = "Slipstream",
+                IconName = "smn_slipstream.png",
                 AppliedEffects = new List<EffectApplication>() {
                     new EffectApplication()
                     {
@@ -672,6 +693,7 @@ namespace RotationSimulator
                 UniqueID = "SMN_SearingLight",
                 IsGCD = false,
                 DisplayName = "Searing Light",
+                IconName = "smn_searinglight.png",
                 Recast = 12000,
                 AppliedEffects = new List<EffectApplication>() 
                 {

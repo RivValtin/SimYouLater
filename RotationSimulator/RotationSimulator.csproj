@@ -57,8 +57,33 @@
     <None Remove="images\icons\role_leggraze.png" />
     <None Remove="images\icons\role_peloton.png" />
     <None Remove="images\icons\role_secondwind.png" />
+    <None Remove="images\icons\smn_astralimpulse.png" />
+    <None Remove="images\icons\smn_crimsoncyclone.png" />
+    <None Remove="images\icons\smn_crimsonstrike.png" />
+    <None Remove="images\icons\smn_deathflare.png" />
+    <None Remove="images\icons\smn_emeraldrite.png" />
+    <None Remove="images\icons\smn_energydrain.png" />
+    <None Remove="images\icons\smn_energysiphon.png" />
+    <None Remove="images\icons\smn_enkindlebahamut.png" />
+    <None Remove="images\icons\smn_enkindlephoenix.png" />
+    <None Remove="images\icons\smn_fester.png" />
+    <None Remove="images\icons\smn_fountainoffire.png" />
+    <None Remove="images\icons\smn_mountainbuster.png" />
+    <None Remove="images\icons\smn_painflare.png" />
+    <None Remove="images\icons\smn_rubyrite.png" />
+    <None Remove="images\icons\smn_ruin3.png" />
+    <None Remove="images\icons\smn_ruin4.png" />
+    <None Remove="images\icons\smn_searinglight.png" />
     <None Remove="images\icons\smn_shield.png" />
+    <None Remove="images\icons\smn_slipstream.png" />
+    <None Remove="images\icons\smn_summonbahamut.png" />
+    <None Remove="images\icons\smn_summongaruda2.png" />
+    <None Remove="images\icons\smn_summonifrit.png" />
+    <None Remove="images\icons\smn_summonifrit2.png" />
+    <None Remove="images\icons\smn_summonphoenix.png" />
+    <None Remove="images\icons\smn_summontitan2.png" />
     <None Remove="images\icons\smn_summon_phoenix.png" />
+    <None Remove="images\icons\smn_topazrite.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -176,12 +201,37 @@
     <Resource Include="images\icons\role_secondwind.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="images\icons\smn_astralimpulse.png" />
+    <Resource Include="images\icons\smn_crimsoncyclone.png" />
+    <Resource Include="images\icons\smn_crimsonstrike.png" />
+    <Resource Include="images\icons\smn_deathflare.png" />
+    <Resource Include="images\icons\smn_emeraldrite.png" />
+    <Resource Include="images\icons\smn_energydrain.png" />
+    <Resource Include="images\icons\smn_energysiphon.png" />
+    <Resource Include="images\icons\smn_enkindlebahamut.png" />
+    <Resource Include="images\icons\smn_enkindlephoenix.png" />
+    <Resource Include="images\icons\smn_fester.png" />
+    <Resource Include="images\icons\smn_fountainoffire.png" />
+    <Resource Include="images\icons\smn_mountainbuster.png" />
+    <Resource Include="images\icons\smn_painflare.png" />
+    <Resource Include="images\icons\smn_rubyrite.png" />
+    <Resource Include="images\icons\smn_ruin3.png" />
+    <Resource Include="images\icons\smn_ruin4.png" />
+    <Resource Include="images\icons\smn_searinglight.png" />
     <Resource Include="images\icons\smn_shield.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="images\icons\smn_slipstream.png" />
+    <Resource Include="images\icons\smn_summonbahamut.png" />
+    <Resource Include="images\icons\smn_summongaruda2.png" />
+    <Resource Include="images\icons\smn_summonifrit.png" />
+    <Resource Include="images\icons\smn_summonifrit2.png" />
+    <Resource Include="images\icons\smn_summonphoenix.png" />
+    <Resource Include="images\icons\smn_summontitan2.png" />
     <Resource Include="images\icons\smn_summon_phoenix.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="images\icons\smn_topazrite.png" />
   </ItemGroup>
 
   <ItemGroup>
