@@ -21,7 +21,7 @@ namespace RotationSimulator
             events.Clear();
         }
 
-        public static void Error(string text, int timeStamp, ActionDef action = null) {
+        public static void Error(string text, int timeStamp, ActionDef action = null, string instigator=null) {
             if (!Enabled) { return; }
 
             events.Add(new SimLogEvent()
@@ -29,11 +29,12 @@ namespace RotationSimulator
                 LogLevel = ESimLogLevel.Error,
                 Message = text,
                 TimeStamp = timeStamp,
-                RelevantAction = action
+                RelevantAction = action,
+                Instigator = instigator
             }) ;
         }
 
-        public static void Warning(string text, int timeStamp, ActionDef action = null) {
+        public static void Warning(string text, int timeStamp, ActionDef action = null, string instigator = null) {
             if (!Enabled) { return; }
 
             events.Add(new SimLogEvent()
@@ -41,11 +42,12 @@ namespace RotationSimulator
                 LogLevel = ESimLogLevel.Warning,
                 Message = text,
                 TimeStamp = timeStamp,
-                RelevantAction = action
+                RelevantAction = action,
+                Instigator = instigator
             });
         }
 
-        public static void Info(string text, int timeStamp, ActionDef action = null) {
+        public static void Info(string text, int timeStamp, ActionDef action = null, string instigator = null) {
             if (!Enabled) { return; }
 
             events.Add(new SimLogEvent()
@@ -53,10 +55,11 @@ namespace RotationSimulator
                 LogLevel = ESimLogLevel.Info,
                 Message = text,
                 TimeStamp = timeStamp,
-                RelevantAction = action
+                RelevantAction = action,
+                Instigator = instigator
             });
         }
-        public static void Detail(string text, int timeStamp, ActionDef action = null) {
+        public static void Detail(string text, int timeStamp, ActionDef action = null, string instigator = null) {
             if (!Enabled) { return; }
 
             events.Add(new SimLogEvent()
@@ -64,7 +67,8 @@ namespace RotationSimulator
                 LogLevel = ESimLogLevel.Detail,
                 Message = text,
                 TimeStamp = timeStamp,
-                RelevantAction = action
+                RelevantAction = action,
+                Instigator = instigator
             });
         }
 

@@ -68,6 +68,24 @@ namespace RotationSimulator
             {
                 ActionInvoker = actionInvoker
             };
+            AnimationLockTimer petAnimationLockTimer = new AnimationLockTimer(time);
+            CastTimer petCastTimer = new CastTimer(time) { ActionInvoker = actionInvoker, Instigator="Pet" };
+            GCDTimer petGCDTimer = new GCDTimer(time);
+
+            StrictRotationTimedElement petRotation = new StrictRotationTimedElement()
+            {
+                ActionInvoker = actionInvoker,
+                ActiveEffectTimer = activeEffectTimer,
+                AnimationLockTimer = petAnimationLockTimer,
+                CastTimer = petCastTimer,
+                CurrentTime = time,
+                DefaultAnimationLock = AnimationLock,
+                GCDTimer = petGCDTimer,
+                RecastTimer = recastTimer,
+                RotationSteps = new List<RotationStep>(),
+                CharStats = CharStats
+            };
+            actionInvoker.PetHandler = petRotation;
             StrictRotationTimedElement strictRotation = new StrictRotationTimedElement()
             {
                 ActionInvoker = actionInvoker,
@@ -88,21 +106,18 @@ namespace RotationSimulator
                 animationLockTimer,
                 castTimer,
                 gcdTimer,
+                petAnimationLockTimer,
+                petCastTimer,
+                petGCDTimer,
                 recastTimer,
-                strictRotation
+                strictRotation,
+                petRotation
             };
             //Timed elements that continue indefinitely, even without outside input.
             IEnumerable<ITimedElement> infiniteTimedElements = new List<ITimedElement>()
             {
                 autoAttackTimer,
                 serverTickTimer
-            };
-            ///All elements in this list must say they're done for the fight to be considered "done", but others do not matter.
-            IEnumerable<ITimedElement> timedElementsThatContinueTheFight = new List<ITimedElement>() {
-                animationLockTimer,
-                castTimer,
-                gcdTimer,
-                strictRotation
             };
             IEnumerable<ITimedElement> allTimedElements = finiteTimedElements.Concat(infiniteTimedElements);
 

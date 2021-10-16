@@ -197,6 +197,66 @@ namespace RotationSimulator
             #endregion
 
             #region Bahamut
+            ActionDef SMN_Pet_AkhMorn = new ActionDef()
+            {
+                UniqueID = "SMN_Pet_AkhMorn",
+                IsGCD = false,
+                Potency = 650,
+                DisplayName = "Akh Morn",
+                IconName = "smn_enkindlebahamut.png",
+                RequiredEffects = new List<EffectRequirement>()
+                {
+                    new EffectRequirement()
+                    {
+                        effect = EffectsBank.effects["SMN_BahamutSummoned"]
+                    }
+                }
+            };
+            actions.Add(SMN_Pet_AkhMorn.UniqueID, SMN_Pet_AkhMorn);
+
+            ActionDef SMN_Pet_Wyrmwave = new ActionDef()
+            {
+                UniqueID = "SMN_Pet_Wyrmwave",
+                IsGCD = true,
+                RecastGCD = 300,
+                Potency = 150,
+                DisplayName = "Wyrmwave",
+                IconName = "smn_enkindlebahamut.png",
+                RequiredEffects = new List<EffectRequirement>()
+                {
+                    new EffectRequirement()
+                    {
+                        effect = EffectsBank.effects["SMN_BahamutSummoned"]
+                    }
+                }
+            };
+            actions.Add(SMN_Pet_Wyrmwave.UniqueID, SMN_Pet_Wyrmwave);
+
+            RotationStep WyrmwaveStep = new RotationStep()
+            {
+                Type = ERotationStepType.Action,
+                Parameters = new RotationStep.RotationStepParameters()
+                {
+                    { "action", "SMN_Pet_Wyrmwave" }
+                }
+            };
+            List<RotationStep> bahamutRotation = new List<RotationStep>()
+            {
+                new RotationStep()
+                {
+                    Type = ERotationStepType.Wait,
+                    Parameters = new RotationStep.RotationStepParameters()
+                    {
+                        { "time", "200" } 
+                    }
+                },
+                WyrmwaveStep,
+                WyrmwaveStep,
+                WyrmwaveStep,
+                WyrmwaveStep,
+                WyrmwaveStep,
+            };
+            
             ActionDef SMN_SummonBahamut = new ActionDef()
             {
                 UniqueID = "SMN_SummonBahamut",
@@ -243,7 +303,9 @@ namespace RotationSimulator
                     {
                         effect = EffectsBank.effects["SMN_PhoenixAvailable"],
                     }
-                }
+                },
+                SummonedPet = new Tuple<string, List<RotationStep>>("Bahamut", bahamutRotation),
+                PetExpiration = 1500
             };
             summonerActionSet.Add(SMN_SummonBahamut);
             actions.Add(SMN_SummonBahamut.UniqueID, SMN_SummonBahamut);
@@ -255,7 +317,7 @@ namespace RotationSimulator
                 IsSpell = true,
                 CastTime = 0,
                 RecastGCD = BASE_GCD,
-                Potency = 580, //TODO: Split WyrmWave out (430 + 150 instead of 580 in one chunk)
+                Potency = 430,
                 DisplayName = "Astral Impulse",
                 IconName = "smn_astralimpulse.png",
                 RequiredEffects = new List<EffectRequirement>() {
@@ -272,8 +334,7 @@ namespace RotationSimulator
             {
                 UniqueID = "SMN_BahamutEnkindle",
                 IsGCD = false,
-                Potency = 650,
-                DisplayName = "Enkindle (Akh Morn)",
+                DisplayName = "Enkindle Bahamut",
                 IconName = "smn_enkindlebahamut.png",
                 Recast = 800,
                 RequiredEffects = new List<EffectRequirement>()
@@ -282,7 +343,8 @@ namespace RotationSimulator
                     {
                         effect = EffectsBank.effects["SMN_BahamutSummoned"]
                     }
-                }
+                },
+                TriggersPetAction = SMN_Pet_AkhMorn
             };
             summonerActionSet.Add(SMN_BahamutEnkindle);
             actions.Add(SMN_BahamutEnkindle.UniqueID, SMN_BahamutEnkindle);
@@ -309,6 +371,66 @@ namespace RotationSimulator
             #endregion
 
             #region Phoenix
+            ActionDef SMN_Pet_Revelation = new ActionDef()
+            {
+                UniqueID = "SMN_Pet_Revelation",
+                IsGCD = false,
+                Potency = 650,
+                DisplayName = "Revelation",
+                IconName = "smn_enkindlebahamut.png",
+                RequiredEffects = new List<EffectRequirement>()
+                {
+                    new EffectRequirement()
+                    {
+                        effect = EffectsBank.effects["SMN_PhoenixSummoned"]
+                    }
+                }
+            };
+            actions.Add(SMN_Pet_Revelation.UniqueID, SMN_Pet_Revelation);
+
+            ActionDef SMN_Pet_ScarletFlame = new ActionDef()
+            {
+                UniqueID = "SMN_Pet_ScarletFlame",
+                IsGCD = true,
+                RecastGCD = 300,
+                Potency = 150,
+                DisplayName = "Scarlet Flame",
+                IconName = "smn_enkindlebahamut.png",
+                RequiredEffects = new List<EffectRequirement>()
+                {
+                    new EffectRequirement()
+                    {
+                        effect = EffectsBank.effects["SMN_PhoenixSummoned"]
+                    }
+                }
+            };
+            actions.Add(SMN_Pet_ScarletFlame.UniqueID, SMN_Pet_ScarletFlame);
+
+            RotationStep ScarletFlameStep = new RotationStep()
+            {
+                Type = ERotationStepType.Action,
+                Parameters = new RotationStep.RotationStepParameters()
+                {
+                    { "action", "SMN_Pet_ScarletFlame" }
+                }
+            };
+            List<RotationStep> phoenixRotation = new List<RotationStep>()
+            {
+                new RotationStep()
+                {
+                    Type = ERotationStepType.Wait,
+                    Parameters = new RotationStep.RotationStepParameters()
+                    {
+                        { "time", "200" }
+                    }
+                },
+                ScarletFlameStep,
+                ScarletFlameStep,
+                ScarletFlameStep,
+                ScarletFlameStep,
+                ScarletFlameStep,
+            };
+
             ActionDef SMN_SummonPhoenix = new ActionDef()
             {
                 UniqueID = "SMN_SummonPhoenix",
@@ -350,7 +472,9 @@ namespace RotationSimulator
                     {
                         effect = EffectsBank.effects["SMN_PhoenixAvailable"],
                     }
-                }
+                },
+                SummonedPet = new Tuple<string, List<RotationStep>>("Phoenix", phoenixRotation),
+                PetExpiration = 1500
             };
             summonerActionSet.Add(SMN_SummonPhoenix);
             actions.Add(SMN_SummonPhoenix.UniqueID, SMN_SummonPhoenix);
@@ -362,7 +486,7 @@ namespace RotationSimulator
                 IsSpell = true,
                 CastTime = 0,
                 RecastGCD = BASE_GCD,
-                Potency = 580, //TODO: Split Scarlet Flame out (430 + 150 instead of 580)
+                Potency = 430,
                 DisplayName = "Fountain of Fire",
                 IconName = "smn_fountainoffire.png",
                 RequiredEffects = new List<EffectRequirement>() {
@@ -379,8 +503,7 @@ namespace RotationSimulator
             {
                 UniqueID = "SMN_PhoenixEnkindle",
                 IsGCD = false,
-                Potency = 650,
-                DisplayName = "Enkindle Phoenix (Revelation)",
+                DisplayName = "Enkindle Phoenix",
                 IconName = "smn_enkindlephoenix.png",
                 Recast = 800,
                 RequiredEffects = new List<EffectRequirement>()
@@ -389,7 +512,8 @@ namespace RotationSimulator
                     {
                         effect = EffectsBank.effects["SMN_PhoenixSummoned"]
                     }
-                }
+                },
+                TriggersPetAction = SMN_Pet_Revelation
             };
             summonerActionSet.Add(SMN_PhoenixEnkindle);
             actions.Add(SMN_PhoenixEnkindle.UniqueID, SMN_PhoenixEnkindle);

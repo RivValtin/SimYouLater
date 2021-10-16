@@ -34,5 +34,9 @@ namespace RotationSimulator
         /// Can be null.
         /// </summary>
         public ActionDef RelevantAction { get; init; } = null;
+        /// <summary>
+        /// Defines what entity caused this log event to trigger. e.g. "Bahamut" for a message saying that Akh Morn was executed.
+        /// </summary>
+        public string Instigator { get; init; } = null;
     }
 }

@@ -117,5 +117,44 @@ namespace RotationSimulator
 
             return baseMultiplier * (attackPower - 340) / 340 + 100;
         }
+
+        /// <summary>
+        /// Returns the multiplier to potency from weapon damage in integer % (100 = 1*)
+        /// </summary>
+        /// <returns></returns>
+        public static int GetWeaponDamageMultiplier (int weaponDamage, string classCode) {
+            const int levelBasedConstant = 340;
+            int classConstant = GetWeaponDamageConstant(classCode);
+
+            return levelBasedConstant * classConstant / 1000 + weaponDamage;
+        }
+
+        public static int GetWeaponDamageMultiplierForAutos(int weaponDamage, string classCode) {
+            const int levelBasedConstant = 340;
+            int classConstant = GetWeaponDamageConstantForAutos(classCode);
+
+            return levelBasedConstant * classConstant / 1000 + weaponDamage;
+        }
+
+        private static int GetWeaponDamageConstant(string classCode) {
+            switch (classCode) {
+                case "MCH":
+                case "SMN":
+                    return 115;
+                default:
+                    return 100;
+            }
+        }
+
+        private static int GetWeaponDamageConstantForAutos(string classCode) {
+            switch (classCode) {
+                case "MCH":
+                    return 115;
+                case "SMN":
+                    return 90;
+                default:
+                    return 100;
+            }
+        }
     }
 }

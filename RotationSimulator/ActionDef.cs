@@ -137,5 +137,20 @@ namespace RotationSimulator
         /// Stacks is the minimum number of stacks that will cause an error (e.g. if set to 3, it will not cause an error if at 0-2 stacks, but will at 3 or more)/
         /// </summary>
         public IEnumerable<EffectRequirement> RequiredAbsentEffects { get; init; } = new List<EffectRequirement>();
+
+        /// <summary>
+        /// If defined, executing this action creates a pet with the display name tuple.Item1, that executes the rotation defined in Item2.
+        /// 
+        /// Note that pet rotations virtually always include a "wait" as their first step
+        /// </summary>
+        public Tuple<string, List<RotationStep>> SummonedPet = null;
+        /// <summary>
+        /// If SummonedPet is defined, this defines how long the pet will stay around before it automatically leaves the battlefield.
+        /// </summary>
+        public int PetExpiration = int.MaxValue;
+        /// <summary>
+        /// If defined, this action attempts to trigger a pet action for the active pet. Make sure the action verifies that the pet *is* active first!
+        /// </summary>
+        public ActionDef TriggersPetAction = null;
     }
 }

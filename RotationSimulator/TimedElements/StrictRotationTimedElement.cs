@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 
 namespace RotationSimulator.TimedElements
 {
-    class StrictRotationTimedElement : ITimedElement
+    /// <summary>
+    /// Used for both the player rotation and the pet rotation. However, the pet rotation gets modified sometimes by activated actions (such as Enkindle).
+    /// </summary>
+    public class StrictRotationTimedElement : ITimedElement
     {
         public ActiveEffectTimer ActiveEffectTimer { get; init; }
         public AnimationLockTimer AnimationLockTimer { get; init; }
@@ -16,9 +19,17 @@ namespace RotationSimulator.TimedElements
         public RecastTimer RecastTimer { get; init; }
         public int CurrentTime { get; set; }
         public List<RotationStep> RotationSteps { get; init; }
-        private int currentStepIndice = 0;
+        internal int currentStepIndice = 0;
         public ActionInvoker ActionInvoker { get; init; }
         public CharacterStats CharStats { get; init; }
+        /// <summary>
+        /// If defined, this rotation will output messages based on the relevant pet.
+        /// </summary>
+        public string PetName { get; set; } = null;
+        /// <summary>
+        /// Sets what time the rotation should hard end itself, refusing to execute further. If a pet, it should log a "withdraw" message.
+        /// </summary>
+        public int EndTime { get; set; } = int.MaxValue;
 
         public int DefaultAnimationLock { get; init; } = 70;
 
@@ -28,16 +39,39 @@ namespace RotationSimulator.TimedElements
         }
 
         /// <summary>
+        /// Resets the rotation to start anew, with a new rotation given by steps.
+        /// </summary>
+        /// <param name="steps"></param>
+        public void ResetRotationWith(List<RotationStep> steps) {
+            RotationSteps.Clear();
+            RotationSteps.AddRange(steps);
+            currentStepIndice = 0;
+        }
+
+        /// <summary>
         /// For when a wait is requested.
         /// </summary>
         private int waitUntil = 0;
+        private bool gcdDriftWarningSent = false;
 
         public void AdvanceTime(int time) {
             CurrentTime += time;
 
+            if (EndTime == CurrentTime) {
+                SimLog.Info("Pet withdraws from battlefield.", CurrentTime, instigator: PetName);
+                return;
+            } else if (EndTime < CurrentTime) {
+                return;
+            }
+
             //If we're out of steps, we done.
             if (currentStepIndice >= RotationSteps.Count)
                 return;
+
+            //--- Check for a "wait" command.
+            if (waitUntil > CurrentTime) {
+                return;
+            }
 
             //--- If it's an action step, grab the action here so we can detect drift.
             ActionDef currentAction = null;
@@ -46,7 +80,10 @@ namespace RotationSimulator.TimedElements
                 currentAction = ActionBank.actions[actionDefId];
 
                 if (currentAction.IsGCD && AnimationLockTimer.IsAnimationLocked && GCDTimer.IsGCDAvailable) {
-                    SimLog.Warning("GCD drift detected. Delayed because of animation lock, probable overweaving.", CurrentTime);
+                    if (!gcdDriftWarningSent) {
+                        SimLog.Warning("GCD drift detected. Delayed because of animation lock, probable overweaving.", CurrentTime, currentAction);
+                        gcdDriftWarningSent = true;
+                    }
                 }
             }
 
@@ -54,6 +91,8 @@ namespace RotationSimulator.TimedElements
                 CastTimer.IsCasting) {
                 return;
             }
+
+            gcdDriftWarningSent = false;
 
             switch (RotationSteps[currentStepIndice].Type) {
                 case ERotationStepType.Action:
@@ -80,12 +119,12 @@ namespace RotationSimulator.TimedElements
 
                     if (currentAction.CastTime > 0) {
                         if (ActiveEffectTimer.GetActiveStacks("Role_Swiftcast") > 0) {
-                            ActionInvoker.InvokeAction(currentAction, CurrentTime);
+                            ActionInvoker.InvokeAction(currentAction, CurrentTime, "Player");
                         } else {
                             CastTimer.StartCasting(currentAction, GetScaledCastTime(currentAction));
                         }
                     } else {
-                        ActionInvoker.InvokeAction(currentAction, CurrentTime);
+                        ActionInvoker.InvokeAction(currentAction, CurrentTime, "Player");
                     }
                     AnimationLockTimer.InvokeAnimationLock(currentAction.AnimationLockOverride > 0 ? currentAction.AnimationLockOverride : DefaultAnimationLock);
                     if (currentAction.IsGCD) {
@@ -150,10 +189,18 @@ namespace RotationSimulator.TimedElements
         }
 
         public int NextEvent() {
-            //Rotation in strict mode doesn't time anything itself, really. It just waits on other timers. So this function just returns indefinite wait time.
+            //Rotation in strict mode doesn't time much itself, really. It mostly waits on other timers. 
             //This works because all factors of its timing - gcd rolling, animation lock, cast times, recasts, etc - are timed externally in a way that ensures
-            //    that the AdvanceTime function will be called right on the boundaries of those events. So all this class has to do is check action validity.
-            return waitUntil > CurrentTime ? waitUntil : int.MaxValue;
+            //    that the AdvanceTime function will be called right on the boundaries of those events. 
+            int nextEvent = int.MaxValue;
+            if (waitUntil > CurrentTime) {
+                nextEvent = waitUntil;
+            }
+            if (EndTime != int.MaxValue && EndTime < nextEvent && EndTime > CurrentTime) {
+                nextEvent = EndTime;
+            }
+
+            return nextEvent;
         }
 
         /// <summary>
@@ -161,7 +208,7 @@ namespace RotationSimulator.TimedElements
         /// </summary>
         /// <returns></returns>
         public bool IsRotationExhausted() {
-            return currentStepIndice >= RotationSteps.Count;
+            return currentStepIndice >= RotationSteps.Count && !CastTimer.IsCasting;
         }
     }
 }
