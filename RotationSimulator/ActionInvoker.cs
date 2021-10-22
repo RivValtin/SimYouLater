@@ -33,10 +33,11 @@ namespace RotationSimulator
             int dhRate = CharStats.DirectHitRate;
 
             //---- Calculate potency multipliers
+            // NOTE: This is not entirely accurate as the game does not use floating point math anywhere, but since this is only used for estimated effective potency it's ok.
             float ePotencyMulti = 1.0f;
             float buffPotencyMulti = ActiveEffectTimer.GetDamageMultiplier();
             float critMulti = 1 + (critRate / 1000.0f) * (CharStats.CritBonus / 1000.0f);
-            float detMulti = 1 + CharStats.DetBonus / 1000.0f;
+            float detTenMulti = (1 + CharStats.DetBonus / 1000.0f) * (1 + CharStats.TenBonus / 1000.0f);
             float dhMulti = 1 + (dhRate / 4000.0f);
 
             if (ActiveEffectTimer.GetActiveStacks("MCH_Reassemble") > 0 && action.IsWeaponskill) {
@@ -45,7 +46,7 @@ namespace RotationSimulator
                 ActiveEffectTimer.RemoveEffect("MCH_Reassemble");
                 SimLog.Detail("Applying reassemble", currentTime, action, instigator: instigator);
             }
-            ePotencyMulti = buffPotencyMulti * critMulti * detMulti * dhMulti;
+            ePotencyMulti = buffPotencyMulti * critMulti * detTenMulti * dhMulti;
 
             //Check for comboed vs uncomboed potency.
             int potency = action.Potency;
@@ -95,7 +96,7 @@ namespace RotationSimulator
             //--- Apply additional effects.
             if (isComboed) {
                 foreach (EffectApplication effectApplication in action.AppliedEffects) {
-                    ActiveEffectTimer.ApplyEffect(effectApplication, critRate, CharStats.CritBonus, dhRate, CharStats.RelevantSpeed, buffPotencyMulti * detMulti);
+                    ActiveEffectTimer.ApplyEffect(effectApplication, critRate, CharStats.CritBonus, dhRate, CharStats.RelevantSpeed, buffPotencyMulti * detTenMulti);
                 }
             }
 

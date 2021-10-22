@@ -447,11 +447,14 @@ namespace RotationSimulator
                 tb_dexterity.IsEnabled = false;
                 tb_intelligence.IsEnabled = false;
                 tb_mind.IsEnabled = false;
+                tb_tenacity.IsEnabled = false;
 
                 ComboBoxItem selecteditem = cb_gearClass.Items[cb_gearClass.SelectedIndex] as ComboBoxItem;
 
                 EJobId selectedJob = (EJobId)Enum.Parse(typeof(EJobId), selecteditem.Content as string, true);
 
+                string tenText = tb_tenacity.Text;
+                tb_tenacity.Text = StatMath.LEVEL_SUB.ToString();
                 switch (selectedJob) {
                     case EJobId.WHM:
                     case EJobId.AST:
@@ -470,6 +473,14 @@ namespace RotationSimulator
                     case EJobId.RDM:
                     case EJobId.BLU:
                         tb_intelligence.IsEnabled = true;
+                        break;
+                    case EJobId.PLD:
+                    case EJobId.DRK:
+                    case EJobId.WAR:
+                    case EJobId.GNB:
+                        tb_strength.IsEnabled = true;
+                        tb_tenacity.IsEnabled = true;
+                        tb_tenacity.Text = tenText;
                         break;
                     default:
                         tb_strength.IsEnabled = true;

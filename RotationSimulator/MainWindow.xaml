@@ -176,7 +176,7 @@
                     <TextBlock  Grid.Row="5" Grid.Column="4" Margin="5,5,5,5">Spell Speed</TextBlock>
                     <TextBox x:Name="tb_spellspeed" Grid.Row="5" Grid.Column="5" Margin="5,5,5,5" MinWidth="100">380</TextBox>
                     <TextBlock  Grid.Row="6" Grid.Column="4" Margin="5,5,5,5">Tenacity</TextBlock>
-                    <TextBox x:Name="tb_tenacity" Grid.Row="6" Grid.Column="5" Margin="5,5,5,5" MinWidth="100" IsEnabled="False">NOT IMPLEMENTED</TextBox>
+                    <TextBox x:Name="tb_tenacity" Grid.Row="6" Grid.Column="5" Margin="5,5,5,5" MinWidth="100" IsEnabled="False">380</TextBox>
                     <TextBlock  Grid.Row="7" Grid.Column="4" Margin="5,5,5,5">Piety</TextBlock>
                     <TextBox x:Name="tb_piety" Grid.Row="7" Grid.Column="5" Margin="5,5,5,5" MinWidth="100" IsEnabled="False">NOT IMPLEMENTED</TextBox>
                 </Grid>

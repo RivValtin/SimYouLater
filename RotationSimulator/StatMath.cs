@@ -13,9 +13,9 @@ namespace RotationSimulator
     {
         //All three constants below are level-based. These are the lvl 80 ShB values, hardcoded for now.
         //TODO: EW Patch Stuff
-        private const int LEVEL_MAIN = 340;
-        private const int LEVEL_SUB = 380;
-        private const int LEVEL_DIV = 3300;
+        public const int LEVEL_MAIN = 340;
+        public const int LEVEL_SUB = 380;
+        public const int LEVEL_DIV = 3300;
 
         /// <summary>
         /// Gets the sks/sps-modified GCD value based on the raw substat amount.
@@ -94,6 +94,16 @@ namespace RotationSimulator
         public static int GetDetBonus(int detSubstat) {
             int statSpread = detSubstat - LEVEL_MAIN;
             int bonus = 130 * statSpread / LEVEL_DIV;
+
+            return bonus;
+        }
+
+        /// <summary>
+        /// Get the bonus damage from det, in tenths of a percent, from det substat value.
+        /// </summary>
+        public static int GetTenBonus(int tenSubstat) {
+            int statSpread = tenSubstat - LEVEL_SUB;
+            int bonus = 100 * statSpread / LEVEL_DIV;
 
             return bonus;
         }

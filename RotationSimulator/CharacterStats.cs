@@ -36,6 +36,7 @@ namespace RotationSimulator
         public int CritBonus { get; private set; }
         public int DirectHitRate { get; private set; }
         public int DetBonus { get; private set; }
+        public int TenBonus { get; private set; }
         /// <summary>
         /// If true, this class is a physical class and typically uses SkS and Attack Power for scaling.
         /// </summary>
@@ -72,6 +73,17 @@ namespace RotationSimulator
             }
         }
         private int determinationSub;
+
+        public int Tenacity {
+            get {
+                return tenacitySub;
+            } 
+            init {
+                tenacitySub = value;
+                TenBonus = StatMath.GetTenBonus(tenacitySub);
+            }
+        }
+        private int tenacitySub;
         public int SkillSpeed { get; init; }
         public int SpellSpeed { get; init; }
         /// <summary>
