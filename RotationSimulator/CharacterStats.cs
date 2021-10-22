@@ -11,6 +11,12 @@ namespace RotationSimulator
     /// </summary>
     public class CharacterStats
     {
+        private CharacterStats() { }
+        public CharacterStats(EJobId job) {
+            Job = job;
+        }
+        public EJobId Job { get; private set; }
+
         public int CritRate { get; private set; }
         public int CritBonus { get; private set; }
         public int DirectHitRate { get; private set; }

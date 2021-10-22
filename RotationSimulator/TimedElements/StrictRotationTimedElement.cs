@@ -81,7 +81,7 @@ namespace RotationSimulator.TimedElements
 
                 if (currentAction.IsGCD && AnimationLockTimer.IsAnimationLocked && GCDTimer.IsGCDAvailable) {
                     if (!gcdDriftWarningSent) {
-                        SimLog.Warning("GCD drift detected. Delayed because of animation lock, probable overweaving.", CurrentTime, currentAction);
+                        SimLog.Warning("GCD drift detected.", CurrentTime, currentAction);
                         gcdDriftWarningSent = true;
                     }
                 }
@@ -106,7 +106,7 @@ namespace RotationSimulator.TimedElements
 
                     if (RecastTimer.GetAvailableCharges(recastAction) <= 0) {
                         if (currentAction.IsGCD && GCDTimer.IsGCDAvailable) {
-                            SimLog.Warning("GCD drift detected. Delayed because next ability still on cooldown.", CurrentTime);
+                            SimLog.Warning("GCD drift detected.", CurrentTime);
                         }
                         return;
                     }

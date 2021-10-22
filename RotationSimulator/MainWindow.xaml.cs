@@ -44,6 +44,7 @@ namespace RotationSimulator
             UpdateRotationListDisplay();
             UpdateRotationDisplay();
             UpdateActionSet();
+            cb_gearClass_SelectionChanged(null, null);
         }
 
         private void UpdateRotationListDisplay() {
@@ -188,7 +189,7 @@ namespace RotationSimulator
                 simulator.AnimationLock = 61;
             }
 
-            CharacterStats charStats = new CharacterStats()
+            CharacterStats charStats = new CharacterStats((EJobId)Enum.Parse(typeof(EJobId), activeRotation.JobCode, true))
             {
                 CriticalHitSubstat = Int32.Parse(tb_critical.Text),
                 DirectHitSubstat = Int32.Parse(tb_directHit.Text),
@@ -452,6 +453,48 @@ namespace RotationSimulator
         private void cmb_logLevel_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             if (tb_logOutput != null) {
                 UpdateLogText();
+            }
+        }
+
+        private void cb_gearClass_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            if (tb_strength != null) {
+                tb_strength.IsEnabled = false;
+                tb_dexterity.IsEnabled = false;
+                tb_intelligence.IsEnabled = false;
+                tb_mind.IsEnabled = false;
+
+                ComboBoxItem selecteditem = cb_gearClass.Items[cb_gearClass.SelectedIndex] as ComboBoxItem;
+
+                EJobId selectedJob = (EJobId)Enum.Parse(typeof(EJobId), selecteditem.Content as string, true);
+
+                switch (selectedJob) {
+                    case EJobId.WHM:
+                    case EJobId.AST:
+                    case EJobId.SCH:
+                    //case EJobId.SGE: TODO: EW Patch Stuff
+                        tb_mind.IsEnabled = true;
+                        break;
+                    case EJobId.NIN:
+                    case EJobId.BRD:
+                    case EJobId.MCH:
+                    case EJobId.DNC:
+                        tb_dexterity.IsEnabled = true;
+                        break;
+                    case EJobId.SMN:
+                    case EJobId.BLM:
+                    case EJobId.RDM:
+                    case EJobId.BLU:
+                        tb_intelligence.IsEnabled = true;
+                        break;
+                    default:
+                        tb_strength.IsEnabled = true;
+                        break;
+                }
+
+                tb_strength.Text = StatMath.GetBaseStat(selectedJob, EJobModifierId.STR).ToString();
+                tb_dexterity.Text = StatMath.GetBaseStat(selectedJob, EJobModifierId.DEX).ToString();
+                tb_mind.Text = StatMath.GetBaseStat(selectedJob, EJobModifierId.MND).ToString();
+                tb_intelligence.Text = StatMath.GetBaseStat(selectedJob, EJobModifierId.INT).ToString();
             }
         }
     }

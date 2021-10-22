@@ -122,39 +122,63 @@ namespace RotationSimulator
         /// Returns the multiplier to potency from weapon damage in integer % (100 = 1*)
         /// </summary>
         /// <returns></returns>
-        public static int GetWeaponDamageMultiplier (int weaponDamage, string classCode) {
+        public static int GetWeaponDamageMultiplier (int weaponDamage, EJobId job) {
             const int levelBasedConstant = 340;
-            int classConstant = GetWeaponDamageConstant(classCode);
+            int classConstant = GetWeaponDamageConstant(job);
 
             return levelBasedConstant * classConstant / 1000 + weaponDamage;
         }
 
-        public static int GetWeaponDamageMultiplierForAutos(int weaponDamage, string classCode) {
+        public static int GetWeaponDamageMultiplierForAutos(int weaponDamage, EJobId job) {
             const int levelBasedConstant = 340;
-            int classConstant = GetWeaponDamageConstantForAutos(classCode);
+            int classConstant = GetWeaponDamageConstantForAutos(job);
 
             return levelBasedConstant * classConstant / 1000 + weaponDamage;
         }
 
-        private static int GetWeaponDamageConstant(string classCode) {
-            switch (classCode) {
-                case "MCH":
-                case "SMN":
-                    return 115;
+        private static int GetWeaponDamageConstant(EJobId job) {
+            switch (job) {
+                case EJobId.WHM:
+                case EJobId.AST:
+                case EJobId.SCH:
+                //case EJobId.SGE: TODO: EW Patch Stuff
+                    return JobModifiers.Get(job, EJobModifierId.MND);
+                case EJobId.NIN:
+                case EJobId.BRD:
+                case EJobId.MCH:
+                case EJobId.DNC:
+                    return JobModifiers.Get(job, EJobModifierId.DEX);
+                case EJobId.SMN:
+                case EJobId.BLM:
+                case EJobId.RDM:
+                case EJobId.BLU:
+                    return JobModifiers.Get(job, EJobModifierId.INT);
                 default:
-                    return 100;
+                    return JobModifiers.Get(job, EJobModifierId.STR);
             }
         }
 
-        private static int GetWeaponDamageConstantForAutos(string classCode) {
-            switch (classCode) {
-                case "MCH":
-                    return 115;
-                case "SMN":
-                    return 90;
+        private static int GetWeaponDamageConstantForAutos(EJobId job) {
+            switch (job) {
+                case EJobId.NIN:
+                case EJobId.BRD:
+                case EJobId.MCH:
+                case EJobId.DNC:
+                    return JobModifiers.Get(job, EJobModifierId.DEX);
                 default:
-                    return 100;
+                    return JobModifiers.Get(job, EJobModifierId.STR);
             }
+        }
+
+        /// <summary>
+        /// Only functions for Str, dex, vit, int, mnd and doesn't include race modifier. 
+        /// </summary>
+        /// <param name="job"></param>
+        /// <param name="stat"></param>
+        /// <returns></returns>
+        public static int GetBaseStat(EJobId job, EJobModifierId stat) {
+
+            return 340 * JobModifiers.Get(job, stat) / 100 + (JobModifiers.GetMainStat(job) == stat ? 48 : 0);
         }
     }
 }

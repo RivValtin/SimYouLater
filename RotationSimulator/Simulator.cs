@@ -21,7 +21,7 @@ namespace RotationSimulator
         /// </summary>
         public int maximumReasonableFightLength = 20 * 60 * 100;
 
-        public CharacterStats CharStats = new CharacterStats();
+        public CharacterStats CharStats = new CharacterStats(EJobId.PLD);
 
 
         /// <summary>
