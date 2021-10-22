@@ -11,6 +11,12 @@ namespace RotationSimulator
     /// </summary>
     public static class StatMath
     {
+        //All three constants below are level-based. These are the lvl 80 ShB values, hardcoded for now.
+        //TODO: EW Patch Stuff
+        private const int LEVEL_MAIN = 340;
+        private const int LEVEL_SUB = 380;
+        private const int LEVEL_DIV = 3300;
+
         /// <summary>
         /// Gets the sks/sps-modified GCD value based on the raw substat amount.
         /// 
@@ -35,11 +41,8 @@ namespace RotationSimulator
         /// <param name="speedSubstat"></param>
         /// <returns></returns>
         public static int GetCast(int baseCast, int speedSubstat) {
-            const int levelBasedConstant = 3300; //an arbitrary level-based constant. Currently hardcoded to lvl 80 value.
-            const int baseSpeed = 380; //the base substat you have with nothing increasing it. Increases with level, currently hardcoded to level 80 value.
-
-            int speedSpread = speedSubstat - baseSpeed;
-            int bareMultiplier = 1000 - 130 * speedSpread / levelBasedConstant;
+            int speedSpread = speedSubstat - LEVEL_SUB;
+            int bareMultiplier = 1000 - 130 * speedSpread / LEVEL_DIV;
 
             return bareMultiplier * baseCast / 1000;
         }
@@ -50,11 +53,8 @@ namespace RotationSimulator
         /// <param name="speed"></param>
         /// <returns></returns>
         public static int GetDotMultiplierFromSpeed(int speed) {
-            const int levelBasedConstant = 3300; //an arbitrary level-based constant. Currently hardcoded to lvl 80 value.
-            const int baseSpeed = 380; //the base substat you have with nothing increasing it. Increases with level, currently hardcoded to level 80 value.
-
-            int speedSpread = speed - baseSpeed;
-            int bareMultiplier = 130 * speedSpread / levelBasedConstant;
+            int speedSpread = speed - LEVEL_SUB;
+            int bareMultiplier = 130 * speedSpread / LEVEL_DIV;
 
             return bareMultiplier;
         }
@@ -63,11 +63,8 @@ namespace RotationSimulator
         /// Get the crit chance, in tenths of a percent, from crit substat value.
         /// </summary>
         public static int GetCritRate(int critSubstat) {
-            const int levelBasedConstant = 3300;
-            const int baseCrit = 380;
-
-            int statSpread = critSubstat - baseCrit;
-            int bonus = 200 * statSpread / levelBasedConstant + 50;
+            int statSpread = critSubstat - LEVEL_SUB;
+            int bonus = 200 * statSpread / LEVEL_DIV + 50;
 
             return bonus;
         }
@@ -85,11 +82,8 @@ namespace RotationSimulator
         /// <param name="directHitSubstat"></param>
         /// <returns></returns>
         public static int GetDHRate(int directHitSubstat) {
-            const int levelBasedConstant = 3300;
-            const int baseDirect = 380;
-
-            int statSpread = directHitSubstat - baseDirect;
-            int rate = (int)(550 * statSpread / levelBasedConstant);
+            int statSpread = directHitSubstat - LEVEL_SUB;
+            int rate = 550 * statSpread / LEVEL_DIV;
 
             return rate;
         }
@@ -98,11 +92,8 @@ namespace RotationSimulator
         /// Get the bonus damage from det, in tenths of a percent, from det substat value.
         /// </summary>
         public static int GetDetBonus(int detSubstat) {
-            const int levelBasedConstant = 3300;
-            const int baseDet = 340;
-
-            int statSpread = detSubstat - baseDet;
-            int bonus = 130 * statSpread / levelBasedConstant;
+            int statSpread = detSubstat - LEVEL_MAIN;
+            int bonus = 130 * statSpread / LEVEL_DIV;
 
             return bonus;
         }
@@ -115,7 +106,7 @@ namespace RotationSimulator
         public static int GetAttackPowerMultiplier (int attackPower, bool isTank) {
             int baseMultiplier = isTank ? 115 : 165; //does not vary with level
 
-            return baseMultiplier * (attackPower - 340) / 340 + 100;
+            return baseMultiplier * (attackPower - LEVEL_MAIN) / LEVEL_MAIN + 100;
         }
 
         /// <summary>
@@ -123,32 +114,35 @@ namespace RotationSimulator
         /// </summary>
         /// <returns></returns>
         public static int GetWeaponDamageMultiplier (int weaponDamage, EJobId job) {
-            const int levelBasedConstant = 340;
             int classConstant = GetWeaponDamageConstant(job);
 
-            return levelBasedConstant * classConstant / 1000 + weaponDamage;
+            return LEVEL_MAIN * classConstant / 1000 + weaponDamage;
         }
 
         public static int GetWeaponDamageMultiplierForAutos(int weaponDamage, EJobId job) {
-            const int levelBasedConstant = 340;
             int classConstant = GetWeaponDamageConstantForAutos(job);
 
-            return levelBasedConstant * classConstant / 1000 + weaponDamage;
+            return LEVEL_MAIN * classConstant / 1000 + weaponDamage;
         }
 
         private static int GetWeaponDamageConstant(EJobId job) {
             switch (job) {
+                case EJobId.CNJ:
                 case EJobId.WHM:
                 case EJobId.AST:
                 case EJobId.SCH:
                 //case EJobId.SGE: TODO: EW Patch Stuff
                     return JobModifiers.Get(job, EJobModifierId.MND);
+                case EJobId.ROG:
                 case EJobId.NIN:
+                case EJobId.ARC:
                 case EJobId.BRD:
                 case EJobId.MCH:
                 case EJobId.DNC:
                     return JobModifiers.Get(job, EJobModifierId.DEX);
+                case EJobId.ACN:
                 case EJobId.SMN:
+                case EJobId.THM:
                 case EJobId.BLM:
                 case EJobId.RDM:
                 case EJobId.BLU:
@@ -160,7 +154,9 @@ namespace RotationSimulator
 
         private static int GetWeaponDamageConstantForAutos(EJobId job) {
             switch (job) {
+                case EJobId.ROG:
                 case EJobId.NIN:
+                case EJobId.ARC:
                 case EJobId.BRD:
                 case EJobId.MCH:
                 case EJobId.DNC:
@@ -178,7 +174,7 @@ namespace RotationSimulator
         /// <returns></returns>
         public static int GetBaseStat(EJobId job, EJobModifierId stat) {
 
-            return 340 * JobModifiers.Get(job, stat) / 100 + (JobModifiers.GetMainStat(job) == stat ? 48 : 0);
+            return LEVEL_MAIN * JobModifiers.Get(job, stat) / 100 + (JobModifiers.GetMainStat(job) == stat ? 48 : 0);
         }
     }
 }

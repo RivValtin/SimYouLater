@@ -14,6 +14,21 @@ namespace RotationSimulator
         private CharacterStats() { }
         public CharacterStats(EJobId job) {
             Job = job;
+            switch (job) {
+                case EJobId.WHM:
+                case EJobId.AST:
+                case EJobId.SCH:
+                //case EJobId.SGE: TODO EW Patch Stuff
+                case EJobId.SMN:
+                case EJobId.BLM:
+                case EJobId.RDM:
+                case EJobId.BLU:
+                    PhysicalClass = false;
+                    break;
+                default:
+                    PhysicalClass = true;
+                    break;
+            }
         }
         public EJobId Job { get; private set; }
 
@@ -24,7 +39,7 @@ namespace RotationSimulator
         /// <summary>
         /// If true, this class is a physical class and typically uses SkS and Attack Power for scaling.
         /// </summary>
-        public bool PhysicalClass { get; set; } = true;
+        public bool PhysicalClass { get; private set; } = true;
 
         public int CriticalHitSubstat { 
             get {
