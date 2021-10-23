@@ -52,7 +52,29 @@ namespace RotationSimulator
             jobModifierTable[(int)EJobId.BRD, (int)EJobModifierId.INT] =  85;
             jobModifierTable[(int)EJobId.BRD, (int)EJobModifierId.MND] =  80;
 
-            //TODO: Add WHM, BLM, ACN here
+            jobModifierTable[(int)EJobId.WHM, (int)EJobModifierId.HP]  = 105;
+            jobModifierTable[(int)EJobId.WHM, (int)EJobModifierId.MP]  = 124;
+            jobModifierTable[(int)EJobId.WHM, (int)EJobModifierId.STR] =  55;
+            jobModifierTable[(int)EJobId.WHM, (int)EJobModifierId.VIT] = 100;
+            jobModifierTable[(int)EJobId.WHM, (int)EJobModifierId.DEX] = 105;
+            jobModifierTable[(int)EJobId.WHM, (int)EJobModifierId.INT] = 105;
+            jobModifierTable[(int)EJobId.WHM, (int)EJobModifierId.MND] = 115;
+
+            jobModifierTable[(int)EJobId.BLM, (int)EJobModifierId.HP]  = 105;
+            jobModifierTable[(int)EJobId.BLM, (int)EJobModifierId.MP]  = 129;
+            jobModifierTable[(int)EJobId.BLM, (int)EJobModifierId.STR] =  45;
+            jobModifierTable[(int)EJobId.BLM, (int)EJobModifierId.VIT] = 100;
+            jobModifierTable[(int)EJobId.BLM, (int)EJobModifierId.DEX] = 100;
+            jobModifierTable[(int)EJobId.BLM, (int)EJobModifierId.INT] = 115;
+            jobModifierTable[(int)EJobId.BLM, (int)EJobModifierId.MND] =  75;
+
+            jobModifierTable[(int)EJobId.ACN, (int)EJobModifierId.HP]  = 100;
+            jobModifierTable[(int)EJobId.ACN, (int)EJobModifierId.MP]  = 110;
+            jobModifierTable[(int)EJobId.ACN, (int)EJobModifierId.STR] =  85;
+            jobModifierTable[(int)EJobId.ACN, (int)EJobModifierId.VIT] =  95;
+            jobModifierTable[(int)EJobId.ACN, (int)EJobModifierId.DEX] =  95;
+            jobModifierTable[(int)EJobId.ACN, (int)EJobModifierId.INT] = 105;
+            jobModifierTable[(int)EJobId.ACN, (int)EJobModifierId.MND] =  75;
 
             jobModifierTable[(int)EJobId.SMN, (int)EJobModifierId.HP]  = 105;
             jobModifierTable[(int)EJobId.SMN, (int)EJobModifierId.MP]  = 111;
@@ -62,7 +84,95 @@ namespace RotationSimulator
             jobModifierTable[(int)EJobId.SMN, (int)EJobModifierId.INT] = 115;
             jobModifierTable[(int)EJobId.SMN, (int)EJobModifierId.MND] =  80;
 
-            //TODO: Add all the others
+            jobModifierTable[(int)EJobId.SCH, (int)EJobModifierId.HP]  = 105;
+            jobModifierTable[(int)EJobId.SCH, (int)EJobModifierId.MP]  = 119;
+            jobModifierTable[(int)EJobId.SCH, (int)EJobModifierId.STR] =  90;
+            jobModifierTable[(int)EJobId.SCH, (int)EJobModifierId.VIT] = 100;
+            jobModifierTable[(int)EJobId.SCH, (int)EJobModifierId.DEX] = 100;
+            jobModifierTable[(int)EJobId.SCH, (int)EJobModifierId.INT] = 105;
+            jobModifierTable[(int)EJobId.SCH, (int)EJobModifierId.MND] = 115;
+
+            jobModifierTable[(int)EJobId.ROG, (int)EJobModifierId.HP]  = 103;
+            jobModifierTable[(int)EJobId.ROG, (int)EJobModifierId.MP]  =  38;
+            jobModifierTable[(int)EJobId.ROG, (int)EJobModifierId.STR] =  80;
+            jobModifierTable[(int)EJobId.ROG, (int)EJobModifierId.VIT] =  95;
+            jobModifierTable[(int)EJobId.ROG, (int)EJobModifierId.DEX] = 100;
+            jobModifierTable[(int)EJobId.ROG, (int)EJobModifierId.INT] =  60;
+            jobModifierTable[(int)EJobId.ROG, (int)EJobModifierId.MND] =  70;
+
+            jobModifierTable[(int)EJobId.NIN, (int)EJobModifierId.HP]  = 108;
+            jobModifierTable[(int)EJobId.NIN, (int)EJobModifierId.MP]  =  48;
+            jobModifierTable[(int)EJobId.NIN, (int)EJobModifierId.STR] =  85;
+            jobModifierTable[(int)EJobId.NIN, (int)EJobModifierId.VIT] = 100;
+            jobModifierTable[(int)EJobId.NIN, (int)EJobModifierId.DEX] = 110;
+            jobModifierTable[(int)EJobId.NIN, (int)EJobModifierId.INT] =  65;
+            jobModifierTable[(int)EJobId.NIN, (int)EJobModifierId.MND] =  75;
+
+            jobModifierTable[(int)EJobId.MCH, (int)EJobModifierId.HP]  = 105;
+            jobModifierTable[(int)EJobId.MCH, (int)EJobModifierId.MP]  =  79;
+            jobModifierTable[(int)EJobId.MCH, (int)EJobModifierId.STR] =  85;
+            jobModifierTable[(int)EJobId.MCH, (int)EJobModifierId.VIT] = 100;
+            jobModifierTable[(int)EJobId.MCH, (int)EJobModifierId.DEX] = 115;
+            jobModifierTable[(int)EJobId.MCH, (int)EJobModifierId.INT] =  80;
+            jobModifierTable[(int)EJobId.MCH, (int)EJobModifierId.MND] =  85;
+
+            jobModifierTable[(int)EJobId.DRK, (int)EJobModifierId.HP]  = 120;
+            jobModifierTable[(int)EJobId.DRK, (int)EJobModifierId.MP]  =  79;
+            jobModifierTable[(int)EJobId.DRK, (int)EJobModifierId.STR] = 105;
+            jobModifierTable[(int)EJobId.DRK, (int)EJobModifierId.VIT] = 110;
+            jobModifierTable[(int)EJobId.DRK, (int)EJobModifierId.DEX] =  95;
+            jobModifierTable[(int)EJobId.DRK, (int)EJobModifierId.INT] =  60;
+            jobModifierTable[(int)EJobId.DRK, (int)EJobModifierId.MND] =  40;
+
+            jobModifierTable[(int)EJobId.AST, (int)EJobModifierId.HP]  = 105;
+            jobModifierTable[(int)EJobId.AST, (int)EJobModifierId.MP]  = 124;
+            jobModifierTable[(int)EJobId.AST, (int)EJobModifierId.STR] =  50;
+            jobModifierTable[(int)EJobId.AST, (int)EJobModifierId.VIT] = 100;
+            jobModifierTable[(int)EJobId.AST, (int)EJobModifierId.DEX] = 100;
+            jobModifierTable[(int)EJobId.AST, (int)EJobModifierId.INT] = 105;
+            jobModifierTable[(int)EJobId.AST, (int)EJobModifierId.MND] = 115;
+
+            jobModifierTable[(int)EJobId.SAM, (int)EJobModifierId.HP]  = 109;
+            jobModifierTable[(int)EJobId.SAM, (int)EJobModifierId.MP]  =  40;
+            jobModifierTable[(int)EJobId.SAM, (int)EJobModifierId.STR] = 112;
+            jobModifierTable[(int)EJobId.SAM, (int)EJobModifierId.VIT] = 100;
+            jobModifierTable[(int)EJobId.SAM, (int)EJobModifierId.DEX] = 108;
+            jobModifierTable[(int)EJobId.SAM, (int)EJobModifierId.INT] =  60;
+            jobModifierTable[(int)EJobId.SAM, (int)EJobModifierId.MND] =  50;
+
+            jobModifierTable[(int)EJobId.RDM, (int)EJobModifierId.HP]  = 105;
+            jobModifierTable[(int)EJobId.RDM, (int)EJobModifierId.MP]  = 120;
+            jobModifierTable[(int)EJobId.RDM, (int)EJobModifierId.STR] =  55;
+            jobModifierTable[(int)EJobId.RDM, (int)EJobModifierId.VIT] = 100;
+            jobModifierTable[(int)EJobId.RDM, (int)EJobModifierId.DEX] = 105;
+            jobModifierTable[(int)EJobId.RDM, (int)EJobModifierId.INT] = 115;
+            jobModifierTable[(int)EJobId.RDM, (int)EJobModifierId.MND] = 110;
+
+            jobModifierTable[(int)EJobId.BLU, (int)EJobModifierId.HP]  = 105;
+            jobModifierTable[(int)EJobId.BLU, (int)EJobModifierId.MP]  = 120;
+            jobModifierTable[(int)EJobId.BLU, (int)EJobModifierId.STR] =  70;
+            jobModifierTable[(int)EJobId.BLU, (int)EJobModifierId.VIT] = 100;
+            jobModifierTable[(int)EJobId.BLU, (int)EJobModifierId.DEX] = 110;
+            jobModifierTable[(int)EJobId.BLU, (int)EJobModifierId.INT] = 115;
+            jobModifierTable[(int)EJobId.BLU, (int)EJobModifierId.MND] = 105;
+
+            jobModifierTable[(int)EJobId.GNB, (int)EJobModifierId.HP]  = 120;
+            jobModifierTable[(int)EJobId.GNB, (int)EJobModifierId.MP]  =  59;
+            jobModifierTable[(int)EJobId.GNB, (int)EJobModifierId.STR] = 100;
+            jobModifierTable[(int)EJobId.GNB, (int)EJobModifierId.VIT] = 110;
+            jobModifierTable[(int)EJobId.GNB, (int)EJobModifierId.DEX] =  95;
+            jobModifierTable[(int)EJobId.GNB, (int)EJobModifierId.INT] =  60;
+            jobModifierTable[(int)EJobId.GNB, (int)EJobModifierId.MND] = 100;
+
+            jobModifierTable[(int)EJobId.DNC, (int)EJobModifierId.HP]  = 105;
+            jobModifierTable[(int)EJobId.DNC, (int)EJobModifierId.MP]  =  79;
+            jobModifierTable[(int)EJobId.DNC, (int)EJobModifierId.STR] =  90;
+            jobModifierTable[(int)EJobId.DNC, (int)EJobModifierId.VIT] = 100;
+            jobModifierTable[(int)EJobId.DNC, (int)EJobModifierId.DEX] = 115;
+            jobModifierTable[(int)EJobId.DNC, (int)EJobModifierId.INT] =  85;
+            jobModifierTable[(int)EJobId.DNC, (int)EJobModifierId.MND] =  80;
+
+            //TODO: EW Patch Stuff
         }
 
         public static int Get(EJobId jobId, EJobModifierId modId) {
