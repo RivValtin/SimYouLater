@@ -30,7 +30,7 @@
                     <ComboBox x:Name="cb_simulationRotationSelection" IsEditable="False" Grid.Row="2" Grid.Column="0" Margin="5,5,5,5" SelectionChanged="cb_simulationRotationSelection_Changed" MinWidth="150">
                     </ComboBox>
                     <TextBlock Grid.Row="3" Grid.Column="0" Margin="5,5,5,5">Selected Gearset</TextBlock>
-                    <ComboBox IsEditable="False" Grid.Row="4" Grid.Column="0" Margin="5,5,5,5">
+                    <ComboBox IsEditable="False" Grid.Row="4" Grid.Column="0" Margin="5,5,5,5" x:Name="cb_simulationGearsetSelection" SelectionChanged="cb_simulationGearsetSelection_Changed" MinWidth="150">
                     </ComboBox>
                     
 
@@ -109,42 +109,29 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
 
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" MinWidth="100" Margin="5,5,5,5" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="9">
+                        <ListBox x:Name="lb_gearsetList" MinWidth="100" Margin="5,5,5,5" SelectionChanged="lb_gearsetList_SelectionChanged">
+                        </ListBox>
+                    </ScrollViewer>
+                    <Button Grid.Row="9" Content="Add..." Click="button_AddGearset" />
+                    <Button Grid.Row="9" Grid.Column="1" Content="Delete..." Click="button_DeleteGearset"/>
                     <TextBlock  Grid.Row="0" Grid.Column="2" Margin="5,5,5,5">Class</TextBlock>
-                    <ComboBox Grid.Row="0" Grid.Column="3" Margin="5,5,5,5" x:Name="cb_gearClass" SelectedIndex="0" SelectionChanged="cb_gearClass_SelectionChanged">
-                        <ComboBoxItem>PLD</ComboBoxItem>
-                        <ComboBoxItem>WAR</ComboBoxItem>
-                        <ComboBoxItem>DRK</ComboBoxItem>
-                        <ComboBoxItem>GNB</ComboBoxItem>
-                        <ComboBoxItem>WHM</ComboBoxItem>
-                        <ComboBoxItem>SCH</ComboBoxItem>
-                        <ComboBoxItem>AST</ComboBoxItem>
-                        <!--ComboBoxItem>SGE</ComboBoxItem-->
-                        <ComboBoxItem>MNK</ComboBoxItem>
-                        <ComboBoxItem>DRG</ComboBoxItem>
-                        <ComboBoxItem>NIN</ComboBoxItem>
-                        <ComboBoxItem>SAM</ComboBoxItem>
-                        <!--ComboBoxItem>RPR</ComboBoxItem-->
-                        <ComboBoxItem>BRD</ComboBoxItem>
-                        <ComboBoxItem>MCH</ComboBoxItem>
-                        <ComboBoxItem>DNC</ComboBoxItem>
-                        <ComboBoxItem>BLM</ComboBoxItem>
-                        <ComboBoxItem>SMN</ComboBoxItem>
-                        <ComboBoxItem>RDM</ComboBoxItem>
-                    </ComboBox>
+                    <TextBlock Grid.Row="0" Grid.Column="3" Margin="5,5,5,5" x:Name="tb_gearClass">
+                    </TextBlock>
                     <TextBlock  Grid.Row="1" Grid.Column="2" Margin="5,5,5,5">Strength</TextBlock>
-                    <TextBox x:Name="tb_strength" Grid.Row="1" Grid.Column="3" Margin="5,5,5,5" MinWidth="100">2938</TextBox>
+                    <TextBox x:Name="tb_strength" Grid.Row="1" Grid.Column="3" Margin="5,5,5,5" MinWidth="100" TextChanged="tb_strength_TextChanged">2938</TextBox>
                     <TextBlock  Grid.Row="2" Grid.Column="2" Margin="5,5,5,5">Dexterity</TextBlock>
-                    <TextBox x:Name="tb_dexterity" Grid.Row="2" Grid.Column="3" Margin="5,5,5,5" MinWidth="100">2938</TextBox>
+                    <TextBox x:Name="tb_dexterity" Grid.Row="2" Grid.Column="3" Margin="5,5,5,5" MinWidth="100" TextChanged="tb_dexterity_TextChanged">2938</TextBox>
                     <TextBlock  Grid.Row="3" Grid.Column="2" Margin="5,5,5,5">Intelligence</TextBlock>
-                    <TextBox x:Name="tb_intelligence" Grid.Row="3" Grid.Column="3" Margin="5,5,5,5" MinWidth="100">2938</TextBox>
+                    <TextBox x:Name="tb_intelligence" Grid.Row="3" Grid.Column="3" Margin="5,5,5,5" MinWidth="100" TextChanged="tb_intelligence_TextChanged">2938</TextBox>
                     <TextBlock  Grid.Row="4" Grid.Column="2" Margin="5,5,5,5">Mind</TextBlock>
-                    <TextBox x:Name="tb_mind" Grid.Row="4" Grid.Column="3" Margin="5,5,5,5" MinWidth="100">2938</TextBox>
+                    <TextBox x:Name="tb_mind" Grid.Row="4" Grid.Column="3" Margin="5,5,5,5" MinWidth="100" TextChanged="tb_mind_TextChanged">2938</TextBox>
 
                     <!--TextBlock  Grid.Row="0" Grid.Column="4" Margin="5,5,5,5" ToolTip="Race/class selection not yet implemented.">Race/Clan</TextBlock>
                     <ComboBox Grid.Row="0" Grid.Column="5" Margin="5,5,5,5" x:Name="cb_gearRace" SelectedIndex="0" IsEnabled="False">
@@ -166,19 +153,19 @@
                         <ComboBoxItem>Viera - Veena</ComboBoxItem>
                     </ComboBox-->
                     <TextBlock  Grid.Row="1" Grid.Column="4" Margin="5,5,5,5">Critical Hit</TextBlock>
-                    <TextBox x:Name="tb_critical" Grid.Row="1" Grid.Column="5" Margin="5,5,5,5" MinWidth="100">2938</TextBox>
+                    <TextBox x:Name="tb_critical" Grid.Row="1" Grid.Column="5" Margin="5,5,5,5" MinWidth="100" TextChanged="tb_critical_TextChanged">2938</TextBox>
                     <TextBlock  Grid.Row="2" Grid.Column="4" Margin="5,5,5,5">Direct Hit Rate</TextBlock>
-                    <TextBox x:Name="tb_directHit" Grid.Row="2" Grid.Column="5" Margin="5,5,5,5" MinWidth="100">3221</TextBox>
+                    <TextBox x:Name="tb_directHit" Grid.Row="2" Grid.Column="5" Margin="5,5,5,5" MinWidth="100" TextChanged="tb_directHit_TextChanged">3221</TextBox>
                     <TextBlock  Grid.Row="3" Grid.Column="4" Margin="5,5,5,5">Determination Bonus</TextBlock>
-                    <TextBox x:Name="tb_determination" Grid.Row="3" Grid.Column="5" Margin="5,5,5,5" MinWidth="100">2524</TextBox>
+                    <TextBox x:Name="tb_determination" Grid.Row="3" Grid.Column="5" Margin="5,5,5,5" MinWidth="100" TextChanged="tb_determination_TextChanged">2524</TextBox>
                     <TextBlock  Grid.Row="4" Grid.Column="4" Margin="5,5,5,5">Skill Speed</TextBlock>
-                    <TextBox x:Name="tb_skillspeed" Grid.Row="4" Grid.Column="5" Margin="5,5,5,5" MinWidth="100">380</TextBox>
+                    <TextBox x:Name="tb_skillspeed" Grid.Row="4" Grid.Column="5" Margin="5,5,5,5" MinWidth="100" TextChanged="tb_skillspeed_TextChanged">380</TextBox>
                     <TextBlock  Grid.Row="5" Grid.Column="4" Margin="5,5,5,5">Spell Speed</TextBlock>
-                    <TextBox x:Name="tb_spellspeed" Grid.Row="5" Grid.Column="5" Margin="5,5,5,5" MinWidth="100">380</TextBox>
+                    <TextBox x:Name="tb_spellspeed" Grid.Row="5" Grid.Column="5" Margin="5,5,5,5" MinWidth="100" TextChanged="tb_spellspeed_TextChanged">380</TextBox>
                     <TextBlock  Grid.Row="6" Grid.Column="4" Margin="5,5,5,5">Tenacity</TextBlock>
-                    <TextBox x:Name="tb_tenacity" Grid.Row="6" Grid.Column="5" Margin="5,5,5,5" MinWidth="100" IsEnabled="False">380</TextBox>
+                    <TextBox x:Name="tb_tenacity" Grid.Row="6" Grid.Column="5" Margin="5,5,5,5" MinWidth="100" IsEnabled="False" TextChanged="tb_tenacity_TextChanged">380</TextBox>
                     <TextBlock  Grid.Row="7" Grid.Column="4" Margin="5,5,5,5">Piety</TextBlock>
-                    <TextBox x:Name="tb_piety" Grid.Row="7" Grid.Column="5" Margin="5,5,5,5" MinWidth="100" IsEnabled="False">NOT IMPLEMENTED</TextBox>
+                    <TextBox x:Name="tb_piety" Grid.Row="7" Grid.Column="5" Margin="5,5,5,5" MinWidth="100" IsEnabled="False" TextChanged="tb_piety_TextChanged">NOT IMPLEMENTED</TextBox>
                 </Grid>
             </TabItem>
             <TabItem Header="Options">

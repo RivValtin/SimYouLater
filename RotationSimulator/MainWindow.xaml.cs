@@ -24,6 +24,9 @@ namespace RotationSimulator
         public Rotation activeRotation = new Rotation();
         public string activeRotationName = string.Empty;
 
+        public List<GearSet> gearSets = new List<GearSet>();
+        public GearSet activeGearset = null;
+
         public MainWindow() {
             InitializeComponent();
             //TODO: Load rotations from disk here.
@@ -33,8 +36,20 @@ namespace RotationSimulator
                 TextReader reader = new StreamReader(rotationsFilePath);
                 object serializerOutput = serializer.Deserialize(reader);
 
-                RotationCollection rotationCollection = serializerOutput as RotationCollection;
-                rotations = rotationCollection;
+                rotations = serializerOutput as RotationCollection;
+            }
+            string gearSetsPath = GetGearSetsSaveFilePath();
+            if (File.Exists(gearSetsPath)) {
+                XmlSerializer serializer = new XmlSerializer(typeof(List<GearSet>));
+                TextReader reader = new StreamReader(gearSetsPath);
+                object serializerOutput = serializer.Deserialize(reader);
+
+                gearSets = (serializerOutput as IEnumerable<GearSet>).ToList();
+
+                if (gearSets.Count > 0) {
+                    GearSet defaultSet = gearSets.First();
+                    ChangeActiveGearset(defaultSet.Name);
+                }
             }
             if (rotations.Keys.Count > 0) {
                 activeRotation = rotations.First().Value;
@@ -44,139 +59,64 @@ namespace RotationSimulator
             UpdateRotationListDisplay();
             UpdateRotationDisplay();
             UpdateActionSet();
-            cb_gearClass_SelectionChanged(null, null);
+            UpdateUIFromActiveGearset();
+            UpdateGearsetList();
         }
-
-        private void UpdateRotationListDisplay() {
-            //-- Update the list in the rotation tab
-            lb_rotationsList.Items.Clear();
-
-            foreach (string rotationName in rotations.Keys) {
-                lb_rotationsList.Items.Add(rotationName);
+        private void OnExit(object sender, EventArgs e) {
+            {
+                string saveFilePath = GetRotationsSaveFilePath();
+                XmlSerializer serializer = new XmlSerializer(typeof(RotationCollection));
+                TextWriter writer = new StreamWriter(saveFilePath);
+                serializer.Serialize(writer, rotations);
             }
-
-            lb_rotationsList.SelectedItem = activeRotationName;
-
-            //-- Update the combo box in the simulate tab
-            cb_simulationRotationSelection.Items.Clear();
-
-            foreach (string rotName in rotations.Keys) {
-                cb_simulationRotationSelection.Items.Add(rotName);
-            }
-
-            cb_simulationRotationSelection.SelectedItem = activeRotationName;
-        }
-
-        private void UpdateRotationDisplay() {
-            rotationPanel.Children.Clear();
-
-            foreach (RotationStep rotationStep in activeRotation.RotationSteps) {
-                if (rotationStep.Type != ERotationStepType.Action)
-                    continue;
-
-                string actionDefId = rotationStep.Parameters["action"];
-                ActionDef actionDef = ActionBank.actions[actionDefId];
-
-                StackPanel newPanel = new StackPanel();
-                newPanel.Orientation = Orientation.Horizontal;
-                newPanel.Margin = new Thickness(1);
-
-                MyXaml.SetRotationStepId(newPanel, rotationStep.Id);
-                newPanel.MouseMove += DragRotationElement;
-                newPanel.AllowDrop = true;
-                newPanel.Drop += rotationElement_drop;
-
-                newPanel.ContextMenu = new ContextMenu();
-                MenuItem contextMenuItem = new MenuItem();
-                contextMenuItem.Header = "Delete";
-                contextMenuItem.Click += RotationElement_ContextMenu_Delete;
-                MyXaml.SetRotationStepId(contextMenuItem, rotationStep.Id);
-                newPanel.ContextMenu.Items.Add(contextMenuItem);
-
-                if (!actionDef.IsGCD) {
-                    newPanel.Children.Add(new Image
-                    {
-                        Stretch = Stretch.Fill,
-                        Source = new BitmapImage(new Uri("/images/icons/down_right_arrow.png", UriKind.Relative)),
-                        Width = 32,
-                        Height = 32,
-                        ToolTip = "This ability is an off-GCD."
-                    });
-                }
-                newPanel.Children.Add(new Image
-                {
-                    Stretch = Stretch.Fill,
-                    Source = new BitmapImage(new Uri("/images/icons/" + actionDef.IconName, UriKind.Relative)),
-                    Width = 32,
-                    Height = 32
-                });
-
-                TextBlock textBlock = new TextBlock();
-                textBlock.Text = actionDef.DisplayName;
-                textBlock.VerticalAlignment = VerticalAlignment.Center;
-                textBlock.Margin = new Thickness(3, 0, 0, 0);
-                newPanel.Children.Add(textBlock);
-
-                rotationPanel.Children.Add(newPanel);
+            {
+                string saveFilePath = GetGearSetsSaveFilePath();
+                XmlSerializer serializer = new XmlSerializer(typeof(List<GearSet>));
+                TextWriter writer = new StreamWriter(saveFilePath);
+                serializer.Serialize(writer, gearSets);
             }
         }
 
-        private void RotationElement_ContextMenu_Delete(object sender, RoutedEventArgs e) {
-            if (sender != null && MyXaml.GetRotationStepId(sender as DependencyObject) != null) {
-                int itemIndex = activeRotation.RotationSteps.FindIndex(x => x.Id == MyXaml.GetRotationStepId(sender as DependencyObject));
-                activeRotation.RotationSteps.RemoveAt(itemIndex);
-
-                UpdateRotationDisplay();
-                UpdateLayout();
+        private string GetRotationsSaveFilePath() {
+            string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            string fileDirectory = Path.Combine(appDataPath, "SimYouLater");
+            string saveFilePath = Path.Combine(fileDirectory, "rotations.xml");
+            if (!Directory.Exists(fileDirectory)) {
+                Directory.CreateDirectory(fileDirectory);
             }
+            return saveFilePath;
+        }
+        private string GetGearSetsSaveFilePath() {
+            string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            string fileDirectory = Path.Combine(appDataPath, "SimYouLater");
+            string saveFilePath = Path.Combine(fileDirectory, "gearsets.xml");
+            if (!Directory.Exists(fileDirectory)) {
+                Directory.CreateDirectory(fileDirectory);
+            }
+            return saveFilePath;
         }
 
-        private void DragRotationElement(object sender, MouseEventArgs e) {
-            if (sender != null && e.LeftButton == MouseButtonState.Pressed) {
-                DragDrop.DoDragDrop((DependencyObject)sender, activeRotation.RotationSteps.First(x=>x.Id == MyXaml.GetRotationStepId(sender as DependencyObject)), DragDropEffects.Move);
-            }
+        private void ChangeActiveRotation(string rotationName) {
+            activeRotationName = rotationName;
+            activeRotation = rotations[activeRotationName];
+            UpdateRotationDisplay();
+            UpdateRotationListDisplay();
+            UpdateActionSet();
         }
 
-        private void DragActionFromBank(object sender, MouseEventArgs e) {
-            if (sender != null && e.LeftButton == MouseButtonState.Pressed) {
-                DragDrop.DoDragDrop((DependencyObject)sender, ActionBank.actions[MyXaml.GetActionIdProperty(sender as DependencyObject)], DragDropEffects.Move);
+        private void ChangeActiveGearset(string gearsetName) {
+            if (activeGearset?.Name == gearsetName) {
+                return;
             }
-        }
-
-        private void UpdateActionSet() {
-            actionSetPanel.Children.Clear();
-
-            foreach (ActionDef action in ActionBank.actionSets[activeRotation.JobCode]) {
-                if (action.LevelBasedUpgrade != null) {
-                    continue; //TODO: Actually do this level-based instead of just hiding anything that isn't the max upgrade.
-                }
-
-                StackPanel newPanel = new StackPanel();
-                newPanel.Orientation = Orientation.Horizontal;
-                newPanel.MouseMove += DragActionFromBank;
-                newPanel.Margin = new Thickness(1);
-                MyXaml.SetActionIdProperty(newPanel, action.UniqueID);
-
-                Image abilityIcon = new Image();
-                abilityIcon.Stretch = Stretch.Fill;
-                abilityIcon.Source = new BitmapImage(new Uri("/images/icons/" + action.IconName, UriKind.Relative));
-                abilityIcon.Width = 32;
-                abilityIcon.Height = 32;
-                newPanel.Children.Add(abilityIcon);
-
-                TextBlock textBlock = new TextBlock();
-                textBlock.Text = action.DisplayName;
-                textBlock.VerticalAlignment = VerticalAlignment.Center;
-                textBlock.Margin = new Thickness(3, 0, 0, 0);
-                newPanel.Children.Add(textBlock);
-
-                actionSetPanel.Children.Add(newPanel);
-            }
+            activeGearset = gearSets.Find(x => x.Name == gearsetName);
+            UpdateUIFromActiveGearset();
+            lb_gearsetList.SelectedItem = gearsetName;
+            cb_simulationGearsetSelection.SelectedItem = gearsetName;
         }
 
 
-        private void button_Simulate(object sender, RoutedEventArgs e)
-        {
+        #region Simulator Tab Specific
+        private void button_Simulate(object sender, RoutedEventArgs e) {
             if (string.IsNullOrEmpty(activeRotationName)) {
                 return;
             }
@@ -258,6 +198,49 @@ namespace RotationSimulator
                 tb_logOutput.Inlines.Add("\n");
             }
         }
+        private void cb_simulationRotationSelection_Changed(object sender, SelectionChangedEventArgs e) {
+            ComboBox comboBox = sender as ComboBox;
+            string newRotation = comboBox.SelectedItem as string;
+            if (newRotation != null && newRotation != activeRotationName) {
+                ChangeActiveRotation(newRotation);
+            }
+        }
+        private void cb_simulationGearsetSelection_Changed(object sender, SelectionChangedEventArgs e) {
+            ComboBox comboBox = sender as ComboBox;
+            string newGearsetName = comboBox.SelectedItem as string;
+            if (newGearsetName != null) {
+                ChangeActiveGearset(newGearsetName);
+            }
+        }
+        private void cmb_logLevel_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            if (tb_logOutput != null) {
+                UpdateLogText();
+            }
+        }
+        #endregion
+
+        #region Rotation Tab Specific
+        private void RotationElement_ContextMenu_Delete(object sender, RoutedEventArgs e) {
+            if (sender != null && MyXaml.GetRotationStepId(sender as DependencyObject) != null) {
+                int itemIndex = activeRotation.RotationSteps.FindIndex(x => x.Id == MyXaml.GetRotationStepId(sender as DependencyObject));
+                activeRotation.RotationSteps.RemoveAt(itemIndex);
+
+                UpdateRotationDisplay();
+                UpdateLayout();
+            }
+        }
+
+        private void DragRotationElement(object sender, MouseEventArgs e) {
+            if (sender != null && e.LeftButton == MouseButtonState.Pressed) {
+                DragDrop.DoDragDrop((DependencyObject)sender, activeRotation.RotationSteps.First(x => x.Id == MyXaml.GetRotationStepId(sender as DependencyObject)), DragDropEffects.Move);
+            }
+        }
+
+        private void DragActionFromBank(object sender, MouseEventArgs e) {
+            if (sender != null && e.LeftButton == MouseButtonState.Pressed) {
+                DragDrop.DoDragDrop((DependencyObject)sender, ActionBank.actions[MyXaml.GetActionIdProperty(sender as DependencyObject)], DragDropEffects.Move);
+            }
+        }
 
         private void rotationPanel_Drop(object sender, DragEventArgs e) {
             if (e.Data.GetDataPresent(typeof(ActionDef))) {
@@ -318,7 +301,6 @@ namespace RotationSimulator
                 e.Handled = true;
             }
         }
-
         private void button_AddRotation(object sender, RoutedEventArgs e) {
             AddRotationDialog dialog = new AddRotationDialog();
             dialog.ShowDialog();
@@ -358,7 +340,6 @@ namespace RotationSimulator
                 }
             }
         }
-
         private void button_ImportRotation(object sender, RoutedEventArgs e) {
             OpenFileDialog openFiledialog = new OpenFileDialog();
             openFiledialog.Filter = "xml files|*.xml";
@@ -393,24 +374,6 @@ namespace RotationSimulator
                 serializer.Serialize(writer, activeRotation);
             }
         }
-        private void OnExit(object sender, EventArgs e) {
-            string saveFilePath = GetRotationsSaveFilePath();
-
-            XmlSerializer serializer = new XmlSerializer(typeof(RotationCollection));
-            TextWriter writer = new StreamWriter(saveFilePath);
-            serializer.Serialize(writer, rotations);
-        }
-
-        private string GetRotationsSaveFilePath() {
-            string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            string fileDirectory = Path.Combine(appDataPath, "SimYouLater");
-            string saveFilePath = Path.Combine(fileDirectory, "rotations.xml");
-            if (!Directory.Exists(fileDirectory)) {
-                Directory.CreateDirectory(fileDirectory);
-            }
-            return saveFilePath;
-        }
-
         private void lb_rotationsList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             ListBox listBox = sender as ListBox;
             string newRotationName = listBox.SelectedItem as string;
@@ -418,80 +381,386 @@ namespace RotationSimulator
                 ChangeActiveRotation(newRotationName);
             }
         }
+        private void UpdateActionSet() {
+            actionSetPanel.Children.Clear();
 
-        private void cb_simulationRotationSelection_Changed(object sender, SelectionChangedEventArgs e) {
-            ComboBox comboBox = sender as ComboBox;
-            string newRotation = comboBox.SelectedItem as string;
-            if (newRotation != null && newRotation != activeRotationName) {
-                ChangeActiveRotation(newRotation);
-            }
-        }
-
-        private void ChangeActiveRotation(string rotationName) {
-            activeRotationName = rotationName;
-            activeRotation = rotations[activeRotationName];
-            UpdateRotationDisplay();
-            UpdateRotationListDisplay();
-            UpdateActionSet();
-        }
-
-        private void cmb_logLevel_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-            if (tb_logOutput != null) {
-                UpdateLogText();
-            }
-        }
-
-        private void cb_gearClass_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-            if (tb_strength != null) {
-                tb_strength.IsEnabled = false;
-                tb_dexterity.IsEnabled = false;
-                tb_intelligence.IsEnabled = false;
-                tb_mind.IsEnabled = false;
-                tb_tenacity.IsEnabled = false;
-
-                ComboBoxItem selecteditem = cb_gearClass.Items[cb_gearClass.SelectedIndex] as ComboBoxItem;
-
-                EJobId selectedJob = (EJobId)Enum.Parse(typeof(EJobId), selecteditem.Content as string, true);
-
-                string tenText = tb_tenacity.Text;
-                tb_tenacity.Text = StatMath.LEVEL_SUB.ToString();
-                switch (selectedJob) {
-                    case EJobId.WHM:
-                    case EJobId.AST:
-                    case EJobId.SCH:
-                    //case EJobId.SGE: TODO: EW Patch Stuff
-                        tb_mind.IsEnabled = true;
-                        break;
-                    case EJobId.NIN:
-                    case EJobId.BRD:
-                    case EJobId.MCH:
-                    case EJobId.DNC:
-                        tb_dexterity.IsEnabled = true;
-                        break;
-                    case EJobId.SMN:
-                    case EJobId.BLM:
-                    case EJobId.RDM:
-                    case EJobId.BLU:
-                        tb_intelligence.IsEnabled = true;
-                        break;
-                    case EJobId.PLD:
-                    case EJobId.DRK:
-                    case EJobId.WAR:
-                    case EJobId.GNB:
-                        tb_strength.IsEnabled = true;
-                        tb_tenacity.IsEnabled = true;
-                        tb_tenacity.Text = tenText;
-                        break;
-                    default:
-                        tb_strength.IsEnabled = true;
-                        break;
+            foreach (ActionDef action in ActionBank.actionSets[activeRotation.JobCode]) {
+                if (action.LevelBasedUpgrade != null) {
+                    continue; //TODO: Actually do this level-based instead of just hiding anything that isn't the max upgrade.
                 }
 
-                tb_strength.Text = StatMath.GetBaseStat(selectedJob, EJobModifierId.STR).ToString();
-                tb_dexterity.Text = StatMath.GetBaseStat(selectedJob, EJobModifierId.DEX).ToString();
-                tb_mind.Text = StatMath.GetBaseStat(selectedJob, EJobModifierId.MND).ToString();
-                tb_intelligence.Text = StatMath.GetBaseStat(selectedJob, EJobModifierId.INT).ToString();
+                StackPanel newPanel = new StackPanel();
+                newPanel.Orientation = Orientation.Horizontal;
+                newPanel.MouseMove += DragActionFromBank;
+                newPanel.Margin = new Thickness(1);
+                MyXaml.SetActionIdProperty(newPanel, action.UniqueID);
+
+                Image abilityIcon = new Image();
+                abilityIcon.Stretch = Stretch.Fill;
+                abilityIcon.Source = new BitmapImage(new Uri("/images/icons/" + action.IconName, UriKind.Relative));
+                abilityIcon.Width = 32;
+                abilityIcon.Height = 32;
+                newPanel.Children.Add(abilityIcon);
+
+                TextBlock textBlock = new TextBlock();
+                textBlock.Text = action.DisplayName;
+                textBlock.VerticalAlignment = VerticalAlignment.Center;
+                textBlock.Margin = new Thickness(3, 0, 0, 0);
+                newPanel.Children.Add(textBlock);
+
+                actionSetPanel.Children.Add(newPanel);
             }
         }
+
+        private void UpdateRotationListDisplay() {
+            //-- Update the list in the rotation tab
+            lb_rotationsList.Items.Clear();
+
+            foreach (string rotationName in rotations.Keys) {
+                lb_rotationsList.Items.Add(rotationName);
+            }
+
+            lb_rotationsList.SelectedItem = activeRotationName;
+
+            //-- Update the combo box in the simulate tab
+            cb_simulationRotationSelection.Items.Clear();
+
+            foreach (string rotName in rotations.Keys) {
+                cb_simulationRotationSelection.Items.Add(rotName);
+            }
+
+            cb_simulationRotationSelection.SelectedItem = activeRotationName;
+        }
+
+        private void UpdateRotationDisplay() {
+            rotationPanel.Children.Clear();
+
+            foreach (RotationStep rotationStep in activeRotation.RotationSteps) {
+                if (rotationStep.Type != ERotationStepType.Action)
+                    continue;
+
+                string actionDefId = rotationStep.Parameters["action"];
+                ActionDef actionDef = ActionBank.actions[actionDefId];
+
+                StackPanel newPanel = new StackPanel();
+                newPanel.Orientation = Orientation.Horizontal;
+                newPanel.Margin = new Thickness(1);
+
+                MyXaml.SetRotationStepId(newPanel, rotationStep.Id);
+                newPanel.MouseMove += DragRotationElement;
+                newPanel.AllowDrop = true;
+                newPanel.Drop += rotationElement_drop;
+
+                newPanel.ContextMenu = new ContextMenu();
+                MenuItem contextMenuItem = new MenuItem();
+                contextMenuItem.Header = "Delete";
+                contextMenuItem.Click += RotationElement_ContextMenu_Delete;
+                MyXaml.SetRotationStepId(contextMenuItem, rotationStep.Id);
+                newPanel.ContextMenu.Items.Add(contextMenuItem);
+
+                if (!actionDef.IsGCD) {
+                    newPanel.Children.Add(new Image
+                    {
+                        Stretch = Stretch.Fill,
+                        Source = new BitmapImage(new Uri("/images/icons/down_right_arrow.png", UriKind.Relative)),
+                        Width = 32,
+                        Height = 32,
+                        ToolTip = "This ability is an off-GCD."
+                    });
+                }
+                newPanel.Children.Add(new Image
+                {
+                    Stretch = Stretch.Fill,
+                    Source = new BitmapImage(new Uri("/images/icons/" + actionDef.IconName, UriKind.Relative)),
+                    Width = 32,
+                    Height = 32
+                });
+
+                TextBlock textBlock = new TextBlock();
+                textBlock.Text = actionDef.DisplayName;
+                textBlock.VerticalAlignment = VerticalAlignment.Center;
+                textBlock.Margin = new Thickness(3, 0, 0, 0);
+                newPanel.Children.Add(textBlock);
+
+                rotationPanel.Children.Add(newPanel);
+            }
+        }
+        #endregion
+
+        #region Gearset Tab Specific
+
+        private GearSet CreateDefaultSetForJob(string jobCode) {
+            EJobId jobId = (EJobId)Enum.Parse(typeof(EJobId), jobCode);
+
+            GearSet retVal = new GearSet();
+            retVal.JobCode = jobCode;
+            retVal.Level = 80; //TODO EW Patch Stuff
+
+            retVal.CriticalHit = StatMath.LEVEL_SUB;
+            retVal.DirectHit = StatMath.LEVEL_SUB;
+            retVal.SkillSpeed = StatMath.LEVEL_SUB;
+            retVal.SpellSpeed = StatMath.LEVEL_SUB;
+            retVal.Determination = StatMath.LEVEL_MAIN;
+            retVal.Tenacity = StatMath.LEVEL_SUB;
+            retVal.Piety = StatMath.LEVEL_MAIN;
+            retVal.PhysicalDamage = 1;
+            retVal.MagicalDamage = 1;
+
+            retVal.Strength = StatMath.GetBaseStat(jobId, EJobModifierId.STR);
+            retVal.Dexterity = StatMath.GetBaseStat(jobId, EJobModifierId.DEX);
+            retVal.Intelligence = StatMath.GetBaseStat(jobId, EJobModifierId.INT);
+            retVal.Mind = StatMath.GetBaseStat(jobId, EJobModifierId.MND);
+            retVal.Vitality = StatMath.GetBaseStat(jobId, EJobModifierId.VIT);
+
+            return retVal;
+        }
+
+        private void button_AddGearset(object sender, RoutedEventArgs e) {
+            AddGearsetDialog dialog = new AddGearsetDialog();
+            dialog.gearsets = gearSets;
+            dialog.ShowDialog();
+            string newGearsetName = dialog.tb_gearsetName.Text;
+            if (dialog.confirmed && !rotations.ContainsKey(newGearsetName)) {
+                GearSet newGearset = CreateDefaultSetForJob(dialog.cb_jobSelector.Text);
+                newGearset.Name = newGearsetName;
+                gearSets.Add(newGearset);
+                activeGearset = newGearset;
+
+                UpdateUIFromActiveGearset();
+                UpdateGearsetList();
+            }
+        }
+
+        private void UpdateGearsetList() {
+            lb_gearsetList.Items.Clear();
+            cb_simulationGearsetSelection.Items.Clear();
+            foreach (GearSet gearset in gearSets) {
+                lb_gearsetList.Items.Add(gearset.Name);
+                cb_simulationGearsetSelection.Items.Add(gearset.Name);
+            }
+        }
+
+        private void UpdateUIFromActiveGearset() {
+            if (activeGearset == null) {
+                return;
+            }
+
+            tb_gearClass.Text = activeGearset.JobCode;
+
+            EJobId jobId = (EJobId)Enum.Parse(typeof(EJobId), activeGearset.JobCode);
+            //--Handle enable/disable of irrelevant stats.
+            tb_strength.IsEnabled = false;
+            tb_dexterity.IsEnabled = false;
+            tb_intelligence.IsEnabled = false;
+            tb_mind.IsEnabled = false;
+            switch (jobId) {
+                case EJobId.WHM:
+                case EJobId.AST:
+                case EJobId.SCH:
+                //case EJobId.SGE: TODO EW Patch Stuff
+                    tb_tenacity.IsEnabled = false;
+                    tb_piety.IsEnabled = true;
+                    tb_mind.IsEnabled = true;
+                    break;
+                case EJobId.NIN:
+                case EJobId.BRD:
+                case EJobId.MCH:
+                case EJobId.DNC:
+                    tb_dexterity.IsEnabled = true;
+                    break;
+                case EJobId.BLM:
+                case EJobId.SMN:
+                case EJobId.RDM:
+                case EJobId.BLU:
+                    tb_intelligence.IsEnabled = true;
+                    break;
+                case EJobId.PLD:
+                case EJobId.WAR:
+                case EJobId.DRK:
+                case EJobId.GNB:
+                    tb_tenacity.IsEnabled = true;
+                    tb_piety.IsEnabled = false;
+                    tb_strength.IsEnabled = true;
+                    break;
+                default:
+                    tb_tenacity.IsEnabled = false;
+                    tb_piety.IsEnabled = false;
+                    tb_strength.IsEnabled = true;
+                    break;
+            }
+
+            tb_strength.Text = activeGearset.Strength.ToString();
+            tb_dexterity.Text = activeGearset.Dexterity.ToString();
+            tb_intelligence.Text = activeGearset.Intelligence.ToString();
+            tb_mind.Text = activeGearset.Mind.ToString();
+
+            tb_critical.Text = activeGearset.CriticalHit.ToString();
+            tb_directHit.Text = activeGearset.DirectHit.ToString();
+            tb_determination.Text = activeGearset.Determination.ToString();
+            tb_skillspeed.Text = activeGearset.SkillSpeed.ToString();
+            tb_spellspeed.Text = activeGearset.SpellSpeed.ToString();
+            tb_tenacity.Text = activeGearset.Tenacity.ToString();
+            tb_piety.Text = activeGearset.Piety.ToString();
+        }
+
+        private void button_DeleteGearset(object sender, RoutedEventArgs e) {
+            if (activeGearset != null) {
+                MessageBoxResult messageResult = MessageBox.Show("Are you sure you want to delete the rotation named \"" + activeGearset.Name + "\"?", "Confirm Rotation Deletion", MessageBoxButton.YesNo);
+                if (messageResult == MessageBoxResult.Yes) {
+                    gearSets.Remove(activeGearset);
+                    activeGearset = null;
+                    if (gearSets.Count > 0) {
+                        GearSet newSelection = gearSets.First();
+                        ChangeActiveGearset(newSelection.Name);
+                        UpdateGearsetList();
+                    }
+                }
+            }
+        }
+
+        private void lb_gearsetList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            ListBox listBox = sender as ListBox;
+            string newGearsetName = listBox.SelectedItem as string;
+            if (newGearsetName != null) {
+                ChangeActiveGearset(newGearsetName);
+            }
+        }
+
+        #region Gear properties text changes
+        private void tb_strength_TextChanged(object sender, TextChangedEventArgs e) {
+            if (activeGearset == null) {
+                return;
+            }
+
+            try {
+                int newValue = Int32.Parse(tb_strength.Text);
+                activeGearset.Strength = newValue;
+            } catch (Exception) {
+                //TODO: Show red?
+            }
+        }
+        private void tb_dexterity_TextChanged(object sender, TextChangedEventArgs e) {
+            if (activeGearset == null) {
+                return;
+            }
+
+            try{
+                int newValue = Int32.Parse(tb_dexterity.Text);
+                activeGearset.Dexterity = newValue;
+            } catch (Exception) {
+                //TODO: Show red?
+            }
+        }
+        private void tb_intelligence_TextChanged(object sender, TextChangedEventArgs e) {
+            if (activeGearset == null) {
+                return;
+            }
+
+            try {
+                int newValue = Int32.Parse(tb_intelligence.Text);
+                activeGearset.Intelligence = newValue;
+            } catch (Exception) {
+                //TODO: Show red?
+            }
+        }
+        private void tb_mind_TextChanged(object sender, TextChangedEventArgs e) {
+            if (activeGearset == null) {
+                return;
+            }
+
+            try {
+                int newValue = Int32.Parse(tb_mind.Text);
+                activeGearset.Mind = newValue;
+            } catch (Exception) {
+                //TODO: Show red?
+            }
+        }
+        private void tb_critical_TextChanged(object sender, TextChangedEventArgs e) {
+            if (activeGearset == null) {
+                return;
+            }
+
+            try {
+                int newValue = Int32.Parse(tb_critical.Text);
+                activeGearset.CriticalHit = newValue;
+            } catch (Exception) {
+                //TODO: Show red?
+            }
+        }
+        private void tb_directHit_TextChanged(object sender, TextChangedEventArgs e) {
+            if (activeGearset == null) {
+                return;
+            }
+
+            try {
+                int newValue = Int32.Parse(tb_directHit.Text);
+                activeGearset.DirectHit = newValue;
+            } catch (Exception) {
+                //TODO: Show red?
+            }
+        }
+        private void tb_determination_TextChanged(object sender, TextChangedEventArgs e) {
+            if (activeGearset == null) {
+                return;
+            }
+
+            try {
+                int newValue = Int32.Parse(tb_determination.Text);
+                activeGearset.Determination = newValue;
+            } catch (Exception) {
+                //TODO: Show red?
+            }
+        }
+        private void tb_skillspeed_TextChanged(object sender, TextChangedEventArgs e) {
+            if (activeGearset == null) {
+                return;
+            }
+
+            try {
+                int newValue = Int32.Parse(tb_skillspeed.Text);
+                activeGearset.SkillSpeed = newValue;
+            } catch (Exception) {
+                //TODO: Show red?
+            }
+        }
+        private void tb_spellspeed_TextChanged(object sender, TextChangedEventArgs e) {
+            if (activeGearset == null) {
+                return;
+            }
+
+            try {
+                int newValue = Int32.Parse(tb_spellspeed.Text);
+                activeGearset.SpellSpeed = newValue;
+            } catch (Exception) {
+                //TODO: Show red?
+            }
+        }
+        private void tb_tenacity_TextChanged(object sender, TextChangedEventArgs e) {
+            if (activeGearset == null) {
+                return;
+            }
+
+            try {
+                int newValue = Int32.Parse(tb_tenacity.Text);
+                activeGearset.Tenacity = newValue;
+            } catch (Exception) {
+                //TODO: Show red?
+            }
+        }
+        private void tb_piety_TextChanged(object sender, TextChangedEventArgs e) {
+            if (activeGearset == null) {
+                return;
+            }
+
+            try {
+                int newValue = Int32.Parse(tb_piety.Text);
+                activeGearset.Piety = newValue;
+            } catch (Exception) {
+                //TODO: Show red?
+            }
+        }
+        #endregion
+        #endregion
+
     }
 }

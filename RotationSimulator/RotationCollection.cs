@@ -21,11 +21,16 @@ namespace RotationSimulator
             reader.Read(); //Rotations Node
             reader.Read(); //Rotation Node
             while (reader.NodeType != XmlNodeType.EndElement && reader.Name == "Rotation") {
+                int level = 80;
+                if (reader.GetAttribute("Level") != null) {
+                    level = Int32.Parse(reader.GetAttribute("Level"));
+                }
                 Rotation r = new Rotation()
                 {
                     DisplayName = reader.GetAttribute("DisplayName"),
                     JobCode = reader.GetAttribute("JobCode"),
-                    StartTimeOffset = Int32.Parse(reader.GetAttribute("StartTimeOffset"))
+                    StartTimeOffset = Int32.Parse(reader.GetAttribute("StartTimeOffset")),
+                    Level = level
                 };
 
                 reader.Read();//RotationSteps
@@ -58,6 +63,7 @@ namespace RotationSimulator
                     writer.WriteAttributeString("DisplayName", r.DisplayName);
                     writer.WriteAttributeString("JobCode", r.JobCode);
                     writer.WriteAttributeString("StartTimeOffset", r.StartTimeOffset.ToString());
+                    writer.WriteAttributeString("Level", r.Level.ToString());
                     writer.WriteStartElement("RotationSteps");
                     {
                         foreach (RotationStep step in r.RotationSteps) {

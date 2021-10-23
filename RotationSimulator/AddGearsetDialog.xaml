@@ -1,0 +1,30 @@
+﻿<Window x:Class="RotationSimulator.AddGearsetDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RotationSimulator"
+        mc:Ignorable="d"
+        Title="Add Gearset" SizeToContent="WidthAndHeight" ResizeMode="NoResize">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="Auto" MinWidth="150"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        <TextBlock Grid.Row="0" Grid.Column="0" Margin="5,5,5,5">Gearset Name: </TextBlock>
+        <TextBox x:Name="tb_gearsetName" Grid.Row="0" Grid.Column="1" Margin="5,5,5,5" TextChanged="tb_rotationName_TextChanged">Gearset Name...</TextBox>
+        <TextBlock Grid.Row="1" Grid.Column="0" Margin="5,5,5,5">Class/Job: </TextBlock>
+        <ComboBox x:Name="cb_jobSelector" Grid.Row="1" Grid.Column="1" Margin="5,5,5,5" SelectedIndex="0" SelectionChanged="cb_jobSelector_SelectionChanged">
+            <ComboBoxItem>MCH</ComboBoxItem>
+            <ComboBoxItem>SMN</ComboBoxItem>
+        </ComboBox>
+        <Button x:Name="b_cancel" Grid.Row="2" Grid.Column="0" Margin="5,5,5,5" Click="b_cancel_Click">Cancel</Button>
+        <Button x:Name="b_add" Grid.Row="2" Grid.Column="1" Margin="5,5,5,5" Click="b_add_Click" IsEnabled="False">Add</Button>
+    </Grid>
+</Window>

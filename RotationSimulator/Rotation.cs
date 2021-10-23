@@ -21,6 +21,10 @@ namespace RotationSimulator
         /// </summary>
         public int StartTimeOffset { get; set; } = 0;
         /// <summary>
+        /// The intended level of the rotation.
+        /// </summary>
+        public int Level { get; set; } = 80;
+        /// <summary>
         /// The list of rotation steps that make up the full rotation.
         /// Note that changing the elements of RotationSteps is fine. The init specifier is solely to avoid the list itself from being dynamically swapped.
         /// </summary>
