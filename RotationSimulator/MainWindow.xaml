@@ -121,17 +121,21 @@
                     </ScrollViewer>
                     <Button Grid.Row="9" Content="Add..." Click="button_AddGearset" />
                     <Button Grid.Row="9" Grid.Column="1" Content="Delete..." Click="button_DeleteGearset"/>
-                    <TextBlock  Grid.Row="0" Grid.Column="2" Margin="5,5,5,5">Class</TextBlock>
+                    <TextBlock Grid.Row="0" Grid.Column="2" Margin="5,5,5,5">Class</TextBlock>
                     <TextBlock Grid.Row="0" Grid.Column="3" Margin="5,5,5,5" x:Name="tb_gearClass">
                     </TextBlock>
-                    <TextBlock  Grid.Row="1" Grid.Column="2" Margin="5,5,5,5">Strength</TextBlock>
-                    <TextBox x:Name="tb_strength" Grid.Row="1" Grid.Column="3" Margin="5,5,5,5" MinWidth="100" TextChanged="tb_strength_TextChanged">2938</TextBox>
-                    <TextBlock  Grid.Row="2" Grid.Column="2" Margin="5,5,5,5">Dexterity</TextBlock>
-                    <TextBox x:Name="tb_dexterity" Grid.Row="2" Grid.Column="3" Margin="5,5,5,5" MinWidth="100" TextChanged="tb_dexterity_TextChanged">2938</TextBox>
-                    <TextBlock  Grid.Row="3" Grid.Column="2" Margin="5,5,5,5">Intelligence</TextBlock>
-                    <TextBox x:Name="tb_intelligence" Grid.Row="3" Grid.Column="3" Margin="5,5,5,5" MinWidth="100" TextChanged="tb_intelligence_TextChanged">2938</TextBox>
-                    <TextBlock  Grid.Row="4" Grid.Column="2" Margin="5,5,5,5">Mind</TextBlock>
-                    <TextBox x:Name="tb_mind" Grid.Row="4" Grid.Column="3" Margin="5,5,5,5" MinWidth="100" TextChanged="tb_mind_TextChanged">2938</TextBox>
+                    <TextBlock  Grid.Row="1" Grid.Column="2" Margin="5,5,5,5">Physical Damage</TextBlock>
+                    <TextBox x:Name="tb_physDamage" Grid.Row="1" Grid.Column="3" Margin="5,5,5,5" MinWidth="100" TextChanged="tb_physDamage_TextChanged">1</TextBox>
+                    <TextBlock  Grid.Row="2" Grid.Column="2" Margin="5,5,5,5">Magical Damage</TextBlock>
+                    <TextBox x:Name="tb_magDamage" Grid.Row="2" Grid.Column="3" Margin="5,5,5,5" MinWidth="100" TextChanged="tb_magDamage_TextChanged">1</TextBox>
+                    <TextBlock  Grid.Row="3" Grid.Column="2" Margin="5,5,5,5">Strength</TextBlock>
+                    <TextBox x:Name="tb_strength" Grid.Row="3" Grid.Column="3" Margin="5,5,5,5" MinWidth="100" TextChanged="tb_strength_TextChanged">2938</TextBox>
+                    <TextBlock  Grid.Row="4" Grid.Column="2" Margin="5,5,5,5">Dexterity</TextBlock>
+                    <TextBox x:Name="tb_dexterity" Grid.Row="4" Grid.Column="3" Margin="5,5,5,5" MinWidth="100" TextChanged="tb_dexterity_TextChanged">2938</TextBox>
+                    <TextBlock  Grid.Row="5" Grid.Column="2" Margin="5,5,5,5">Intelligence</TextBlock>
+                    <TextBox x:Name="tb_intelligence" Grid.Row="5" Grid.Column="3" Margin="5,5,5,5" MinWidth="100" TextChanged="tb_intelligence_TextChanged">2938</TextBox>
+                    <TextBlock  Grid.Row="6" Grid.Column="2" Margin="5,5,5,5">Mind</TextBlock>
+                    <TextBox x:Name="tb_mind" Grid.Row="6" Grid.Column="3" Margin="5,5,5,5" MinWidth="100" TextChanged="tb_mind_TextChanged">2938</TextBox>
 
                     <!--TextBlock  Grid.Row="0" Grid.Column="4" Margin="5,5,5,5" ToolTip="Race/class selection not yet implemented.">Race/Clan</TextBlock>
                     <ComboBox Grid.Row="0" Grid.Column="5" Margin="5,5,5,5" x:Name="cb_gearRace" SelectedIndex="0" IsEnabled="False">

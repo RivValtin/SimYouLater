@@ -33,7 +33,7 @@ namespace RotationSimulator
         /// <summary>
         /// Magic damage stat of the equipped weapon.
         /// </summary>
-        public int MagicalDamage { get; set; }
+        public int MagicalDamage { get; set; } = 1;
         public int Strength { get; set; }
         public int Dexterity { get; set; }
         public int Intelligence { get; set; }

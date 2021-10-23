@@ -553,6 +553,8 @@ namespace RotationSimulator
             tb_dexterity.IsEnabled = false;
             tb_intelligence.IsEnabled = false;
             tb_mind.IsEnabled = false;
+            tb_physDamage.IsEnabled = false;
+            tb_magDamage.IsEnabled = false;
             switch (jobId) {
                 case EJobId.WHM:
                 case EJobId.AST:
@@ -561,18 +563,21 @@ namespace RotationSimulator
                     tb_tenacity.IsEnabled = false;
                     tb_piety.IsEnabled = true;
                     tb_mind.IsEnabled = true;
+                    tb_magDamage.IsEnabled = true;
                     break;
                 case EJobId.NIN:
                 case EJobId.BRD:
                 case EJobId.MCH:
                 case EJobId.DNC:
                     tb_dexterity.IsEnabled = true;
+                    tb_physDamage.IsEnabled = true;
                     break;
                 case EJobId.BLM:
                 case EJobId.SMN:
                 case EJobId.RDM:
                 case EJobId.BLU:
                     tb_intelligence.IsEnabled = true;
+                    tb_magDamage.IsEnabled = true;
                     break;
                 case EJobId.PLD:
                 case EJobId.WAR:
@@ -581,13 +586,18 @@ namespace RotationSimulator
                     tb_tenacity.IsEnabled = true;
                     tb_piety.IsEnabled = false;
                     tb_strength.IsEnabled = true;
+                    tb_physDamage.IsEnabled = true;
                     break;
                 default:
                     tb_tenacity.IsEnabled = false;
                     tb_piety.IsEnabled = false;
                     tb_strength.IsEnabled = true;
+                    tb_physDamage.IsEnabled = true;
                     break;
             }
+
+            tb_physDamage.Text = activeGearset.PhysicalDamage.ToString();
+            tb_magDamage.Text = activeGearset.MagicalDamage.ToString();
 
             tb_strength.Text = activeGearset.Strength.ToString();
             tb_dexterity.Text = activeGearset.Dexterity.ToString();
@@ -627,6 +637,30 @@ namespace RotationSimulator
         }
 
         #region Gear properties text changes
+        private void tb_physDamage_TextChanged(object sender, TextChangedEventArgs e) {
+            if (activeGearset == null) {
+                return;
+            }
+
+            try {
+                int newValue = Int32.Parse(tb_physDamage.Text);
+                activeGearset.PhysicalDamage = newValue;
+            } catch (Exception) {
+                //TODO: Show red?
+            }
+        }
+        private void tb_magDamage_TextChanged(object sender, TextChangedEventArgs e) {
+            if (activeGearset == null) {
+                return;
+            }
+
+            try {
+                int newValue = Int32.Parse(tb_magDamage.Text);
+                activeGearset.MagicalDamage = newValue;
+            } catch (Exception) {
+                //TODO: Show red?
+            }
+        }
         private void tb_strength_TextChanged(object sender, TextChangedEventArgs e) {
             if (activeGearset == null) {
                 return;
