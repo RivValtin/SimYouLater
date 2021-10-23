@@ -153,6 +153,11 @@ namespace RotationSimulator
             }
 
             //---- Results!.. were tallied by ActionInvoker as we went.
+
+            int apMultiplier = StatMath.GetAttackPowerMultiplier(CharStats.RelevantAttackPower, CharStats.IsTank);
+            int wdMultiplier = StatMath.GetWeaponDamageMultiplier(CharStats.WeaponDamage, CharStats.Job);
+
+            results.totalDamage = (int)results.totalEffectivePotency * apMultiplier / 100 * wdMultiplier / 100;
             return results;
         }
     }

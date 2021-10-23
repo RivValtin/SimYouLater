@@ -32,6 +32,174 @@ namespace RotationSimulator
         }
         public EJobId Job { get; private set; }
 
+        public int RelevantAttackPower { get; private set; }
+        public int AutoAttackPower { get; private set; }
+
+        public bool IsTank { get {
+                switch (Job) {
+                    case EJobId.PLD:
+                    case EJobId.WAR:
+                    case EJobId.DRK:
+                    case EJobId.GNB:
+                        return true;
+                    default:
+                        return false;
+                }
+            } 
+        }
+
+        public int Strength { get {
+                return strength;
+            } 
+            set {
+                strength = value;
+                switch (Job) {
+                    case EJobId.DRG:
+                    case EJobId.MNK:
+                    case EJobId.SAM:
+                    case EJobId.PLD:
+                    case EJobId.DRK:
+                    case EJobId.WAR:
+                    case EJobId.GNB:
+                        //TODO EW Patch Stuff
+                        RelevantAttackPower = value;
+                        AutoAttackPower = value;
+                        break;
+                    case EJobId.SMN:
+                    case EJobId.BLM:
+                    case EJobId.RDM:
+                    case EJobId.BLU:
+                    case EJobId.WHM:
+                    case EJobId.AST:
+                    case EJobId.SCH:
+                        //TODO EW Patch Stuff
+                        AutoAttackPower = value;
+                        break;
+                    default: 
+                        break;
+                }
+            }
+        }
+        private int strength;
+        public int Dexterity {
+            get {
+                return dexterity;
+            }
+            set {
+                dexterity = value;
+                switch (Job) {
+                    case EJobId.NIN:
+                    case EJobId.BRD:
+                    case EJobId.DNC:
+                    case EJobId.MCH:
+                        RelevantAttackPower = value;
+                        AutoAttackPower = value;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        private int dexterity;
+        public int Intelligence {
+            get {
+                return intelligence;
+            }
+            set {
+                intelligence = value;
+                switch (Job) {
+                    case EJobId.SMN:
+                    case EJobId.BLM:
+                    case EJobId.RDM:
+                    case EJobId.BLU:
+                        RelevantAttackPower = value;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        private int intelligence;
+        public int Mind {
+            get {
+                return mind;
+            }
+            set {
+                mind = value;
+                switch (Job) {
+                    case EJobId.WHM:
+                    case EJobId.AST:
+                    case EJobId.SCH:
+                        //TODO EW Patch Stuff
+                        RelevantAttackPower = value;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        private int mind;
+
+        public int WeaponDamage { get; private set; }
+        public int AutoWeaponDamage { get; private set; }
+
+        public int PhysicalDamage { get {
+                return physDamage;
+            } 
+            init {
+                physDamage = value;
+                switch (Job) {
+                    case EJobId.DRG:
+                    case EJobId.MNK:
+                    case EJobId.SAM:
+                    case EJobId.PLD:
+                    case EJobId.DRK:
+                    case EJobId.WAR:
+                    case EJobId.GNB:
+                        //TODO EW Patch Stuff
+                        WeaponDamage = value;
+                        AutoWeaponDamage = value;
+                        break;
+                    case EJobId.SMN:
+                    case EJobId.BLM:
+                    case EJobId.RDM:
+                    case EJobId.BLU:
+                    case EJobId.WHM:
+                    case EJobId.AST:
+                    case EJobId.SCH:
+                        //TODO EW Patch Stuff
+                        AutoWeaponDamage = value;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        private int physDamage;
+        public int MagicalDamage {
+            get {
+                return magDamage;
+            }
+            init {
+                magDamage = value;
+                switch (Job) {
+                    case EJobId.SMN:
+                    case EJobId.BLM:
+                    case EJobId.RDM:
+                    case EJobId.BLU:
+                    case EJobId.WHM:
+                    case EJobId.AST:
+                    case EJobId.SCH:
+                        //TODO EW Patch Stuff
+                        WeaponDamage = value;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        private int magDamage;
+
         public int CritRate { get; private set; }
         public int CritBonus { get; private set; }
         public int DirectHitRate { get; private set; }

@@ -22,10 +22,15 @@
         /// <summary>
         /// Actual DPS number. NYI
         /// </summary>
-        public float dps;
+        public float dps {
+            get {
+                return totalDamage / (totalTime / 100.0f);
+            }
+        }
 
         public int totalTime;
         public int totalPotency;
+        public int totalDamage;
         public float totalEffectivePotency;
     }
 }

@@ -117,7 +117,7 @@ namespace RotationSimulator
 
         #region Simulator Tab Specific
         private void button_Simulate(object sender, RoutedEventArgs e) {
-            if (string.IsNullOrEmpty(activeRotationName)) {
+            if (string.IsNullOrEmpty(activeRotationName) || activeGearset == null) {
                 return;
             }
 
@@ -131,11 +131,18 @@ namespace RotationSimulator
 
             CharacterStats charStats = new CharacterStats((EJobId)Enum.Parse(typeof(EJobId), activeRotation.JobCode, true))
             {
-                CriticalHitSubstat = Int32.Parse(tb_critical.Text),
-                DirectHitSubstat = Int32.Parse(tb_directHit.Text),
-                DeterminationSubstat = Int32.Parse(tb_determination.Text),
-                SkillSpeed = Int32.Parse(tb_skillspeed.Text),
-                SpellSpeed = Int32.Parse(tb_spellspeed.Text)
+                PhysicalDamage = activeGearset.PhysicalDamage,
+                MagicalDamage = activeGearset.MagicalDamage,
+                Strength = activeGearset.Strength,
+                Dexterity = activeGearset.Dexterity,
+                Intelligence = activeGearset.Intelligence,
+                Mind = activeGearset.Mind,
+                CriticalHitSubstat = activeGearset.CriticalHit,
+                DirectHitSubstat = activeGearset.DirectHit,
+                DeterminationSubstat = activeGearset.Determination,
+                Tenacity = activeGearset.Tenacity,
+                SkillSpeed = activeGearset.SkillSpeed,
+                SpellSpeed = activeGearset.SpellSpeed
             };
             simulator.CharStats = charStats;
 
@@ -153,6 +160,7 @@ namespace RotationSimulator
 
             textBlock.Text = "PPS: " + results.pps + "\n" +
                              "ePPS: " + results.epps + "\n" +
+                             "Estimated DPS: " + results.dps + "\n" + 
                              "Time: " + (float)results.totalTime / 100 + "s";
             UpdateLogText();
         }
