@@ -130,14 +130,15 @@ namespace RotationSimulator
                 simulator.AnimationLock = 61;
             }
 
+            int partyBonus = (bool)cb_opt_partyBonus.IsChecked ? 105 : 100;
             CharacterStats charStats = new CharacterStats((EJobId)Enum.Parse(typeof(EJobId), activeRotation.JobCode, true))
             {
                 PhysicalDamage = activeGearset.PhysicalDamage,
                 MagicalDamage = activeGearset.MagicalDamage,
-                Strength = activeGearset.Strength,
-                Dexterity = activeGearset.Dexterity,
-                Intelligence = activeGearset.Intelligence,
-                Mind = activeGearset.Mind,
+                Strength = activeGearset.Strength * partyBonus / 100,
+                Dexterity = activeGearset.Dexterity * partyBonus / 100,
+                Intelligence = activeGearset.Intelligence * partyBonus / 100,
+                Mind = activeGearset.Mind * partyBonus / 100,
                 CriticalHitSubstat = activeGearset.CriticalHit,
                 DirectHitSubstat = activeGearset.DirectHit,
                 DeterminationSubstat = activeGearset.Determination,

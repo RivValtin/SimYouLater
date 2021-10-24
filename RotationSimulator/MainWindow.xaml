@@ -216,6 +216,8 @@
                     <TextBlock  Grid.Row="0" Grid.Column="0" Margin="5,5,5,5">Basic Options</TextBlock>
                     <TextBlock  Grid.Row="1" Grid.Column="0" Margin="5,5,5,5" ToolTip="Put your estimated ping here. Animation locks are ping dependent, and this is used to adjust them. Default is 100. Values under 10 will be treated as 10.">Ping</TextBlock>
                     <TextBox x:Name="tb_opt_ping" Grid.Row="1" Grid.Column="1" Margin="5,5,5,5" MinWidth="100">100</TextBox>
+                    <TextBlock  Grid.Row="2" Grid.Column="0" Margin="5,5,5,5" ToolTip="You get this bonus by having 1 of each role in your party (tank, healer, melee, ranged, caster).">Apply 5% party bonus.</TextBlock>
+                    <CheckBox x:Name="cb_opt_partyBonus" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="True"></CheckBox>
 
 
                     <TextBlock Grid.Row="0" Grid.Column="2" Margin="5,5,5,5">Party Composition (For Buffs)</TextBlock>
