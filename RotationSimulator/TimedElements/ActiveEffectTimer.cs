@@ -26,9 +26,14 @@ namespace RotationSimulator.TimedElements
             currentTime += time;
             foreach (ActiveEffect effect in activeEffects.Values) {
                 if (effect.ActiveEndTime <= currentTime) {
-                    SimLog.Detail("Expired effect. " + effect.effect.DisplayName, currentTime);
-                    if (string.Equals(effect.effect.UniqueID, "MCH_Wildfire")) {
-                        ApplyWildfireDamage(effect);
+                    if (effect.effect.StackDecayDuration > 0 && GetActiveStacks(effect.effect.UniqueID) > 1) {
+                        effect.ActiveEndTime = currentTime + effect.effect.StackDecayDuration;
+                        effect.Stacks--;
+                    } else {
+                        SimLog.Detail("Expired effect. " + effect.effect.DisplayName, currentTime);
+                        if (string.Equals(effect.effect.UniqueID, "MCH_Wildfire")) {
+                            ApplyWildfireDamage(effect);
+                        }
                     }
                 }
             }
@@ -188,15 +193,40 @@ namespace RotationSimulator.TimedElements
 
         /// <summary>
         /// Returns the damage multiplier based on active buffs (and maybe someday, debuffs).
+        /// TODO: Phase this out in favor of a version that actually uses the proper integer math.
         /// </summary>
         /// <returns></returns>
         public float GetDamageMultiplier() {
             float buffPotencyMulti = 1.0f;
-            if (GetActiveStacks("SMN_SearingLight") > 0) {
-                buffPotencyMulti *= 1.03f;
+            if (GetActiveStacks("AST_Divination") > 0) {
+                buffPotencyMulti *= 1.06f;
+            }
+            if (GetActiveStacks("BRD_MagesBallad_Party") > 0) {
+                buffPotencyMulti *= 1.01f;
+            }
+            if (GetActiveStacks("DNC_StandardFinish") > 0) {
+                buffPotencyMulti *= 1.05f;
+            }
+            if (GetActiveStacks("DNC_TechnicalFinish") > 0) {
+                buffPotencyMulti *= 1.1f;
+            }
+            if (GetActiveStacks("DRG_LeftEye") > 0) {
+                buffPotencyMulti *= 1.05f;
+            }
+            if (GetActiveStacks("DRG_RightEye") > 0) {
+                buffPotencyMulti *= 1.1f;
+            }
+            if (GetActiveStacks("MNK_Brotherhood") > 0) {
+                buffPotencyMulti *= 1.05f;
             }
             if (GetActiveStacks("NIN_TrickAttack") > 0) {
                 buffPotencyMulti *= 1.05f;
+            }
+            if (GetActiveStacks("RDM_Embolden") > 0) {
+                buffPotencyMulti *= 1.0f + 0.02f * GetActiveStacks("Embolden");
+            }
+            if (GetActiveStacks("SMN_SearingLight") > 0) {
+                buffPotencyMulti *= 1.03f;
             }
             return buffPotencyMulti;
         }
@@ -204,11 +234,25 @@ namespace RotationSimulator.TimedElements
         /// <summary>
         /// Get the character's current crit rate, as modified by active buffs.
         /// 
-        /// Does NOT apply conditional buffs to crit rate, such as Reassemble, or guaranteed crits in general.
+        /// Does NOT apply conditional buffs to crit rate, such as Reassemble (which only applies to next weaponskill), or guaranteed crits in general.
         /// </summary>
         /// <returns></returns>
         public int GetBuffedCritRate() {
-            return CharStats.CritRate;
+            int critBonuses = 0;
+            if (GetActiveStacks("DRG_BattleLitany") > 0) {
+                critBonuses += 100;
+            }
+            if (GetActiveStacks("SCH_ChainStratagem") > 0) {
+                critBonuses += 100;
+            }
+            if (GetActiveStacks("DNC_Devilment") > 0) {
+                critBonuses += 200;
+            }
+            if (GetActiveStacks("BRD_WanderersMinuet_Party") > 0) {
+                critBonuses += 20;
+            }
+            int crit = CharStats.CritRate + critBonuses;
+            return crit > 1000 ? 1000 : crit;
         }
 
         /// <summary>
@@ -218,7 +262,19 @@ namespace RotationSimulator.TimedElements
         /// </summary>
         /// <returns></returns>
         public int GetBuffedDHRate() {
-            return CharStats.DirectHitRate;
+            int dhBonuses = 0;
+            if (GetActiveStacks("DNC_Devilment") > 0) {
+                dhBonuses += 200;
+            }
+            if (GetActiveStacks("BRD_ArmysPaeon_Party") > 0) {
+                dhBonuses += 30;
+            }
+            if (GetActiveStacks("BRD_BattleVoice") > 0) {
+                dhBonuses += 200;
+            }
+            int directHit = CharStats.DirectHitRate + dhBonuses;
+
+            return directHit > 1000 ? 1000 : directHit;
         }
     }
 }

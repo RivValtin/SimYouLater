@@ -32,7 +32,15 @@ namespace RotationSimulator
         }
         public EJobId Job { get; private set; }
 
+        /// <summary>
+        /// Basically equal to main damage stat, this returns either attack power or magic power depending on job.
+        /// As of this comment, only SMN Physik mismatches this, and we aren't simming healing here so who cares.
+        /// </summary>
         public int RelevantAttackPower { get; private set; }
+        /// <summary>
+        /// Returns the attack power used for auto-attacks. For phys classes this is the same as RelevantAttackPower,
+        /// but for magical classes it will instead be equal to strength.
+        /// </summary>
         public int AutoAttackPower { get; private set; }
 
         public bool IsTank { get {
@@ -140,7 +148,13 @@ namespace RotationSimulator
         }
         private int mind;
 
+        /// <summary>
+        /// Returns the weapon damage of the type this class uses (phys or mag) for everything except auto attacks.
+        /// </summary>
         public int WeaponDamage { get; private set; }
+        /// <summary>
+        /// Returns the weapon damage of the type this class uses (phys or mag) for auto-attacks specifically.
+        /// </summary>
         public int AutoWeaponDamage { get; private set; }
 
         public int PhysicalDamage { get {

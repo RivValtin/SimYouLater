@@ -57,6 +57,10 @@ namespace RotationSimulator
         /// If true, this effect comes in stacks and should show their quantity (even if it's 1).
         /// </summary>
         public bool UsesStacks { get; init; } = false;
+        /// <summary>
+        /// If greater than 0, this effect should not expire all at once and instead remove one stack then reset remaining duration to this value.
+        /// </summary>
+        public int StackDecayDuration { get; init; } = 0;
         public EEffectType Type { get; init; } = EEffectType.Buff;
         /// <summary>
         /// For DoTs only. Specifies the potency per tick. Default value of 0 indicates that this effect is not a dot.
