@@ -30,7 +30,7 @@
                     
                     <Button x:Name="button" Content="Run Simulation" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Click="button_Simulate"/>
 
-                    <TextBlock Grid.Row="1" Grid.Column="0" Margin="5,5,5,5">Selected Rotation</TextBlock>
+                    <TextBlock Grid.Row="1" Grid.Column="0" Margin="5,5,5,5">Simulation Mode</TextBlock>
                     <ComboBox x:Name="cmb_simulationModeSelection" IsEditable="False" Grid.Row="2" Grid.Column="0" Margin="5,5,5,5" SelectionChanged="cmb_simulationMode_Changed" MinWidth="150" SelectedIndex="0">
                         <ComboBoxItem ToolTip="Runs a single pass with no RNG of any kind. Good for classes without random elements. Not compatible with those that have random procs.">Simple</ComboBoxItem>
                         <ComboBoxItem ToolTip="Do a single run. DPS result can be misleading due to crit, direct hit, and proc RNG.">Single Pass</ComboBoxItem>
@@ -52,12 +52,12 @@
                         <ComboBoxItem>Display All</ComboBoxItem>
                     </ComboBox>
                     <ScrollViewer VerticalScrollBarVisibility="Visible" Grid.Row="2" Grid.Column="1" Grid.RowSpan="12" MinWidth="200">
-                        <TextBlock x:Name="tb_logOutput" Margin="5,5,5,5"><InlineUIContainer><Image Source="pack://application:,,,/images/icons/mch_detonator.png" /></InlineUIContainer>lol</TextBlock>
+                        <TextBlock x:Name="tb_logOutput" Margin="5,5,5,5"></TextBlock>
                     </ScrollViewer>
 
 
                     <TextBlock Grid.Row="0" Grid.Column="2" Grid.RowSpan="4" HorizontalAlignment="Left" Text="Results" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="150" Margin="15,5,5,5" FontSize="24"/>
-                    <TextBlock x:Name="textBlock" Grid.Row="1" Grid.Column="2" Grid.RowSpan="4" HorizontalAlignment="Left" Text="(simulation basic output)" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="150" Margin="15,5,5,5"/>
+                    <TextBlock x:Name="textBlock" Grid.Row="1" Grid.Column="2" Grid.RowSpan="4" HorizontalAlignment="Left" Text="No results to show yet." TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="150" Margin="15,5,5,5"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Rotation Editor">
