@@ -43,9 +43,9 @@ namespace RotationSimulator
                 UniqueID = "BRD_ArmysPaeon_Party",
                 DisplayName = "Army's Paeon"
             });
-            effects.Add("BRD_WarnderersMinuet_Party", new EffectDef()
+            effects.Add("BRD_WanderersMinuet_Party", new EffectDef()
             {
-                UniqueID = "BRD_WarnderersMinuet_Party",
+                UniqueID = "BRD_WanderersMinuet_Party",
                 DisplayName = "Wanderer's Minuet"
             });
             #endregion

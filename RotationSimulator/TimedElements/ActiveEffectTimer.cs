@@ -222,8 +222,8 @@ namespace RotationSimulator.TimedElements
             if (GetActiveStacks("NIN_TrickAttack") > 0) {
                 buffPotencyMulti *= 1.05f;
             }
-            if (GetActiveStacks("RDM_Embolden") > 0) {
-                buffPotencyMulti *= 1.0f + 0.02f * GetActiveStacks("Embolden");
+            if (GetActiveStacks("RDM_Embolden_Party") > 0) {
+                buffPotencyMulti *= 1.0f + 0.02f * GetActiveStacks("RDM_Embolden_Party");
             }
             if (GetActiveStacks("SMN_SearingLight") > 0) {
                 buffPotencyMulti *= 1.03f;

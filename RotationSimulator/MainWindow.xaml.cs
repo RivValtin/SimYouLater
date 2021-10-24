@@ -146,23 +146,154 @@ namespace RotationSimulator
             };
             simulator.CharStats = charStats;
 
-            List<ActiveEffect> externalEffects = new List<ActiveEffect>();
-            if ((bool)cb_opt_simulateTrickAttack.IsChecked) {
-                externalEffects.Add(new ActiveEffect()
-                {
-                    ActiveStartTime = 850,
-                    ActiveEndTime = 1500 + 850,
-                    effect = EffectsBank.effects["NIN_TrickAttack"],
-                });
-            }
-
-            SimulationResults results = simulator.Simulate(activeRotation.RotationSteps, activeRotation.StartTimeOffset, externalEffects);
+            SimulationResults results = simulator.Simulate(activeRotation.RotationSteps, activeRotation.StartTimeOffset, GetExteralEffectsFromOptions());
 
             textBlock.Text = "PPS: " + results.pps + "\n" +
                              "ePPS: " + results.epps + "\n" +
                              "Estimated DPS: " + results.dps + "\n" + 
                              "Time: " + (float)results.totalTime / 100 + "s";
             UpdateLogText();
+        }
+
+        private List<ActiveEffect> GetExteralEffectsFromOptions() {
+            List<ActiveEffect> externalEffects = new List<ActiveEffect>();
+            if ((bool)cb_opt_simulateDivination.IsChecked) {
+                for (int i = 0; i < 10; i++) {
+                    externalEffects.Add(new ActiveEffect()
+                    {
+                        ActiveStartTime = 12000 * i + 910,
+                        ActiveEndTime = 12000 * i + 1500 + 910,
+                        effect = EffectsBank.effects["AST_Divination"],
+                    });
+                }
+            }
+            if ((bool)cb_opt_simulateBardBuffs.IsChecked) {
+                for (int i = 0; i < 10; i++) {
+                    externalEffects.Add(new ActiveEffect()
+                    {
+                        ActiveStartTime = 12000 * i + 420,
+                        ActiveEndTime = 12000 * i + 2000 + 420,
+                        effect = EffectsBank.effects["BRD_BattleVoice"],
+                    });
+                    externalEffects.Add(new ActiveEffect()
+                    {
+                        ActiveStartTime = 12000 * i + 350,
+                        ActiveEndTime = 12000 * i + 4500 + 350,
+                        effect = EffectsBank.effects["BRD_WanderersMinuet_Party"],
+                    });
+                    externalEffects.Add(new ActiveEffect()
+                    {
+                        ActiveStartTime = 12000 * i + 4850,
+                        ActiveEndTime = 12000 * i + 4500 + 4850,
+                        effect = EffectsBank.effects["BRD_MagesBallad_Party"],
+                    });
+                    externalEffects.Add(new ActiveEffect()
+                    {
+                        ActiveStartTime = 12000 * i + 9350,
+                        ActiveEndTime = 12000 * i + 3000 + 9350,
+                        effect = EffectsBank.effects["BRD_ArmysPaeon_Party"],
+                    });
+                }
+            }
+            if ((bool)cb_opt_simulateTechnicalStep.IsChecked) {
+                for (int i = 0; i < 10; i++) {
+                    externalEffects.Add(new ActiveEffect()
+                    {
+                        ActiveStartTime = 12000 * i + 830,
+                        ActiveEndTime = 12000 * i + 2000 + 830,
+                        effect = EffectsBank.effects["DNC_TechnicalFinish"],
+                    });
+                }
+            }
+            if ((bool)cb_opt_simulateDancePartner.IsChecked) {
+                externalEffects.Add(new ActiveEffect()
+                {
+                    ActiveStartTime = 130,
+                    ActiveEndTime = int.MaxValue,
+                    effect = EffectsBank.effects["DNC_StandardFinish"],
+                });
+                for (int i = 0; i < 10; i++) {
+                    externalEffects.Add(new ActiveEffect()
+                    {
+                        ActiveStartTime = 12000 * i + 1050,
+                        ActiveEndTime = 12000 * i + 2000 + 1050,
+                        effect = EffectsBank.effects["DNC_Devilment"],
+                    });
+                }
+            }
+            if ((bool)cb_opt_simulateBattleLitany.IsChecked) {
+                for (int i = 0; i < 10; i++) {
+                    externalEffects.Add(new ActiveEffect()
+                    {
+                        ActiveStartTime = 12000 * i + 520,
+                        ActiveEndTime = 12000 * i + 1500 + 520,
+                        effect = EffectsBank.effects["DRG_BattleLitany"],
+                    });
+                }
+            }
+            if ((bool)cb_opt_simulateDragoonTether.IsChecked) {
+                for (int i = 0; i < 10; i++) {
+                    externalEffects.Add(new ActiveEffect()
+                    {
+                        ActiveStartTime = 12000 * i + 450,
+                        ActiveEndTime = 12000 * i + 2000 + 450,
+                        effect = EffectsBank.effects["DRG_LeftEye"],
+                    });
+                }
+            }
+            if ((bool)cb_opt_simulateBrotherhood.IsChecked) {
+                for (int i = 0; i < 10; i++) {
+                    externalEffects.Add(new ActiveEffect()
+                    {
+                        ActiveStartTime = 12000 * i + 670,
+                        ActiveEndTime = 12000 * i + 1500 + 670,
+                        effect = EffectsBank.effects["MNK_Brotherhood"],
+                    });
+                }
+            }
+            if ((bool)cb_opt_simulateTrickAttack.IsChecked) {
+                for (int i = 0; i < 20; i++) {
+                    externalEffects.Add(new ActiveEffect()
+                    {
+                        ActiveStartTime = 6000 * i + 850,
+                        ActiveEndTime = 6000 * i + 1500 + 850,
+                        effect = EffectsBank.effects["NIN_TrickAttack"],
+                    });
+                }
+            }
+            if ((bool)cb_opt_simulateEmbolden.IsChecked) {
+                for (int i = 0; i < 10; i++) {
+                    externalEffects.Add(new ActiveEffect()
+                    {
+                        ActiveStartTime = 12000 * i + 650,
+                        ActiveEndTime = 12000 * i + 400 + 650,
+                        effect = EffectsBank.effects["RDM_Embolden_Party"],
+                        Stacks = 5,
+                    });
+                }
+            }
+            if ((bool)cb_opt_simulateChainStrat.IsChecked) {
+                for (int i = 0; i < 10; i++) {
+                    externalEffects.Add(new ActiveEffect()
+                    {
+                        ActiveStartTime = 12000 * i + 880,
+                        ActiveEndTime = 12000 * i + 1500 + 880,
+                        effect = EffectsBank.effects["SCH_ChainStratagem"],
+                    });
+                }
+            }
+            if ((bool)cb_opt_simulateSearingLight.IsChecked) {
+                for (int i = 0; i < 10; i++) {
+                    externalEffects.Add(new ActiveEffect()
+                    {
+                        ActiveStartTime = 12000 * i + 70,
+                        ActiveEndTime = 12000 * i + 3000 + 70,
+                        effect = EffectsBank.effects["SMN_SearingLight"],
+                    });
+                }
+            }
+
+            return externalEffects;
         }
 
         private void UpdateLogText() {

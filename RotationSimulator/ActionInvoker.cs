@@ -29,8 +29,8 @@ namespace RotationSimulator
         /// <param name="action"></param>
         public void InvokeAction(ActionDef action, int currentTime, string instigator) {
             //WARNING: Modify critRate/dhRate variables for DoT snapshots only. Auto crit/dh does NOT apply to DoT portions (e.g. bioblaster) and as such IR/REA should not modify them, and instead change the crit/dh multi directly after other crit/dh calculations are done.
-            int critRate = CharStats.CritRate;
-            int dhRate = CharStats.DirectHitRate;
+            int critRate = ActiveEffectTimer.GetBuffedCritRate();
+            int dhRate = ActiveEffectTimer.GetBuffedDHRate();
 
             //---- Calculate potency multipliers
             // NOTE: This is not entirely accurate as the game does not use floating point math anywhere, but since this is only used for estimated effective potency it's ok.
