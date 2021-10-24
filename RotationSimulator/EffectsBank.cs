@@ -167,7 +167,8 @@ namespace RotationSimulator
             {
                 UniqueID = "RDM_Embolden_Party",
                 DisplayName = "Embolden",
-                Type = EEffectType.Debuff
+                Type = EEffectType.Debuff,
+                StackDecayDuration = 400
             });
             #endregion
 
