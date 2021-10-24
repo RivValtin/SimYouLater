@@ -37,5 +37,9 @@ namespace RotationSimulator
         /// If true, duration is added to current duration. If false, duration overwrites current duration.
         /// </summary>
         public bool IsAdditiveDuration = false;
+        /// <summary>
+        /// The chance that the effect actually gets applied. Use for procs.
+        /// </summary>
+        public int ProcChance = 100;
     }
 }

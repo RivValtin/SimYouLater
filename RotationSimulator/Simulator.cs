@@ -31,11 +31,42 @@ namespace RotationSimulator
         /// <param name="timeOffset">Used when calculating openers, set a negative time value equal to the amount of time between your first ability usage and when the boss becomes active.</param>
         /// <param name="externalEffects">A list of effects that come from other sources, but may interact with your rotation. Used to apply the effects of party buffs and such.</param>
         /// <returns></returns>
-        public SimulationResults Simulate(List<RotationStep> rotationActions, int timeOffset = 0, List<ActiveEffect> externalEffects = null) {
+        public SimulationResults Simulate(List<RotationStep> rotationActions, int timeOffset = 0, List<ActiveEffect> externalEffects = null, ESimulationMode simMode = ESimulationMode.Simple) {
 
             //---- Insanely long initialization stpes
             int time = timeOffset;
+
+            if (ESimulationMode.Variation == simMode) {
+                const int runCount = 10000;
+
+                SimLog.Enabled = false;
+                SimulationResults results = new SimulationResults();
+                results.minDamage = int.MaxValue;
+                results.maxDamage = 0;
+                float dpsRunAccumulator = 0;
+                for (int i = 0; i < runCount; i++) {
+                    SimulationResults singlePassResult = RunSinglePass(rotationActions, timeOffset, externalEffects, ESimulationMode.SinglePass);
+                    if (singlePassResult.dps < results.minDamage) {
+                        results.minDamage = singlePassResult.dps;
+                    }
+                    if (singlePassResult.dps > results.maxDamage) {
+                        results.maxDamage = singlePassResult.dps;
+                    }
+                    dpsRunAccumulator += singlePassResult.dps;
+                }
+                results.averageDamage = dpsRunAccumulator / runCount;
+                return results;
+            } else {
+                SimLog.Enabled = true;
+                return RunSinglePass(rotationActions, timeOffset, externalEffects, simMode);
+            }
+        }
+
+        private SimulationResults RunSinglePass(List<RotationStep> rotationActions, int timeOffset = 0, List<ActiveEffect> externalEffects = null, ESimulationMode simMode = ESimulationMode.Simple) {
+            //---- Insanely long initialization steps
+            int time = timeOffset;
             SimulationResults results = new SimulationResults();
+            results.SimMode = simMode;
 
             ActiveEffectTimer activeEffectTimer = new ActiveEffectTimer(time)
             {
@@ -47,7 +78,7 @@ namespace RotationSimulator
             AutoAttackTimer autoAttackTimer = new AutoAttackTimer()
             {
 
-            };;
+            }; ;
             GCDTimer gcdTimer = new GCDTimer(time);
             RecastTimer recastTimer = new RecastTimer(time)
             {
@@ -69,7 +100,7 @@ namespace RotationSimulator
                 ActionInvoker = actionInvoker
             };
             AnimationLockTimer petAnimationLockTimer = new AnimationLockTimer(time);
-            CastTimer petCastTimer = new CastTimer(time) { ActionInvoker = actionInvoker, Instigator="Pet" };
+            CastTimer petCastTimer = new CastTimer(time) { ActionInvoker = actionInvoker, Instigator = "Pet" };
             GCDTimer petGCDTimer = new GCDTimer(time);
 
             StrictRotationTimedElement petRotation = new StrictRotationTimedElement()
@@ -152,12 +183,7 @@ namespace RotationSimulator
                 }
             }
 
-            //---- Results!.. were tallied by ActionInvoker as we went.
-
-            int apMultiplier = StatMath.GetAttackPowerMultiplier(CharStats.RelevantAttackPower, CharStats.IsTank);
-            int wdMultiplier = StatMath.GetWeaponDamageMultiplier(CharStats.WeaponDamage, CharStats.Job);
-
-            results.totalDamage = (int)results.totalEffectivePotency * apMultiplier / 100 * wdMultiplier / 100;
+            //---- Results!.. were tallied as we went
             return results;
         }
     }

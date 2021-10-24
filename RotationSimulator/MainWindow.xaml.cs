@@ -26,6 +26,7 @@ namespace RotationSimulator
 
         public List<GearSet> gearSets = new List<GearSet>();
         public GearSet activeGearset = null;
+        public ESimulationMode simMode = ESimulationMode.Simple;
 
         public MainWindow() {
             InitializeComponent();
@@ -146,12 +147,18 @@ namespace RotationSimulator
             };
             simulator.CharStats = charStats;
 
-            SimulationResults results = simulator.Simulate(activeRotation.RotationSteps, activeRotation.StartTimeOffset, GetExteralEffectsFromOptions());
+            SimulationResults results = simulator.Simulate(activeRotation.RotationSteps, activeRotation.StartTimeOffset, GetExteralEffectsFromOptions(), simMode);
 
-            textBlock.Text = "PPS: " + results.pps + "\n" +
-                             "ePPS: " + results.epps + "\n" +
-                             "Estimated DPS: " + results.dps + "\n" + 
-                             "Time: " + (float)results.totalTime / 100 + "s";
+            if (ESimulationMode.Variation == simMode) {
+                textBlock.Text = "Worst run: " + results.minDamage + " dps\n" +
+                                 "Average: " + results.averageDamage + " dps\n" +
+                                 "Best run: " + results.maxDamage + " dps\n";
+            } else {
+                textBlock.Text = "PPS: " + results.pps + "\n" +
+                                 "ePPS: " + results.epps + "\n" +
+                                 "Estimated DPS: " + results.dps + "\n" +
+                                 "Time: " + (float)results.totalTime / 100 + "s";
+            }
             UpdateLogText();
         }
 
@@ -354,6 +361,12 @@ namespace RotationSimulator
         private void cmb_logLevel_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             if (tb_logOutput != null) {
                 UpdateLogText();
+            }
+        }
+
+        private void cmb_simulationMode_Changed(object sender, SelectionChangedEventArgs e) {
+            if (cmb_simulationModeSelection != null) {
+                simMode = (ESimulationMode)cmb_simulationModeSelection.SelectedIndex;
             }
         }
         #endregion

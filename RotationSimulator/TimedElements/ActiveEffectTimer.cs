@@ -174,19 +174,11 @@ namespace RotationSimulator.TimedElements
         public void TickDots() {
             foreach (ActiveEffect effect in activeEffects.Values) {
                 if (effect.effect.Potency != 0) {
-                    simResult.totalPotency += effect.effect.Potency;
-
-                    float effectivePotency; 
-
                     if (effect.effect.Snapshots) {
-                        int speedMulti = StatMath.GetDotMultiplierFromSpeed(effect.SnapshotSpeed);
-                        effectivePotency = effect.effect.Potency * (1 + effect.SnapshotCritBonus / 1000.0f * effect.SnapshotCritRate / 1000.0f) * (1 + effect.SnapshotDHRate / 4000.0f) * effect.SnapshotMulti * (1 + speedMulti / 1000.0f);
+                        simResult.ApplyPotency(effect.effect.Potency, CharStats, effect.SnapshotCritRate, effect.SnapshotDHRate, effect.SnapshotMulti, applyDotBonus:true);
                     } else {
-                        int speedMulti = StatMath.GetDotMultiplierFromSpeed(CharStats.RelevantSpeed);
-                        effectivePotency = effect.effect.Potency * (1 + GetBuffedCritRate() / 1000.0f * CharStats.CritRate/ 1000.0f) * (1 + GetBuffedDHRate() / 4000.0f) * GetDamageMultiplier() * (1 + speedMulti / 1000.0f) * (1 + CharStats.DetBonus / 1000.0f) * (1 + CharStats.TenBonus / 1000.0f);
+                        simResult.ApplyPotency(effect.effect.Potency, CharStats, CharStats.CritRate, CharStats.DirectHitRate, GetDamageMultiplier(), applyDotBonus: true);
                     }
-                    simResult.totalEffectivePotency += effectivePotency;
-                    SimLog.Detail("Dot tick applied at potency " + effect.effect.Potency + " and effective potency " + effectivePotency, currentTime);
                 }
             }
         }

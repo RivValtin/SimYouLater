@@ -32,21 +32,12 @@ namespace RotationSimulator
             int critRate = ActiveEffectTimer.GetBuffedCritRate();
             int dhRate = ActiveEffectTimer.GetBuffedDHRate();
 
-            //---- Calculate potency multipliers
-            // NOTE: This is not entirely accurate as the game does not use floating point math anywhere, but since this is only used for estimated effective potency it's ok.
-            float ePotencyMulti = 1.0f;
-            float buffPotencyMulti = ActiveEffectTimer.GetDamageMultiplier();
-            float critMulti = 1 + (critRate / 1000.0f) * (CharStats.CritBonus / 1000.0f);
-            float detTenMulti = (1 + CharStats.DetBonus / 1000.0f) * (1 + CharStats.TenBonus / 1000.0f);
-            float dhMulti = 1 + (dhRate / 4000.0f);
-
             if (ActiveEffectTimer.GetActiveStacks("MCH_Reassemble") > 0 && action.IsWeaponskill) {
-                critMulti = 1 + CharStats.CritBonus / 1000.0f;
-                dhMulti = 1.25f;
+                critRate = 1000;
+                dhRate = 1000;
                 ActiveEffectTimer.RemoveEffect("MCH_Reassemble");
                 SimLog.Detail("Applying reassemble", currentTime, action, instigator: instigator);
             }
-            ePotencyMulti = buffPotencyMulti * critMulti * detTenMulti * dhMulti;
 
             //Check for comboed vs uncomboed potency.
             int potency = action.Potency;
@@ -68,8 +59,7 @@ namespace RotationSimulator
             }
 
             //---- Apply the effect
-            SimulationResults.totalPotency += potency;
-            SimulationResults.totalEffectivePotency += potency * ePotencyMulti;
+            SimulationResults.ApplyPotency(potency, CharStats, critRate, dhRate, ActiveEffectTimer.GetDamageMultiplier());
             SimLog.Info("Invoked action.", currentTime, action, instigator: instigator);
 
             //--- Summon Pet, if any.
@@ -96,7 +86,7 @@ namespace RotationSimulator
             //--- Apply additional effects.
             if (isComboed) {
                 foreach (EffectApplication effectApplication in action.AppliedEffects) {
-                    ActiveEffectTimer.ApplyEffect(effectApplication, critRate, CharStats.CritBonus, dhRate, CharStats.RelevantSpeed, buffPotencyMulti * detTenMulti);
+                    ActiveEffectTimer.ApplyEffect(effectApplication, critRate, CharStats.CritBonus, dhRate, CharStats.RelevantSpeed, ActiveEffectTimer.GetDamageMultiplier());
                 }
             }
 
