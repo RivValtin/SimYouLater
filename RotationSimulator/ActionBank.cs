@@ -473,6 +473,10 @@ namespace RotationSimulator
                         effect = EffectsBank.effects["SMN_PhoenixAvailable"],
                     }
                 },
+                RemoveEffectStacks = new List<Tuple<string,int>>()
+                {
+                    new Tuple<string, int>("SMN_PhoenixAvailable", 0)
+                },
                 SummonedPet = new Tuple<string, List<RotationStep>>("Phoenix", phoenixRotation),
                 PetExpiration = 1500
             };
