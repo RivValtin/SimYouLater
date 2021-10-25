@@ -204,35 +204,11 @@ namespace RotationSimulator.TimedElements
         /// <returns></returns>
         public float GetDamageMultiplier() {
             float buffPotencyMulti = 1.0f;
-            if (GetActiveStacks("AST_Divination") > 0) {
-                buffPotencyMulti *= 1.06f;
-            }
-            if (GetActiveStacks("BRD_MagesBallad_Party") > 0) {
-                buffPotencyMulti *= 1.01f;
-            }
-            if (GetActiveStacks("DNC_StandardFinish") > 0) {
-                buffPotencyMulti *= 1.05f;
-            }
-            if (GetActiveStacks("DNC_TechnicalFinish") > 0) {
-                buffPotencyMulti *= 1.1f;
-            }
-            if (GetActiveStacks("DRG_LeftEye") > 0) {
-                buffPotencyMulti *= 1.05f;
-            }
-            if (GetActiveStacks("DRG_RightEye") > 0) {
-                buffPotencyMulti *= 1.1f;
-            }
-            if (GetActiveStacks("MNK_Brotherhood") > 0) {
-                buffPotencyMulti *= 1.05f;
-            }
-            if (GetActiveStacks("NIN_TrickAttack") > 0) {
-                buffPotencyMulti *= 1.05f;
-            }
-            if (GetActiveStacks("RDM_Embolden_Party") > 0) {
-                buffPotencyMulti *= 1.0f + 0.02f * GetActiveStacks("RDM_Embolden_Party");
-            }
-            if (GetActiveStacks("SMN_SearingLight") > 0) {
-                buffPotencyMulti *= 1.03f;
+
+            foreach (ActiveEffect effect in activeEffects.Values) {
+                if (effect.effect.DamageBuff > 0) {
+                    buffPotencyMulti *= 1.0f + effect.effect.DamageBuff * effect.Stacks / 100.0f;
+                }
             }
             return buffPotencyMulti;
         }

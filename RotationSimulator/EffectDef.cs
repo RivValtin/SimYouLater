@@ -75,5 +75,10 @@ namespace RotationSimulator
         /// Should be left false for effects that *ignore* stats in favor of auto-crit/dh.
         /// </summary>
         public bool IsStatModifier = false;
+        /// <summary>
+        /// If this effect is a damage buff, this is the percent of bonus. Only used for omni-buffs (phys- or mag-only are separate).
+        /// For buffs with stacks, this value is *per stack*.
+        /// </summary>
+        public int DamageBuff = 0;
     }
 }

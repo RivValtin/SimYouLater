@@ -23,7 +23,8 @@ namespace RotationSimulator
             effects.Add("AST_Divination", new EffectDef()
             {
                 UniqueID = "AST_Divination",
-                DisplayName = "Divination"
+                DisplayName = "Divination",
+                DamageBuff = 6
             });
             #endregion
 
@@ -37,7 +38,8 @@ namespace RotationSimulator
             effects.Add("BRD_MagesBallad_Party", new EffectDef()
             {
                 UniqueID = "BRD_MagesBallad_Party",
-                DisplayName = "Mage's Ballad"
+                DisplayName = "Mage's Ballad",
+                DamageBuff = 1
             });
             effects.Add("BRD_ArmysPaeon_Party", new EffectDef()
             {
@@ -57,12 +59,14 @@ namespace RotationSimulator
             effects.Add("DNC_TechnicalFinish", new EffectDef()
             {
                 UniqueID = "DNC_TechnicalFinish",
-                DisplayName = "Technical Finish"
+                DisplayName = "Technical Finish",
+                DamageBuff = 10
             }); 
             effects.Add("DNC_StandardFinish", new EffectDef()
             {
                 UniqueID = "DNC_StandardFinish",
-                DisplayName = "Standard Finish"
+                DisplayName = "Standard Finish",
+                DamageBuff = 5
             });
             effects.Add("DNC_Devilment", new EffectDef()
             {
@@ -83,14 +87,16 @@ namespace RotationSimulator
             effects.Add("DRG_RightEye", new EffectDef()
             {
                 UniqueID = "DRG_RightEye",
-                DisplayName = "Right Eye"
+                DisplayName = "Right Eye",
+                DamageBuff = 10
             });
             //the buff for the other person
             effects.Add("DRG_LeftEye", new EffectDef()
             {
                 UniqueID = "DRG_LeftEye",
-                DisplayName = "Left Eye"
-            });
+                DisplayName = "Left Eye",
+                DamageBuff = 5
+            }) ;
             #endregion
 
             #region Machinist
@@ -154,7 +160,8 @@ namespace RotationSimulator
             effects.Add("MNK_Brotherhood", new EffectDef()
             {
                 UniqueID = "MNK_Brotherhood",
-                DisplayName = "Brotherhood"
+                DisplayName = "Brotherhood",
+                DamageBuff = 5
             });
             #endregion
 
@@ -173,6 +180,7 @@ namespace RotationSimulator
                 UniqueID = "RDM_Embolden_Party",
                 DisplayName = "Embolden",
                 Type = EEffectType.Debuff,
+                DamageBuff = 2,
                 StackDecayDuration = 400
             });
             #endregion
@@ -192,6 +200,7 @@ namespace RotationSimulator
             {
                 UniqueID = "SMN_SearingLight",
                 DisplayName = "Searing Light",
+                DamageBuff = 3
             });
             effects.Add("SMN_BahamutSummoned", new EffectDef()
             {
