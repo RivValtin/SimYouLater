@@ -70,5 +70,10 @@ namespace RotationSimulator
         /// If a dot, this determines whether it should snapshot. Generally speaking, ground effects do not snapshot, but debuffs do.
         /// </summary>
         public bool Snapshots = true;
+        /// <summary>
+        /// If true, this effect modifies a character stat such as strength or critical hit rate.
+        /// Should be left false for effects that *ignore* stats in favor of auto-crit/dh.
+        /// </summary>
+        public bool IsStatModifier = false;
     }
 }

@@ -24,6 +24,7 @@ namespace RotationSimulator.TimedElements
 
         public void AdvanceTime(int time) {
             currentTime += time;
+            bool recalculateStats = false;
             foreach (ActiveEffect effect in activeEffects.Values) {
                 if (effect.ActiveEndTime <= currentTime) {
                     if (effect.effect.StackDecayDuration > 0 && GetActiveStacks(effect.effect.UniqueID) > 1) {
@@ -31,6 +32,9 @@ namespace RotationSimulator.TimedElements
                         effect.Stacks--;
                     } else {
                         SimLog.Detail("Expired effect. " + effect.effect.DisplayName, currentTime);
+                        if (effect.effect.IsStatModifier) {
+                            recalculateStats = true;
+                        }
                         if (string.Equals(effect.effect.UniqueID, "MCH_Wildfire")) {
                             ApplyWildfireDamage(effect);
                         }
@@ -40,10 +44,16 @@ namespace RotationSimulator.TimedElements
             foreach (ActiveEffect effect in externalEffects) {
                 if (effect.ActiveStartTime == currentTime) {
                     activeEffects.Add(effect.effect.UniqueID, effect);
+                    if (effect.effect.IsStatModifier) {
+                        recalculateStats = true;
+                    }
                     SimLog.Detail("Applied external effect. " + effect.effect.DisplayName, currentTime);
                 }
             }
             activeEffects = activeEffects.Where(x => x.Value.ActiveEndTime > currentTime).ToDictionary(x => x.Key, x => x.Value);
+            if (recalculateStats) {
+                UpdateCharStatsBonuses();
+            }
         }
 
         public void ExpireWildfire() {
@@ -81,7 +91,7 @@ namespace RotationSimulator.TimedElements
             if (activeEffects.ContainsKey(effectApplication.effect.UniqueID)) {
                 //Effect already present, update in-place.
                 ActiveEffect existingEffect = activeEffects[effectApplication.effect.UniqueID];
-                ApplySnapshot(existingEffect, GetBuffedCritRate(), CharStats.CritBonus, GetBuffedDHRate(), CharStats.RelevantSpeed, potencyMulti);
+                ApplySnapshot(existingEffect, CharStats.CritRate, CharStats.CritBonus, CharStats.DirectHitRate, CharStats.RelevantSpeed, potencyMulti);
 
                 //---- Update Duration
                 int newEndTime;
@@ -117,6 +127,10 @@ namespace RotationSimulator.TimedElements
                 ApplySnapshot(newEffect, critRate, critBonus, dh, speed, potencyMulti);
 
                 activeEffects.Add(effectApplication.effect.UniqueID, newEffect);
+            }
+
+            if (effectApplication.effect.IsStatModifier) {
+                UpdateCharStatsBonuses();
             }
             SimLog.Detail("Applied effect." + effectApplication.effect.DisplayName, currentTime);
         }
@@ -223,14 +237,9 @@ namespace RotationSimulator.TimedElements
             return buffPotencyMulti;
         }
 
-        /// <summary>
-        /// Get the character's current crit rate, as modified by active buffs.
-        /// 
-        /// Does NOT apply conditional buffs to crit rate, such as Reassemble (which only applies to next weaponskill), or guaranteed crits in general.
-        /// </summary>
-        /// <returns></returns>
-        public int GetBuffedCritRate() {
+        private void UpdateCharStatsBonuses() {
             int critBonuses = 0;
+            int dhBonuses = 0;
             if (GetActiveStacks("DRG_BattleLitany") > 0) {
                 critBonuses += 100;
             }
@@ -239,24 +248,10 @@ namespace RotationSimulator.TimedElements
             }
             if (GetActiveStacks("DNC_Devilment") > 0) {
                 critBonuses += 200;
+                dhBonuses += 200;
             }
             if (GetActiveStacks("BRD_WanderersMinuet_Party") > 0) {
                 critBonuses += 20;
-            }
-            int crit = CharStats.CritRate + critBonuses;
-            return crit > 1000 ? 1000 : crit;
-        }
-
-        /// <summary>
-        /// Get the character's current direct hit rate, as modified by active buffs.
-        /// 
-        /// Does NOT apply conditional buffs to dh rate, such as Reassemble, or guaranteed dh in general.
-        /// </summary>
-        /// <returns></returns>
-        public int GetBuffedDHRate() {
-            int dhBonuses = 0;
-            if (GetActiveStacks("DNC_Devilment") > 0) {
-                dhBonuses += 200;
             }
             if (GetActiveStacks("BRD_ArmysPaeon_Party") > 0) {
                 dhBonuses += 30;
@@ -264,9 +259,9 @@ namespace RotationSimulator.TimedElements
             if (GetActiveStacks("BRD_BattleVoice") > 0) {
                 dhBonuses += 200;
             }
-            int directHit = CharStats.DirectHitRate + dhBonuses;
 
-            return directHit > 1000 ? 1000 : directHit;
+            CharStats.CritRateBuff = critBonuses;
+            CharStats.DirectHitRateBuff = dhBonuses;
         }
     }
 }

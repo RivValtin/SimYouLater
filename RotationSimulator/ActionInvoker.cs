@@ -29,8 +29,8 @@ namespace RotationSimulator
         /// <param name="action"></param>
         public void InvokeAction(ActionDef action, int currentTime, string instigator) {
             //WARNING: Modify critRate/dhRate variables for DoT snapshots only. Auto crit/dh does NOT apply to DoT portions (e.g. bioblaster) and as such IR/REA should not modify them, and instead change the crit/dh multi directly after other crit/dh calculations are done.
-            int critRate = ActiveEffectTimer.GetBuffedCritRate();
-            int dhRate = ActiveEffectTimer.GetBuffedDHRate();
+            int critRate = CharStats.CritRate;
+            int dhRate = CharStats.DirectHitRate;
 
             if (ActiveEffectTimer.GetActiveStacks("MCH_Reassemble") > 0 && action.IsWeaponskill) {
                 critRate = 1000;
@@ -86,7 +86,10 @@ namespace RotationSimulator
             //--- Apply additional effects.
             if (isComboed) {
                 foreach (EffectApplication effectApplication in action.AppliedEffects) {
-                    ActiveEffectTimer.ApplyEffect(effectApplication, critRate, CharStats.CritBonus, dhRate, CharStats.RelevantSpeed, ActiveEffectTimer.GetDamageMultiplier());
+                    int chance = effectApplication.ProcChance * 10;
+                    if (chance >= 1000 || RNGesus.RollChance(effectApplication.ProcChance*10)) {
+                        ActiveEffectTimer.ApplyEffect(effectApplication, critRate, CharStats.CritBonus, dhRate, CharStats.RelevantSpeed, ActiveEffectTimer.GetDamageMultiplier());
+                    }
                 }
             }
 

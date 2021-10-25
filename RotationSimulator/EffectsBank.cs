@@ -31,7 +31,8 @@ namespace RotationSimulator
             effects.Add("BRD_BattleVoice", new EffectDef()
             {
                 UniqueID = "BRD_BattleVoice",
-                DisplayName = "Battle Voice"
+                DisplayName = "Battle Voice",
+                IsStatModifier = true
             });
             effects.Add("BRD_MagesBallad_Party", new EffectDef()
             {
@@ -41,12 +42,14 @@ namespace RotationSimulator
             effects.Add("BRD_ArmysPaeon_Party", new EffectDef()
             {
                 UniqueID = "BRD_ArmysPaeon_Party",
-                DisplayName = "Army's Paeon"
+                DisplayName = "Army's Paeon",
+                IsStatModifier=true
             });
             effects.Add("BRD_WanderersMinuet_Party", new EffectDef()
             {
                 UniqueID = "BRD_WanderersMinuet_Party",
-                DisplayName = "Wanderer's Minuet"
+                DisplayName = "Wanderer's Minuet",
+                IsStatModifier=true
             });
             #endregion
 
@@ -64,7 +67,8 @@ namespace RotationSimulator
             effects.Add("DNC_Devilment", new EffectDef()
             {
                 UniqueID = "DNC_Devilment",
-                DisplayName = "Devilment"
+                DisplayName = "Devilment",
+                IsStatModifier=true
             });
             #endregion
 
@@ -72,7 +76,8 @@ namespace RotationSimulator
             effects.Add("DRG_BattleLitany", new EffectDef()
             {
                 UniqueID="DRG_BattleLitany",
-                DisplayName="Battle Litany"
+                DisplayName="Battle Litany",
+                IsStatModifier=true
             });
             //the buff for the dragoon
             effects.Add("DRG_RightEye", new EffectDef()
@@ -177,8 +182,9 @@ namespace RotationSimulator
             {
                 UniqueID = "SCH_ChainStratagem",
                 DisplayName = "Chain Stratagem",
-                Type = EEffectType.Debuff
-            });
+                Type = EEffectType.Debuff,
+                IsStatModifier = true
+            }) ;
             #endregion
 
             #region Summoner

@@ -38,7 +38,7 @@ namespace RotationSimulator
         /// </summary>
         public bool IsAdditiveDuration = false;
         /// <summary>
-        /// The chance that the effect actually gets applied. Use for procs.
+        /// The chance that the effect actually gets applied. Use for procs. 100 is 100% chance.
         /// </summary>
         public int ProcChance = 100;
     }

@@ -182,7 +182,7 @@ namespace RotationSimulator
                     }
                 }
             }
-
+            CharStats.ResetBuffs();
             //---- Results!.. were tallied as we went
             return results;
         }

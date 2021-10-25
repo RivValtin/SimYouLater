@@ -339,5 +339,143 @@ namespace RotationSimulator
         /// Returns the multiplier to dot damage applied by the speed stat.
         /// </summary>
         public int RelevantSpeedDotMultiplier { get; private set; }
+
+
+        #region Temporary Buffs Section
+        //this section contains properties representing temporary buffs to stats. These should be set *after* the baseline stats!
+        public int StrengthBuff { 
+            get {
+                return strengthBuff;
+            } 
+            set {
+                strengthBuff = value;
+                int buffedStr = strength + strengthBuff;
+                switch (Job) {
+                    case EJobId.DRG:
+                    case EJobId.MNK:
+                    case EJobId.SAM:
+                    case EJobId.PLD:
+                    case EJobId.DRK:
+                    case EJobId.WAR:
+                    case EJobId.GNB:
+                        //TODO EW Patch Stuff
+                        RelevantAttackPower = buffedStr;
+                        RelevantAttackPowerMultiplier = StatMath.GetAttackPowerMultiplier(RelevantAttackPower, IsTank);
+                        AutoAttackPower = buffedStr;
+                        AutoAttackPowerMultiplier = StatMath.GetAttackPowerMultiplier(RelevantAttackPower, IsTank);
+                        break;
+                    case EJobId.SMN:
+                    case EJobId.BLM:
+                    case EJobId.RDM:
+                    case EJobId.BLU:
+                    case EJobId.WHM:
+                    case EJobId.AST:
+                    case EJobId.SCH:
+                        //TODO EW Patch Stuff
+                        AutoAttackPower = buffedStr;
+                        AutoAttackPowerMultiplier = StatMath.GetAttackPowerMultiplier(RelevantAttackPower, IsTank);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        private int strengthBuff = 0;
+
+        public int DexterityBuff {
+            get {
+                return dexterityBuff;
+            }
+            set {
+                dexterityBuff = value;
+                int buffedDex = dexterity + value;
+                switch (Job) {
+                    case EJobId.NIN:
+                    case EJobId.BRD:
+                    case EJobId.DNC:
+                    case EJobId.MCH:
+                        RelevantAttackPower = buffedDex;
+                        RelevantAttackPowerMultiplier = StatMath.GetAttackPowerMultiplier(RelevantAttackPower, IsTank);
+                        AutoAttackPower = buffedDex;
+                        AutoAttackPowerMultiplier = StatMath.GetAttackPowerMultiplier(RelevantAttackPower, IsTank);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        private int dexterityBuff = 0;
+
+        public int IntelligenceBuff {
+            get {
+                return intelligenceBuff;
+            }
+            set {
+                intelligenceBuff = value;
+                int buffedIntelligence = intelligence + value;
+                switch (Job) {
+                    case EJobId.SMN:
+                    case EJobId.BLM:
+                    case EJobId.RDM:
+                    case EJobId.BLU:
+                        RelevantAttackPower = buffedIntelligence;
+                        RelevantAttackPowerMultiplier = StatMath.GetAttackPowerMultiplier(RelevantAttackPower, IsTank);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        private int intelligenceBuff = 0;
+
+        public int MindBuff {
+            get {
+                return mindBuff;
+            }
+            set {
+                mindBuff = value;
+                int buffedMind = mind + value;
+                switch (Job) {
+                    case EJobId.WHM:
+                    case EJobId.AST:
+                    case EJobId.SCH:
+                        //TODO EW Patch Stuff
+                        RelevantAttackPower = buffedMind;
+                        RelevantAttackPowerMultiplier = StatMath.GetAttackPowerMultiplier(RelevantAttackPower, IsTank);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        private int mindBuff = 0;
+
+        public int CritRateBuff {
+            get {
+                return critRateBuff;
+            }
+            set {
+                critRateBuff = value;
+                CritRate = StatMath.GetCritRate(CriticalHitSubstat) + value;
+            }
+        }
+        private int critRateBuff = 0;
+
+        public int DirectHitRateBuff {
+            get {
+                return dhRateBuff;
+            }
+            set {
+                dhRateBuff = value;
+                DirectHitRate = StatMath.GetDHRate(DirectHitSubstat) + value;
+            }
+        }
+        private int dhRateBuff = 0;
+
+        public void ResetBuffs() {
+            StrengthBuff = DexterityBuff = IntelligenceBuff = MindBuff = 0;
+            CritRateBuff = DirectHitRateBuff = 0;
+        }
+        #endregion
     }
 }

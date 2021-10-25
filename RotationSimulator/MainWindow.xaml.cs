@@ -30,7 +30,6 @@ namespace RotationSimulator
 
         public MainWindow() {
             InitializeComponent();
-            //TODO: Load rotations from disk here.
             string rotationsFilePath = GetRotationsSaveFilePath();
             if (File.Exists(rotationsFilePath)) {
                 XmlSerializer serializer = new XmlSerializer(typeof(RotationCollection));
@@ -150,7 +149,7 @@ namespace RotationSimulator
 
             SimulationResults results = simulator.Simulate(activeRotation.RotationSteps, activeRotation.StartTimeOffset, GetExteralEffectsFromOptions(), simMode);
 
-            if (ESimulationMode.Variation1k == simMode || ESimulationMode.Variation10k == simMode) {
+            if (simMode is ESimulationMode.Variation1k or ESimulationMode.Variation10k) {
                 textBlock.Text = "Worst run: " + results.minDamage + " dps\n" +
                                  "Average: " + results.averageDamage + " dps\n" +
                                  "Best run: " + results.maxDamage + " dps\n";
