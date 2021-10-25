@@ -150,7 +150,7 @@ namespace RotationSimulator
 
             SimulationResults results = simulator.Simulate(activeRotation.RotationSteps, activeRotation.StartTimeOffset, GetExteralEffectsFromOptions(), simMode);
 
-            if (ESimulationMode.Variation == simMode) {
+            if (ESimulationMode.Variation1k == simMode || ESimulationMode.Variation10k == simMode) {
                 textBlock.Text = "Worst run: " + results.minDamage + " dps\n" +
                                  "Average: " + results.averageDamage + " dps\n" +
                                  "Best run: " + results.maxDamage + " dps\n";

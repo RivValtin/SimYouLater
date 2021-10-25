@@ -34,7 +34,8 @@
                     <ComboBox x:Name="cmb_simulationModeSelection" IsEditable="False" Grid.Row="2" Grid.Column="0" Margin="5,5,5,5" SelectionChanged="cmb_simulationMode_Changed" MinWidth="150" SelectedIndex="0">
                         <ComboBoxItem ToolTip="Runs a single pass with no RNG of any kind. Good for classes without random elements. Not compatible with those that have random procs.">Simple</ComboBoxItem>
                         <ComboBoxItem ToolTip="Do a single run. DPS result can be misleading due to crit, direct hit, and proc RNG.">Single Pass</ComboBoxItem>
-                        <ComboBoxItem ToolTip="Do thousands of runs with full randomness to determine average DPS and variance. Detailed logging for each run not available.">Variation Analysis</ComboBoxItem>
+                        <ComboBoxItem ToolTip="Do 1k runs with full randomness to determine average DPS and variance. Detailed logging for each run not available.">Variation Analysis (1k runs)</ComboBoxItem>
+                        <ComboBoxItem ToolTip="Do 10k runs with full randomness to determine average DPS and variance. Detailed logging for each run not available.">Variation Analysis (10k runs)</ComboBoxItem>
                     </ComboBox>
                     <TextBlock Grid.Row="3" Grid.Column="0" Margin="5,5,5,5">Selected Rotation</TextBlock>
                     <ComboBox x:Name="cb_simulationRotationSelection" IsEditable="False" Grid.Row="4" Grid.Column="0" Margin="5,5,5,5" SelectionChanged="cb_simulationRotationSelection_Changed" MinWidth="150">

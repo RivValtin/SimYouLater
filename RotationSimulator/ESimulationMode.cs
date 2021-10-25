@@ -10,6 +10,7 @@ namespace RotationSimulator
     {
         Simple=0,
         SinglePass=1,
-        Variation=2
+        Variation1k=2,
+        Variation10k=3
     }
 }

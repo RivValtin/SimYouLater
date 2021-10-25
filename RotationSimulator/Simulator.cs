@@ -36,8 +36,8 @@ namespace RotationSimulator
             //---- Insanely long initialization stpes
             int time = timeOffset;
 
-            if (ESimulationMode.Variation == simMode) {
-                const int runCount = 10000;
+            if (ESimulationMode.Variation1k == simMode || ESimulationMode.Variation10k == simMode) {
+                int runCount = simMode == ESimulationMode.Variation10k ? 10000 : 1000;
 
                 SimLog.Enabled = false;
                 SimulationResults results = new SimulationResults();
