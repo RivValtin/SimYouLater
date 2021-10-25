@@ -58,7 +58,7 @@
 
 
                     <TextBlock Grid.Row="0" Grid.Column="2" Grid.RowSpan="4" HorizontalAlignment="Left" Text="Results" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="150" Margin="15,5,5,5" FontSize="24"/>
-                    <TextBlock x:Name="textBlock" Grid.Row="1" Grid.Column="2" Grid.RowSpan="4" HorizontalAlignment="Left" Text="No results to show yet." TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="150" Margin="15,5,5,5"/>
+                    <TextBlock x:Name="textBlock" Grid.Row="1" Grid.Column="2" Grid.RowSpan="4" HorizontalAlignment="Left" Text="No results to show yet." TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="150" Margin="15,5,5,5" FontFamily="Courier New"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Rotation Editor">

@@ -36,8 +36,14 @@
 
         //for variation runs
         public float minDamage;
+        public float percentile05damage;
+        public float percentile25damage;
         public float averageDamage;
+        public float percentile75damage;
+        public float percentile95damage;
         public float maxDamage;
+
+        public float standardDeviation;
 
         public void ApplyPotency(int potency, CharacterStats charStats, int critRate, int dhRate, float buffMultipliers, bool applyDotBonus = false) {
             totalPotency += potency;

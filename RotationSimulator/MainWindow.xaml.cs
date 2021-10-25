@@ -149,10 +149,15 @@ namespace RotationSimulator
 
             SimulationResults results = simulator.Simulate(activeRotation.RotationSteps, activeRotation.StartTimeOffset, GetExteralEffectsFromOptions(), simMode);
 
-            if (simMode is ESimulationMode.Variation1k or ESimulationMode.Variation10k) {
-                textBlock.Text = "Worst run: " + results.minDamage + " dps\n" +
-                                 "Average: " + results.averageDamage + " dps\n" +
-                                 "Best run: " + results.maxDamage + " dps\n";
+            if (simMode is ESimulationMode.Variation1k or ESimulationMode.Variation10k) {;
+                textBlock.Text = "  0th Percentile: " + results.minDamage + " dps\n" +
+                                 "  5th Percentile: " + results.percentile05damage + " dps\n" +
+                                 " 25th Percentile: " + results.percentile25damage + " dps\n" +
+                                 " 50th Percentile: " + results.averageDamage + " dps\n" +
+                                 " 75th Percentile: " + results.percentile75damage + " dps\n" +
+                                 " 95th Percentile: " + results.percentile95damage + " dps\n" +
+                                 "100th Percentile: " + results.maxDamage + " dps\n" +
+                                 "Standard Deviation: " + results.standardDeviation;
             } else {
                 textBlock.Text = "PPS: " + results.pps + "\n" +
                                  "ePPS: " + results.epps + "\n" +

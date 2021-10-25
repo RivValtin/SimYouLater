@@ -44,17 +44,30 @@ namespace RotationSimulator
                 results.minDamage = int.MaxValue;
                 results.maxDamage = 0;
                 float dpsRunAccumulator = 0;
+
+                SortedSet<float> dpsResults = new SortedSet<float>();
+
                 for (int i = 0; i < runCount; i++) {
                     SimulationResults singlePassResult = RunSinglePass(rotationActions, timeOffset, externalEffects, ESimulationMode.SinglePass);
-                    if (singlePassResult.dps < results.minDamage) {
-                        results.minDamage = singlePassResult.dps;
-                    }
-                    if (singlePassResult.dps > results.maxDamage) {
-                        results.maxDamage = singlePassResult.dps;
-                    }
+                    dpsResults.Add(singlePassResult.dps);
                     dpsRunAccumulator += singlePassResult.dps;
                 }
+                results.minDamage = dpsResults.Min;
+                results.percentile05damage = dpsResults.ElementAt(dpsResults.Count * 5 / 100);
+                results.percentile25damage = dpsResults.ElementAt(dpsResults.Count * 25 / 100);
+                results.maxDamage = dpsResults.Max;
+                results.percentile75damage = dpsResults.ElementAt(dpsResults.Count * 75 / 100);
+                results.percentile95damage = dpsResults.ElementAt(dpsResults.Count * 95 / 100);
                 results.averageDamage = dpsRunAccumulator / runCount;
+
+                //Calculate standard deviation
+                double sumOfSquareDifferences = 0;
+                foreach (float sample in dpsResults) {
+                    sumOfSquareDifferences += (sample - results.averageDamage) * (sample - results.averageDamage);
+                }
+                float standardDev = (float)Math.Sqrt(sumOfSquareDifferences / runCount);
+                results.standardDeviation = standardDev;
+
                 return results;
             } else {
                 SimLog.Enabled = true;
