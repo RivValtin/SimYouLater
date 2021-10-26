@@ -11,6 +11,18 @@ namespace RotationSimulator
         public static readonly Dictionary<string, EffectDef> effects = new Dictionary<string, EffectDef>();
         
         static EffectsBank() {
+            #region Item
+            effects.Add("Item_Grade4IntTincture", new EffectDef()
+            {
+                UniqueID = "Item_Grade4IntTincture",
+                DisplayName = "HQ Grade 4 Tincture of Intelligence",
+                IsStatModifier = true,
+                MainStatBuffed = EJobModifierId.INT,
+                MainStatBuff = 10,
+                MainStatBuffCap = 464
+            });
+            #endregion
+
             #region Role
             effects.Add("Role_Swiftcast", new EffectDef()
             {

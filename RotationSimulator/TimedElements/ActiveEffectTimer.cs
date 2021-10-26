@@ -206,9 +206,7 @@ namespace RotationSimulator.TimedElements
             float buffPotencyMulti = 1.0f;
 
             foreach (ActiveEffect effect in activeEffects.Values) {
-                if (effect.effect.DamageBuff > 0) {
-                    buffPotencyMulti *= 1.0f + effect.effect.DamageBuff * effect.Stacks / 100.0f;
-                }
+                buffPotencyMulti *= 1.0f + effect.effect.DamageBuff * effect.Stacks / 100.0f;
             }
             return buffPotencyMulti;
         }
@@ -216,6 +214,49 @@ namespace RotationSimulator.TimedElements
         private void UpdateCharStatsBonuses() {
             int critBonuses = 0;
             int dhBonuses = 0;
+            CharStats.StrengthBuff = CharStats.IntelligenceBuff = CharStats.DexterityBuff = CharStats.MindBuff = 0;
+
+            foreach (ActiveEffect effect in activeEffects.Values) {
+                if (effect.effect.MainStatBuff == 0) {
+                    continue;
+                }
+                switch (effect.effect.MainStatBuffed) {
+                    case EJobModifierId.STR:
+                        int strBuffAmount = CharStats.Strength * effect.effect.MainStatBuff / 100;
+                        if (strBuffAmount > effect.effect.MainStatBuffCap) {
+                            CharStats.StrengthBuff = effect.effect.MainStatBuffCap;
+                        } else {
+                            CharStats.StrengthBuff = strBuffAmount;
+                        }
+                        break;
+                    case EJobModifierId.INT:
+                        int intBuffAMount = CharStats.Intelligence * effect.effect.MainStatBuff / 100;
+                        if (intBuffAMount > effect.effect.MainStatBuffCap) {
+                            CharStats.IntelligenceBuff = effect.effect.MainStatBuffCap;
+                        } else {
+                            CharStats.IntelligenceBuff = intBuffAMount;
+                        }
+                        break;
+                    case EJobModifierId.DEX:
+                        int dexBuffAmount = CharStats.Dexterity * effect.effect.MainStatBuff / 100;
+                        if (dexBuffAmount > effect.effect.MainStatBuffCap) {
+                            CharStats.DexterityBuff = effect.effect.MainStatBuffCap;
+                        } else {
+                            CharStats.DexterityBuff = dexBuffAmount;
+                        }
+                        break;
+                    case EJobModifierId.MND:
+                        int mndBuffAmount = CharStats.Mind * effect.effect.MainStatBuff / 100;
+                        if (mndBuffAmount > effect.effect.MainStatBuffCap) {
+                            CharStats.MindBuff = effect.effect.MainStatBuffCap;
+                        } else {
+                            CharStats.MindBuff = mndBuffAmount;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
             if (GetActiveStacks("DRG_BattleLitany") > 0) {
                 critBonuses += 100;
             }

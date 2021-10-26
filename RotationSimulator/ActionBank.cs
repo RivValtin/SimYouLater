@@ -28,6 +28,27 @@ namespace RotationSimulator
             actionSets = new Dictionary<string, List<ActionDef>>();
             actions = new Dictionary<string, ActionDef>();
 
+            #region Items
+
+            ActionDef Item_Grade4IntTincture = new ActionDef()
+            {
+                UniqueID = "Item_Grade4IntTincture",
+                IsGCD = false,
+                DisplayName = "Grade 4 Tincture of Intelligence",//TODO: Change icon
+                Recast = 27000,
+                AnimationLockOverride = 150,
+                AppliedEffects = new List<EffectApplication>()
+                {
+                    new EffectApplication()
+                    {
+                        effect = EffectsBank.effects["Item_Grade4IntTincture"],
+                        Duration=3000,
+                    }
+                }
+            };
+            actions.Add("Item_Grade4IntTincture",Item_Grade4IntTincture);
+            #endregion
+
             #region Role
             List<ActionDef> casterActions = new List<ActionDef>();
             actionSets.Add("Caster", casterActions);
@@ -64,6 +85,7 @@ namespace RotationSimulator
             List<ActionDef> summonerActionSet = new List<ActionDef>();
             actionSets.Add("SMN", summonerActionSet);
             summonerActionSet.AddRange(casterActions);
+            summonerActionSet.Add(Item_Grade4IntTincture);
 
             #region Non-Summons
             //TODO: Ruin 1/2 upgrade path
@@ -254,7 +276,6 @@ namespace RotationSimulator
                 WyrmwaveStep,
                 WyrmwaveStep,
                 WyrmwaveStep,
-                WyrmwaveStep,
             };
             
             ActionDef SMN_SummonBahamut = new ActionDef()
@@ -274,7 +295,7 @@ namespace RotationSimulator
                     new EffectApplication
                     {
                         effect = EffectsBank.effects["SMN_BahamutSummoned"],
-                        Duration = 1500,
+                        Duration = 1590,
                     },
                     new EffectApplication
                     {
@@ -305,7 +326,7 @@ namespace RotationSimulator
                     }
                 },
                 SummonedPet = new Tuple<string, List<RotationStep>>("Bahamut", bahamutRotation),
-                PetExpiration = 1500
+                PetExpiration = 1590
             };
             summonerActionSet.Add(SMN_SummonBahamut);
             actions.Add(SMN_SummonBahamut.UniqueID, SMN_SummonBahamut);
@@ -428,7 +449,6 @@ namespace RotationSimulator
                 ScarletFlameStep,
                 ScarletFlameStep,
                 ScarletFlameStep,
-                ScarletFlameStep,
             };
 
             ActionDef SMN_SummonPhoenix = new ActionDef()
@@ -448,7 +468,7 @@ namespace RotationSimulator
                     new EffectApplication
                     {
                         effect = EffectsBank.effects["SMN_PhoenixSummoned"],
-                        Duration = 1500,
+                        Duration = 1590,
                     },
                     new EffectApplication
                     {
@@ -478,7 +498,7 @@ namespace RotationSimulator
                     new Tuple<string, int>("SMN_PhoenixAvailable", 0)
                 },
                 SummonedPet = new Tuple<string, List<RotationStep>>("Phoenix", phoenixRotation),
-                PetExpiration = 1500
+                PetExpiration = 1590
             };
             summonerActionSet.Add(SMN_SummonPhoenix);
             actions.Add(SMN_SummonPhoenix.UniqueID, SMN_SummonPhoenix);

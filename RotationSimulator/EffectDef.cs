@@ -80,5 +80,9 @@ namespace RotationSimulator
         /// For buffs with stacks, this value is *per stack*.
         /// </summary>
         public int DamageBuff = 0;
+
+        public EJobModifierId MainStatBuffed = EJobModifierId.STR;
+        public int MainStatBuff = 0;
+        public int MainStatBuffCap = 0;
     }
 }
