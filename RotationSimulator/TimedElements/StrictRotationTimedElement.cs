@@ -120,6 +120,7 @@ namespace RotationSimulator.TimedElements
                     if (currentAction.CastTime > 0) {
                         if (ActiveEffectTimer.GetActiveStacks("Role_Swiftcast") > 0) {
                             ActionInvoker.InvokeAction(currentAction, CurrentTime, "Player");
+                            ActiveEffectTimer.RemoveEffect("Role_Swiftcast");
                         } else {
                             CastTimer.StartCasting(currentAction, GetScaledCastTime(currentAction));
                         }
