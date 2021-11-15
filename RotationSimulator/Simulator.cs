@@ -110,10 +110,11 @@ namespace RotationSimulator
             };
             CastTimer castTimer = new CastTimer(time)
             {
-                ActionInvoker = actionInvoker
+                ActionInvoker = actionInvoker,
+                AnimationLockTimer = animationLockTimer
             };
             AnimationLockTimer petAnimationLockTimer = new AnimationLockTimer(time);
-            CastTimer petCastTimer = new CastTimer(time) { ActionInvoker = actionInvoker, Instigator = "Pet" };
+            CastTimer petCastTimer = new CastTimer(time) { ActionInvoker = actionInvoker, Instigator = "Pet", AnimationLockTimer=petAnimationLockTimer };
             GCDTimer petGCDTimer = new GCDTimer(time);
 
             StrictRotationTimedElement petRotation = new StrictRotationTimedElement()

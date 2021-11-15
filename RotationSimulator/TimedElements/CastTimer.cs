@@ -14,6 +14,7 @@ namespace RotationSimulator.TimedElements
 
         private ActionDef castingAction = null;
 
+        public AnimationLockTimer AnimationLockTimer { get; set; }
         public ActionInvoker ActionInvoker { get; init; }
         public string Instigator { get; init; } = "Player";
         public CastTimer(int startTime) {
@@ -25,6 +26,7 @@ namespace RotationSimulator.TimedElements
             currentTime += time;
             if (castingAction != null && currentTime >= castTimeEnd) {
                 ActionInvoker?.InvokeAction(castingAction, currentTime, Instigator);
+                AnimationLockTimer.InvokeAnimationLock(10); //caster tax
                 castingAction = null;
             }
         }
