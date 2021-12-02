@@ -357,7 +357,7 @@ namespace RotationSimulator
                 IsGCD = false,
                 DisplayName = "Enkindle Bahamut",
                 IconName = "smn_enkindlebahamut.png",
-                Recast = 800,
+                Recast = 2000,
                 RequiredEffects = new List<EffectRequirement>()
                 {
                     new EffectRequirement()
@@ -529,7 +529,7 @@ namespace RotationSimulator
                 IsGCD = false,
                 DisplayName = "Enkindle Phoenix",
                 IconName = "smn_enkindlephoenix.png",
-                Recast = 800,
+                Recast = 2000,
                 RequiredEffects = new List<EffectRequirement>()
                 {
                     new EffectRequirement()
