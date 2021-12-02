@@ -200,7 +200,7 @@ namespace RotationSimulator
             {
                 UniqueID = "SMN_Painflare",
                 IsGCD = false,
-                Potency = 130,
+                Potency = 150,
                 DisplayName = "Painflare",
                 IconName = "smn_painflare.png",
                 Recast = 300,
@@ -223,7 +223,7 @@ namespace RotationSimulator
             {
                 UniqueID = "SMN_Pet_AkhMorn",
                 IsGCD = false,
-                Potency = 650,
+                Potency = 1300,
                 DisplayName = "Akh Morn",
                 IconName = "smn_enkindlebahamut.png",
                 RequiredEffects = new List<EffectRequirement>()
@@ -396,7 +396,7 @@ namespace RotationSimulator
             {
                 UniqueID = "SMN_Pet_Revelation",
                 IsGCD = false,
-                Potency = 650,
+                Potency = 1300,
                 DisplayName = "Revelation",
                 IconName = "smn_enkindlebahamut.png",
                 RequiredEffects = new List<EffectRequirement>()
@@ -835,7 +835,7 @@ namespace RotationSimulator
                     new EffectApplication()
                     {
                         effect = EffectsBank.effects["SMN_Slipstream"],
-                        Duration = 1200
+                        Duration = 1500
                     }
                 },
                 RequiredEffects = new List<EffectRequirement>()

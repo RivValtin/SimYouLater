@@ -72,7 +72,7 @@ namespace RotationSimulator
             {
                 UniqueID = "DNC_TechnicalFinish",
                 DisplayName = "Technical Finish",
-                DamageBuff = 10
+                DamageBuff = 5
             }); 
             effects.Add("DNC_StandardFinish", new EffectDef()
             {
@@ -192,8 +192,7 @@ namespace RotationSimulator
                 UniqueID = "RDM_Embolden_Party",
                 DisplayName = "Embolden",
                 Type = EEffectType.Debuff,
-                DamageBuff = 2,
-                StackDecayDuration = 400
+                DamageBuff = 5,
             });
             #endregion
 

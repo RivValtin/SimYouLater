@@ -184,7 +184,7 @@ namespace RotationSimulator
                     externalEffects.Add(new ActiveEffect()
                     {
                         ActiveStartTime = 12000 * i + 420,
-                        ActiveEndTime = 12000 * i + 2000 + 420,
+                        ActiveEndTime = 12000 * i + 1500 + 420,
                         effect = EffectsBank.effects["BRD_BattleVoice"],
                     });
                     externalEffects.Add(new ActiveEffect()
@@ -278,9 +278,8 @@ namespace RotationSimulator
                     externalEffects.Add(new ActiveEffect()
                     {
                         ActiveStartTime = 12000 * i + 650,
-                        ActiveEndTime = 12000 * i + 400 + 650,
+                        ActiveEndTime = 12000 * i + 2000 + 650,
                         effect = EffectsBank.effects["RDM_Embolden_Party"],
-                        Stacks = 5,
                     });
                 }
             }
