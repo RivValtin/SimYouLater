@@ -9,7 +9,6 @@ using RotationSimulator.TimedElements;
 namespace RotationSimulator
 {
     public class ActionInvoker {
-
         public SimulationResults SimulationResults { get; init; }
         public TimedElements.ActiveEffectTimer ActiveEffectTimer {get; init;}
         public TimedElements.RecastTimer RecastTimer { get; init; }

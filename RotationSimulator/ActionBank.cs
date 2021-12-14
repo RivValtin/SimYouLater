@@ -191,7 +191,7 @@ namespace RotationSimulator
                 Potency = 300,
                 DisplayName = "Fester",
                 IconName = "smn_fester.png",
-                Recast = 300,
+                Recast = 100,
             };
             summonerActionSet.Add(SMN_Fester);
             actions.Add(SMN_Fester.UniqueID, SMN_Fester);
@@ -203,7 +203,7 @@ namespace RotationSimulator
                 Potency = 150,
                 DisplayName = "Painflare",
                 IconName = "smn_painflare.png",
-                Recast = 300,
+                Recast = 100,
                 AppliedEffects = new List<EffectApplication>()
                 {
                     new EffectApplication()

@@ -11,11 +11,10 @@ namespace RotationSimulator
     /// </summary>
     public static class StatMath
     {
-        //All three constants below are level-based. These are the lvl 80 ShB values, hardcoded for now.
-        //TODO: EW Patch Stuff
-        public const int LEVEL_MAIN = 340;
-        public const int LEVEL_SUB = 380;
-        public const int LEVEL_DIV = 3300;
+        //All three constants below are level-based. These are the lvl 90 EW values, hardcoded for now.
+        public const int LEVEL_MAIN = 390;
+        public const int LEVEL_SUB = 400;
+        public const int LEVEL_DIV = 1900;
 
         /// <summary>
         /// Gets the sks/sps-modified GCD value based on the raw substat amount.
@@ -93,7 +92,7 @@ namespace RotationSimulator
         /// </summary>
         public static int GetDetBonus(int detSubstat) {
             int statSpread = detSubstat - LEVEL_MAIN;
-            int bonus = 130 * statSpread / LEVEL_DIV;
+            int bonus = 140 * statSpread / LEVEL_DIV;
 
             return bonus;
         }
