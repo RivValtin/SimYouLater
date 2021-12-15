@@ -27,7 +27,7 @@ namespace RotationSimulator
         public static int GetRecast(int baseRecast, int speedSubstat) {
             int castTime = GetCast(baseRecast, speedSubstat);
             if (castTime < 150) {
-                return 150;
+                return baseRecast < 150 ? baseRecast : 150;
             } else {
                 return castTime;
             }
@@ -45,7 +45,7 @@ namespace RotationSimulator
 
             return bareMultiplier * baseCast / 1000;
         }
-
+            
         /// <summary>
         /// Returns the multiplier to apply to dot ticks based on speed. Also applies to auto-attacks, I believe.
         /// </summary>
