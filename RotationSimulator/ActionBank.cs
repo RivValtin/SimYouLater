@@ -484,6 +484,7 @@ namespace RotationSimulator
                 RecastScalesWithHaste = true,
                 DisplayName = "Summon Phoenix",
                 IconName = "smn_summonphoenix.png",
+                CooldownID = "SMN_SummonBahamut",
                 AppliedEffects = new List<EffectApplication>
                 {
                     new EffectApplication
