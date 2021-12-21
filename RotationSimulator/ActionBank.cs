@@ -34,7 +34,7 @@ namespace RotationSimulator
             {
                 UniqueID = "Item_Grade4IntTincture",
                 IsGCD = false,
-                DisplayName = "Grade 4 Tincture of Intelligence",//TODO: Change icon
+                DisplayName = "HQ Grade 4 Tincture of Intelligence",//TODO: Change icon
                 Recast = 27000,
                 AnimationLockOverride = 150,
                 AppliedEffects = new List<EffectApplication>()
@@ -47,6 +47,24 @@ namespace RotationSimulator
                 }
             };
             actions.Add("Item_Grade4IntTincture",Item_Grade4IntTincture);
+            ActionDef Item_Grade5IntTincture = new ActionDef()
+            {
+                UniqueID = "Item_Grade5IntTincture",
+                IsGCD = false,
+                DisplayName = "HQ Grade 5 Tincture of Intelligence",//TODO: Change icon
+                Recast = 27000,
+                AnimationLockOverride = 150,
+                CooldownID = "Item_Grade4IntTincture",
+                AppliedEffects = new List<EffectApplication>()
+                {
+                    new EffectApplication()
+                    {
+                        effect = EffectsBank.effects["Item_Grade5IntTincture"],
+                        Duration=3000,
+                    }
+                }
+            };
+            actions.Add("Item_Grade5IntTincture", Item_Grade5IntTincture);
             #endregion
 
             #region Role
@@ -79,13 +97,16 @@ namespace RotationSimulator
             casterActions.Add(Role_Swiftcast);
             healerActions.Add(Role_Swiftcast);
             actions.Add(Role_Swiftcast.UniqueID, Role_Swiftcast);
+
+
+            casterActions.Add(Item_Grade4IntTincture);
+            casterActions.Add(Item_Grade5IntTincture);
             #endregion
 
             #region Summoner
             List<ActionDef> summonerActionSet = new List<ActionDef>();
             actionSets.Add("SMN", summonerActionSet);
             summonerActionSet.AddRange(casterActions);
-            summonerActionSet.Add(Item_Grade4IntTincture);
 
             #region Non-Summons
             //TODO: Ruin 1/2 upgrade path

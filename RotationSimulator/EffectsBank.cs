@@ -19,7 +19,16 @@ namespace RotationSimulator
                 IsStatModifier = true,
                 MainStatBuffed = EJobModifierId.INT,
                 MainStatBuff = 10,
-                MainStatBuffCap = 464
+                MainStatBuffCap = 144
+            });
+            effects.Add("Item_Grade5IntTincture", new EffectDef()
+            {
+                UniqueID = "Item_Grade5IntTincture",
+                DisplayName = "HQ Grade 5 Tincture of Intelligence",
+                IsStatModifier = true,
+                MainStatBuffed = EJobModifierId.INT,
+                MainStatBuff = 10,
+                MainStatBuffCap = 172
             });
             #endregion
 
