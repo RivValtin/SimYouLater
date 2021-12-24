@@ -347,7 +347,7 @@ namespace RotationSimulator
                     }
                 },
                 SummonedPet = new Tuple<string, List<RotationStep>>("Bahamut", bahamutRotation),
-                PetExpiration = 1590
+                PetExpiration = 1500
             };
             summonerActionSet.Add(SMN_SummonBahamut);
             actions.Add(SMN_SummonBahamut.UniqueID, SMN_SummonBahamut);
@@ -520,7 +520,7 @@ namespace RotationSimulator
                     new Tuple<string, int>("SMN_PhoenixAvailable", 0)
                 },
                 SummonedPet = new Tuple<string, List<RotationStep>>("Phoenix", phoenixRotation),
-                PetExpiration = 1590
+                PetExpiration = 1500
             };
             summonerActionSet.Add(SMN_SummonPhoenix);
             actions.Add(SMN_SummonPhoenix.UniqueID, SMN_SummonPhoenix);
