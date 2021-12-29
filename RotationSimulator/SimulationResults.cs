@@ -65,7 +65,7 @@
             }
             effectivePotency = (int)(effectivePotency * buffMultipliers);
             if (applyDotBonus) {
-                effectivePotency = effectivePotency* charStats.RelevantSpeedDotMultiplier / 1000;
+                effectivePotency = effectivePotency* (1000 + charStats.RelevantSpeedDotMultiplier) / 1000;
             }
             totalEffectivePotency += effectivePotency;
             totalDamage += effectivePotency * (1000 + charStats.BaseDamageBonus) / 1000 * charStats.WeaponDamageMultiplier / 100 * charStats.RelevantAttackPowerMultiplier / 100;
