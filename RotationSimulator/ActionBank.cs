@@ -532,7 +532,7 @@ namespace RotationSimulator
                 IsSpell = true,
                 CastTime = 0,
                 RecastGCD = BASE_GCD,
-                Potency = 430,
+                Potency = 520,
                 DisplayName = "Fountain of Fire",
                 IconName = "smn_fountainoffire.png",
                 RequiredEffects = new List<EffectRequirement>() {

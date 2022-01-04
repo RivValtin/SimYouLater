@@ -31,7 +31,7 @@
 
         public int totalTime;
         public int totalPotency;
-        public int totalDamage;
+        private int totalDamage;
         public float totalEffectivePotency;
 
         //for variation runs
@@ -51,7 +51,7 @@
             switch (SimMode) {
                 case ESimulationMode.Simple:
                     //apply a bonus equal to the *average* bonus equal to crit and direct hit.
-                    effectivePotency = effectivePotency * (1000 + critRate * charStats.CritBonus / 1000) / 1000 * (1000 + dhRate * 250 / 1000) / 1000;
+                    effectivePotency = effectivePotency * (1000000 + critRate * charStats.CritBonus) / 1000000 * (1000 + dhRate * 250 / 1000) / 1000;
                     break;
                 default:
                     if (RNGesus.RollChance(critRate)) {
